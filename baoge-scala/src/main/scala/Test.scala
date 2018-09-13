@@ -1,9 +1,3 @@
-/**
-  * Copyright 2016-2018 www.fangdd.com All Rights Reserved.
-  * Author: Shao Xu Bao <shaoxubao-sz@fangdd.com>
-  * Date:   2018/7/31
-  */
-
 
 object Test {
     def main(args: Array[String]): Unit = {

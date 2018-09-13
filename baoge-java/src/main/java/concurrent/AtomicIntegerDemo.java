@@ -1,9 +1,3 @@
-/**
- * Copyright 2016-2018 www.fangdd.com All Rights Reserved.
- * Author: Shao Xu Bao <shaoxubao-sz@fangdd.com>
- * Date:   2018/6/20
- */
-
 package concurrent;
 
 import java.util.concurrent.atomic.AtomicInteger;

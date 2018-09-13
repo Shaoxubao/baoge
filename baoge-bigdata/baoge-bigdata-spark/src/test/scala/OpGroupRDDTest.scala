@@ -1,9 +1,3 @@
-/**
-  * Copyright 2016-2018 www.fangdd.com All Rights Reserved.
-  * Author: Shao Xu Bao <shaoxubao-sz@fangdd.com>
-  * Date:   2018/5/17
-  */
-
 import org.apache.spark.sql.SparkSession
 
 object OpGroupRDDTest {
