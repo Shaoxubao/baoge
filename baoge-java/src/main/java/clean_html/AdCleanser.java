@@ -369,6 +369,16 @@ public class AdCleanser {
             }
         }
 
+        // 过滤文本中电话号码
+        String phone_regx = "([0-9+]{2,4}\\-)?([0-9]{2,9}\\-)?[\\+|\\d|\\s|\\-|,|\\*]+";
+        String phone = null;
+        Pattern pattern = Pattern.compile(phone_regx);
+        Matcher m = pattern.matcher(content);
+        while (m.find()) {
+            phone = m.group().trim();
+            content = content.replace(phone, "");
+        }
+
         return content;
     }
 
