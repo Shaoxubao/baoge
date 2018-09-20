@@ -12,7 +12,7 @@ public class Person {
         this.text = text;
     }
 
-    public void work() {
-        System.out.println(text);
+    public String work() {
+        return getText();
     }
 }
