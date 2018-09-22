@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <bean id = "p"  class = "ioc_simple_demo.Person">
+        <property name="id" value="1" />
+        <property name="name" value="zs" />
+    </bean>
+    <bean id = "p2"  class = "ioc_simple_demo.Person">
+        <property name="id" value="2" />
+        <property name="name" value="ls" />
+    </bean>
+    <bean id = "p3"  class = "ioc_simple_demo.Person">
+        <property name="id" value="3" />
+        <property name="name" value="ww" />
+    </bean>
+</beans>
