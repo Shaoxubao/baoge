@@ -1,9 +1,3 @@
-/**
-  * Copyright 2016-2018 www.fangdd.com All Rights Reserved.
-  * Author: Shao Xu Bao <shaoxubao-sz@fangdd.com>
-  * Date:   2018/11/13
-  */
-
 package scala.rdd
 
 import rdd.BaseSparkSession
