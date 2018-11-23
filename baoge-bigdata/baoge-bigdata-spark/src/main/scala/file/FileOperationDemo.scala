@@ -43,7 +43,7 @@ object FileOperationDemo extends BaseSparkSession {
 
         cityArr.foreach(r => println(r.getAs[String]("city_name")))
 
-        val title = "上周四新盘开盘 各市场分化各地冷热不均"
+        val title = "中海戈雅园入市倒计时！看到这样的大三房 我立马交出了“房票”！"
         val content = ""
         val cityNameExtract = extractCityNameByTitleOrContent(title, content, cityDF, loupanDictMap)
 
@@ -79,24 +79,34 @@ object FileOperationDemo extends BaseSparkSession {
             return cityNameResult
         }
         // 2、标题中城市为0，标题中看是否有楼盘小区
-        var loupanCitySet = mutable.HashSet[String]() // 楼盘城市set
+        val loupanCityAllSet = mutable.HashSet[String]()         // 楼盘所有城市set
+        val loupanCityMap = mutable.HashMap[String, mutable.HashSet[String]]() // 楼盘城市map
+        var maxLengthLoupan = ""     // 楼盘名
         breakable {
             for ((loupanKey, loupanCityArr) <- loupanDictMap) {
                 if (title.contains(loupanKey)) {
+                    if (loupanKey.length > maxLengthLoupan.length) {
+                        maxLengthLoupan = loupanKey
+                    }
+                    loupanCityArr.foreach(r => loupanCityAllSet.add(r))
+                    val loupanCitySet = mutable.HashSet[String]()         // 楼盘城市set
                     loupanCityArr.foreach(r => loupanCitySet.add(r))
-                }
-                if (loupanCitySet.size > 1) {
-                    break()
+                    loupanCityMap.put(loupanKey, loupanCitySet)
                 }
             }
         }
 
-        if (loupanCitySet.size == 1) {
-            cityNameResult = loupanCitySet.iterator.next()
+        if (loupanCityAllSet.size == 1) {
+            cityNameResult = loupanCityAllSet.iterator.next()
             return cityNameResult
         }
-        if (loupanCitySet.size > 1) {
-            cityNameResult = "全国"
+        if (loupanCityAllSet.size > 1) {
+            val loupanCitySet = loupanCityMap(maxLengthLoupan)
+            if (loupanCitySet.size == 1) {
+                cityNameResult = loupanCitySet.iterator.next()
+            } else {
+                cityNameResult = "全国"
+            }
             return cityNameResult
         }
 
@@ -127,19 +137,19 @@ object FileOperationDemo extends BaseSparkSession {
         breakable {
             for ((loupanKey, loupanCityArr) <- loupanDictMap) {
                 if (content.contains(loupanKey)) {
-                    loupanCityArr.foreach(r => loupanCitySet.add(r))
+                    loupanCityArr.foreach(r => loupanCityAllSet.add(r))
                 }
-                if (loupanCitySet.size > 1) {
+                if (loupanCityAllSet.size > 1) {
                     break()
                 }
             }
         }
 
-        if (loupanCitySet.size == 1) {
-            cityNameResult = loupanCitySet.iterator.next()
+        if (loupanCityAllSet.size == 1) {
+            cityNameResult = loupanCityAllSet.iterator.next()
             return cityNameResult
         }
-        if (loupanCitySet.size > 1) {
+        if (loupanCityAllSet.size > 1) {
             cityNameResult = "全国"
             return cityNameResult
         }
