@@ -1,4 +1,4 @@
-package concurrent.thread.add_dec_j.type1.type2;
+package concurrent.thread.add_dec_j.type2;
 
 import concurrent.thread.add_dec_j.MyData;
 
