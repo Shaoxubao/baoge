@@ -170,6 +170,20 @@
             <version>1.16.10</version>
         </dependency>
 
+        <!-- 百度api -->
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>4.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.2.1</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
     </dependencies>
 
 </project>
