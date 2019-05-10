@@ -32,7 +32,9 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("swagger RESTful APIs").description("swagger RESTful APIs")
+        return new ApiInfoBuilder()
+                .title("swagger RESTful APIs")
+                .description("swagger RESTful APIs")
                 .termsOfServiceUrl("http://www.test.com/")
                 .contact("15818589952@163.com")
                 .version("1.0.0").build();
