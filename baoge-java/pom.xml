@@ -209,6 +209,12 @@
             <version>2012_u6</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.44</version>
+        </dependency>
+
     </dependencies>
 
 </project>
