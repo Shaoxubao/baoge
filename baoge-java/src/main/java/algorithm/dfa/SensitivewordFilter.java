@@ -1,4 +1,4 @@
-package dfa;
+package algorithm.dfa;
 
 import java.util.HashSet;
 import java.util.Iterator;
