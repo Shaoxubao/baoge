@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://code.alibabatech.com/schema/dubbo
+	   http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<dubbo:application name="${dubbo.application.name}" owner="baoge" organization="baogedubbo"></dubbo:application>
+	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}"/>
+	<dubbo:protocol name= "dubbo" port="${dubbo.protocol.port}"></dubbo:protocol>
+
+	<!--服务依赖-->
+	<dubbo:consumer check="false" timeout="6000" version="1.0.0" retries="0"></dubbo:consumer>
+	<!--服务发布 -->
+	<dubbo:provider owner="baoge" timeout="6000" version="1.0.0" retries="0"/>
+	<dubbo:monitor protocol = "registry"></dubbo:monitor>
+
+	<!-- declare the service interface to be exported -->
+	<dubbo:service interface="com.baoge.demo.DemoService" ref="demoService" />
+
+</beans>

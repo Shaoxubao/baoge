@@ -16,6 +16,7 @@
         <module>baoge-bigdata</module>
         <module>baoge-python</module>
         <module>baoge-spring</module>
+        <module>baoge-dubbo</module>
     </modules>
 
     <properties>
