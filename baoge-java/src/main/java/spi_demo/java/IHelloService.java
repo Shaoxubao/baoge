@@ -1,4 +1,4 @@
-package spi_demo;
+package spi_demo.java;
 
 /**
  * @Author shaoxubao

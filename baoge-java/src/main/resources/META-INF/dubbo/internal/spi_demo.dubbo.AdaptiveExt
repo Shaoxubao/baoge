@@ -1,0 +1,3 @@
+springmvc=spi_demo.dubbo.SpringMvcAdaptiveExt
+springboot=spi_demo.dubbo.SpringBootAdaptiveExt
+springcloud=spi_demo.dubbo.SpringCloudAdaptiveExt

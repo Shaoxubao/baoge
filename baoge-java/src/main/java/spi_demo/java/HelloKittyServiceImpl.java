@@ -1,6 +1,4 @@
-package spi_demo.impl;
-
-import spi_demo.IHelloService;
+package spi_demo.java;
 
 /**
  * @Author shaoxubao
