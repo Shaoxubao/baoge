@@ -1,0 +1,5 @@
+group=spi_demo.dubbo.activate.GroupActivateExtImpl
+value=spi_demo.dubbo.activate.ValueActivateExtImpl
+order1=spi_demo.dubbo.activate.OrderActivateExtImpl1
+order2=spi_demo.dubbo.activate.OrderActivateExtImpl2
+spi_demo.dubbo.activate.ActivateExt1Impl1

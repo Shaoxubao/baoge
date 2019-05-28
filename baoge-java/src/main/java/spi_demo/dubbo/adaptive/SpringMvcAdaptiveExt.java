@@ -1,6 +1,7 @@
-package spi_demo.dubbo;
+package spi_demo.dubbo.adaptive;
 
 import com.alibaba.dubbo.common.URL;
+import spi_demo.dubbo.AdaptiveExt;
 
 /**
  * @Author shaoxubao
@@ -8,10 +9,9 @@ import com.alibaba.dubbo.common.URL;
  */
 
 
-public class SpringBootAdaptiveExt implements AdaptiveExt {
-
+public class SpringMvcAdaptiveExt implements AdaptiveExt {
     @Override
     public String echo(String msg, URL url) {
-        return "spring boot";
+        return "spring mvc";
     }
 }

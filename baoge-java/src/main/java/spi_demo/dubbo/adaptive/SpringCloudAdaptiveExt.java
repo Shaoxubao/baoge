@@ -1,7 +1,8 @@
-package spi_demo.dubbo;
+package spi_demo.dubbo.adaptive;
 
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.extension.Adaptive;
+import spi_demo.dubbo.AdaptiveExt;
 
 /**
  * @Author shaoxubao
