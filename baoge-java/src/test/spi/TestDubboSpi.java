@@ -23,6 +23,11 @@ public class TestDubboSpi {
         String result = adaptiveExtension.echo("d", url);
         System.out.println(result);
 
+
+        // 调用方式二
+        AdaptiveExt defaultExtension = ExtensionLoader.getExtensionLoader(AdaptiveExt.class).getDefaultExtension();
+        System.out.println(defaultExtension.echo("d", url));
+
     }
 
     /**
