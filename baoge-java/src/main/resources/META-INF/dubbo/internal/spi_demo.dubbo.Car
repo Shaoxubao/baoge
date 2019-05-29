@@ -1,0 +1,4 @@
+aodi=spi_demo.dubbo.ioc_inject.car.AoDi
+benchi=spi_demo.dubbo.ioc_inject.car.BenChi
+dazhong=spi_demo.dubbo.ioc_inject.car.DaZhong
+baoma=spi_demo.dubbo.ioc_inject.car.BaoMa

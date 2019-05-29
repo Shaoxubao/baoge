@@ -1,0 +1,3 @@
+beauty=spi_demo.dubbo.ioc_inject.Beauty
+coder=spi_demo.dubbo.ioc_inject.Coder
+wrapper=spi_demo.dubbo.ioc_inject.SuperPowerWrapper
