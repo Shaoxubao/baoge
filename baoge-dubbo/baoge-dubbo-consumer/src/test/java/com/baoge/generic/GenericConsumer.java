@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import org.junit.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @Author shaoxubao
@@ -15,6 +16,9 @@ import org.junit.Test;
  */
 public class GenericConsumer {
 
+    /**
+     * Spring配置方式
+     */
     @Test
     public void testGeneric() {
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
@@ -37,6 +41,18 @@ public class GenericConsumer {
         // 用com.alibaba.dubbo.rpc.service.GenericService可以替代所有接口引用
         GenericService genericService = reference.get();
         // 基本类型以及Date,List,Map等不需要转换，直接调用
+        Object result = genericService.$invoke("sayHello", new String[] {"java.lang.String"}, new Object[] {"nezha-world"});
+        System.out.println("=================" + result);
+    }
+
+    /**
+     * 非Spring配置方式，ClassPathXmlApplicationContext
+     */
+    @Test
+    public void testGeneric2() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/*.xml"});
+        context.start();
+        GenericService genericService = (GenericService) context.getBean("demoService");
         Object result = genericService.$invoke("sayHello", new String[] {"java.lang.String"}, new Object[] {"nezha-world"});
         System.out.println("=================" + result);
     }

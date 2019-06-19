@@ -16,6 +16,9 @@
 	<dubbo:monitor protocol = "registry"></dubbo:monitor>
 
 	<!-- declare the service interface to be exported -->
-	<dubbo:reference interface="com.baoge.demo.DemoService" id="demoService" />
+	<!--<dubbo:reference interface="com.baoge.demo.DemoService" id="demoService" />-->
+
+	<!-- 泛化引用方式 testGeneric2() -->
+	<dubbo:reference interface="com.baoge.demo.DemoService" id="demoService"  generic="true" />
 
 </beans>
