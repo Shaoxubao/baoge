@@ -29,7 +29,7 @@ public class GenericConsumer {
         // 声明为泛化接口
         reference.setGeneric(true);
 
-        //应用名称
+        // 应用名称
         ApplicationConfig application = new ApplicationConfig("demo-consumer");
         reference.setApplication(application);
         // 初始化dubbo注册中心配置
