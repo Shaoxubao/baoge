@@ -3,7 +3,7 @@ package concurrent;
 public class OrderDemo {
 
     private static int a = 0;
-    private static boolean flag = false;
+    private static boolean flag = false; // flag标识控制read（）先执行
 
     public synchronized void write() {
         a++;
