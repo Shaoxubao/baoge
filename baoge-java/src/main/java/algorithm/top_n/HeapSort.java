@@ -29,10 +29,10 @@ public class HeapSort {
     }
 
     /**
-     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）
-     * @param arr
-     * @param i
-     * @param length
+     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）                7(0)
+     * @param arr                                         6(1)      |       7(2)
+     * @param i                                     11(3)     5(4)  |  12(5)     3(6)
+     * @param length                             0(7)   1(8)        |
      */
     public static void adjustHeap(int []arr, int i, int length) {
         int temp = arr[i]; // 先取出当前元素i
