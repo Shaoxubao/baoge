@@ -1,4 +1,4 @@
-package clean_html;
+package com.baoge.clean_html;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

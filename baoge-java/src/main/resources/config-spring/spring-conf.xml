@@ -27,7 +27,7 @@
     </bean>
 
     <!-- scan all the component bean like @XXX -->
-    <context:component-scan base-package="clean_html"/>
+    <context:component-scan base-package="com.baoge"/>
 
     <!-- 开始定时任务注解使用 @scheduler -->
     <task:annotation-driven/>
@@ -41,6 +41,13 @@
                 <value>application/json;charset=UTF-8</value>
             </list>
         </property>
+    </bean>
+
+    <!-- eventbus -->
+    <bean id="executorFactory" class="com.baoge.eventbus.ExecutorFactory" />
+    <bean id="executor" factory-bean="executorFactory" factory-method="getExecutorService"/>
+    <bean id="eventBus" class="com.google.common.eventbus.AsyncEventBus">
+        <constructor-arg ref="executor" />
     </bean>
 
 </beans>

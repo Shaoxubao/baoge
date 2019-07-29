@@ -1,4 +1,5 @@
-import clean_html.AdCleanser;
+import base.SpringTestBase;
+import com.baoge.clean_html.AdCleanser;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
