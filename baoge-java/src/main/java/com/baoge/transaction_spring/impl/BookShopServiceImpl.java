@@ -8,6 +8,7 @@ import entity.Account;
 import entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,4 +70,23 @@ public class BookShopServiceImpl implements BookShopService {
 
         System.out.println("purchase end.");
     }
+
+    /**
+     * 事务隔离级别test
+     */
+//    @Transactional(isolation = Isolation.DEFAULT)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+    @Override
+    public void findBook(String isbn) {
+        // 获取图书价格
+        Book book = bookDao.selectByIsbn(isbn);
+        System.out.println(book.getPrice());
+
+        // 断点到此，isolation设置默认隔离级别可重复读时，修改此书籍price，下面读取的还是跟上次一样，
+        // 若isolation设置读已提交隔离级别时，修改此书籍price，下面读取的时新的值
+        Book book2 = bookDao.selectByIsbn(isbn);
+        System.out.println(book2.getPrice());
+    }
+
+
 }

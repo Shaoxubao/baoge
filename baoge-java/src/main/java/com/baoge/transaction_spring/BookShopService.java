@@ -14,4 +14,6 @@ public interface BookShopService {
      */
     void purchase(Integer userId, String isbn);
 
+    void findBook(String isbn);
+
 }
