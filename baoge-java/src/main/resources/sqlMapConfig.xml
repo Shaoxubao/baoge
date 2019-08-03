@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--
+<settings>
+<setting name="cacheEnabled" value="false" />
+<setting name="lazyLoadingEnabled" value="true" />
+</settings>
+
+-->
+
+<!-- 别名配置 -->
+<!--
+
+ -->
+	<settings>
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
+	</settings>
+
+
+<mappers>
+	<mapper resource="conf-sqlmap/sqlmap_t_account.xml" />
+	<mapper resource="conf-sqlmap/sqlmap_t_book.xml" />
+	<mapper resource="conf-sqlmap/sqlmap_t_book_stock.xml" />
+</mappers>
+
+
+</configuration>

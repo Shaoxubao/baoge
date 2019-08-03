@@ -52,6 +52,13 @@
         <scopt.version>3.3.0</scopt.version>
         <avro.version>1.7.6</avro.version>
 
+        <!-- mybatis -->
+        <mybatis-version>3.3.0</mybatis-version>
+        <mybatis-spring-version>1.2.3</mybatis-spring-version>
+
+        <!-- mysql -->
+        <mysql-connect-version>5.1.35</mysql-connect-version>
+
     </properties>
 
 </project>

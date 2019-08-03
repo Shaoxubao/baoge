@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -32,6 +32,38 @@
     <!-- 开始定时任务注解使用 @scheduler -->
     <task:annotation-driven/>
 
+
+    <!-- 数据源 -->
+    <bean id="dataSource" destroy-method="close"
+          class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxActive" value="100" />
+        <property name="maxIdle" value="10" />
+        <property name="testOnBorrow" value="true" />
+        <property name="validationQuery" value="select 0" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:sqlMapConfig.xml" />
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 配置数据源属性值 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 开启事务注解支持如果事务管理器的id属性值为transactionManager，那么transaction-manager属性可以省略不写 -->
+    <tx:annotation-driven />
+
     <!-- JSON格式的配置 -->
     <bean id="mappingJacksonHttpMessageConverter "
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -49,5 +81,10 @@
     <bean id="eventBus" class="com.google.common.eventbus.AsyncEventBus">
         <constructor-arg ref="executor" />
     </bean>
+
+
+    <!-- spring与mybatis整合配置，扫描所有dao -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:basePackage="com.baoge.*.dao" p:sqlSessionFactoryBeanName="sqlSessionFactory" />
 
 </beans>
