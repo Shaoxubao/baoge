@@ -35,11 +35,15 @@ public class LRUTest {
         // 查找元素，并将其移向表头部
         int r = (int) list.findNode( 2);
         System.out.println(r);
-
         list.printAll();
 
         // 插入大于最大容量会删除尾元素
         list.add(4);
+        list.printAll();
+
+        // 查找元素，并将其移向表头部
+        int r2 = (int) list.findNode( 4);
+        System.out.println(r2);
         list.printAll();
     }
 
