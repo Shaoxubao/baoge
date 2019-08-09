@@ -16,7 +16,7 @@ import java.util.Date;
  */
 
 @Controller
-public class HelloController {
+public class GuauaController {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
