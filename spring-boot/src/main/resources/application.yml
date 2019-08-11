@@ -1,5 +1,18 @@
 server:
     port: 11112
+spring:
+    profiles:
+        active: dev
+---
+server:
+    port: 8081
+spring:
+    profiles: dev
+---
+server:
+    port: 8086
+spring:
+    profiles: prod
 
 
 #person:
@@ -15,3 +28,4 @@ server:
 #    dog:
 #      name: 小狗
 #      age: 2
+
