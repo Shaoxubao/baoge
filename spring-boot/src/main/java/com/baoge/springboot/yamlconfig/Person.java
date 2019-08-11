@@ -2,6 +2,7 @@ package com.baoge.springboot.yamlconfig;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,10 +18,12 @@ import java.util.Map;
  *
  * 将配置文件中配置的每一个属性的值，映射到这个组件中
  *  prefix = "person" 表示映射配置文件中哪个属性下所有属性配置
+ *  默认从全局配置文件获取
  */
 
 @Component
-//@ConfigurationProperties(prefix = "person")
+@ConfigurationProperties(prefix = "person")
+@PropertySource(value = "classpath:person.properties")
 //@Validated
 public class Person {
 

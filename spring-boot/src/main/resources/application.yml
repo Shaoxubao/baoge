@@ -2,16 +2,16 @@ server:
     port: 11112
 
 
-person:
-    lastName: zhangsan
-    age: 20
-    boss: false
-    birth: 2019/09/09
-    maps: {k1:v1, k2:2}
-    lists:
-      - cat
-      - dog
-      - pig
-    dog:
-      name: 小狗
-      age: 2
+#person:
+#    lastName: zhangsan
+#    age: 20
+#    boss: false
+#    birth: 2019/09/09
+#    maps: {k1:v1, k2:2}
+#    lists:
+#      - cat
+#      - dog
+#      - pig
+#    dog:
+#      name: 小狗
+#      age: 2
