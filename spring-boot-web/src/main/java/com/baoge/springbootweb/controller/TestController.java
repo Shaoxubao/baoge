@@ -25,4 +25,9 @@ public class TestController {
         return "success";
     }
 
+//    @RequestMapping({"/", "/login.html"})
+//    public String index() {
+//        return "login";
+//    }
+
 }
