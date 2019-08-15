@@ -1719,8 +1719,30 @@ public class DateUtil {
         return thisQuater;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 计算当前时间到明天凌晨的秒数
+     * @return
+     */
+    public static int calTowDateOfSecond() {
+        Calendar calendar = Calendar.getInstance();
+        // 当前时间
+        Date nowDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        // 明天时间
+        Date endDate = calendar.getTime();
+        long ns = 1000;
+        long diff = endDate.getTime() - nowDate.getTime();
+        // 计算差多少秒
+        long second = diff / ns;
+        return (int)second;
+    }
 
+    public static void main(String[] args) {
+        System.out.println(calTowDateOfSecond());
     }
 
 }
