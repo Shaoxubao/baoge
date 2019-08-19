@@ -1,16 +1,13 @@
 package guava;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.*;
 import guaua.Person;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author shaoxubao
@@ -65,6 +62,59 @@ public class TestGuava {
         for (Map.Entry<String, Collection<Person>> p : country.entrySet()) {
             System.out.println("按国家分组 = " +p.getKey() +"--" + p.getValue());
         }
+    }
+
+    /**
+     * 过滤
+     */
+    @Test
+    public void testFilter() {
+        List<String> names = Lists.newArrayList("John", "Jane", "Adam", "Tom");
+        Collection<String> result = Collections2.filter(names, Predicates.containsPattern("a"));
+        // [Jane, Adam]
+        System.out.println(result);
+
+
+        List<Integer> collections = Lists.newArrayList(1, 2, 3, 4);
+        Collection<Integer> filter = Collections2.filter(collections, new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer input) {
+                return input >= 3;
+            }
+        });
+        // [3, 4]
+        System.out.println(filter);
+
+        // 将多个prdicate进行组合
+        List<String> names2 = Lists.newArrayList("John", "Jane", "Adam", "Tom");
+        Collection<String> result2 = Collections2.filter(names2,
+                        Predicates.or(Predicates.containsPattern("J"), Predicates.not(Predicates.containsPattern("a"))));
+        // [John, Jane, Tom]
+        System.out.println(result2);
+
+
+        // 检查一个collection中的所有元素是否符合某个条件:
+        List<String> names1 = Lists.newArrayList("John", "Jane", "Adam", "Tom");
+        boolean result1 = Iterables.all(names1, Predicates.containsPattern("n|m"));
+        // true
+        System.out.println(result1);
+        result1 = Iterables.all(names1, Predicates.containsPattern("a"));
+        // false
+        System.out.println(result1);
+
+        // 过滤
+        List<Integer> numList = Arrays.asList(1, 3, 5, 6, 54, 9, 8, 9, 90);
+        Integer r = 9;
+        Predicate<Integer> predicate = new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer input) {
+                return r.equals(input);
+            }
+        };
+
+        Collection<Integer> collectionsResult = Collections2.filter(numList, predicate);
+        System.out.println(collectionsResult);
+
     }
 
 }
