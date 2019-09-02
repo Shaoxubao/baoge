@@ -44,6 +44,9 @@ public class ExcelReport2 {
         HSSFRow row3 = sheet.createRow(2);
         row3.createCell(0).setCellValue("品牌/产品运营团队介绍");
 
+        // row1字体加粗设置
+        setBold(wb, row1, 0);
+
         HSSFRow row4 = sheet.createRow(3);
         row4.createCell(0).setCellValue("团队主要合伙人及负责板块：");
         row4.createCell(1).setCellValue("线下团队负责人刘怀岗先生，快消品行业工作18年营销经验，对中国矿泉水行业有着深刻了解，曾任巴马丽琅矿泉水市场部经理、曾任恒大冰泉传统渠道中心总经理。" +
@@ -58,5 +61,19 @@ public class ExcelReport2 {
             e.printStackTrace();
         }
         System.out.println("写出成功！");
+    }
+
+    private static void setBold(HSSFWorkbook wb, HSSFRow row1, int columnIndex) {
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        // 6.1创建字体样式对象
+        Font fontStyle = wb.createFont();
+        //6.1.1字体加粗
+        fontStyle.setBold(true);
+        //6.1.2字体大小
+        fontStyle.setFontHeightInPoints((short) 12);
+        // 7.将字体样式添加到单元格样式中
+        cellStyle.setFont(fontStyle);
+        //7.得到坐标（1,1）Excel中（2,2）这个单元格cell对象，设置样式
+        CellUtil.getCell(row1, columnIndex).setCellStyle(cellStyle);
     }
 }
