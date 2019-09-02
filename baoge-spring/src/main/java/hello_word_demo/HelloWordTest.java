@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class HelloWordTest {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("/hello_word_demo");
         HelloWordService helloWordService = applicationContext.getBean(HelloWordService.class);
         helloWordService.sayHello();
     }
