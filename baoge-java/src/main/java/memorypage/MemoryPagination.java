@@ -65,7 +65,7 @@ public class MemoryPagination {
         this.pages = (int) Math.ceil((double) totalCount / this.pageSize);
         if (pageNum != null) {
             // 默认第一页
-            this.pageNum = pageNum > 0 ? ((pageNum > pages && pages > 0) ? pages : pageNum) : 1;
+            this.pageNum = pageNum > 0 ? ((pageNum > pages && pages > 0) ? 0 : pageNum) : 1;
         }
         int remainingCount = this.totalCount - ((this.pageNum - 1) * this.pageSize);
         this.sizes = remainingCount > this.pageSize ? this.pageSize : remainingCount;
@@ -104,7 +104,11 @@ public class MemoryPagination {
     private void setData() {
         setStartPos();
         setEndPos();
-        this.data = data.subList(startPos, endPos);
+        if (pageNum <= 0) {
+            this.data = null;
+        } else {
+            this.data = data.subList(startPos, endPos);
+        }
     }
 
     public List<?> getData() {

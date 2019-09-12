@@ -22,15 +22,15 @@ public class MemoryPaginationTest {
             personList.add(person);
         }
 
-        MemoryPagination pagination1 = new MemoryPagination(1, 2, personList);
+        MemoryPagination pagination1 = new MemoryPagination(1, 10, personList);
         System.out.println(pagination1.getData());
         System.out.println("==================");
 
-        MemoryPagination pagination2 = new MemoryPagination(2, 2, personList);
+        MemoryPagination pagination2 = new MemoryPagination(2, 10, personList);
         System.out.println(pagination2.getData());
         System.out.println("==================");
 
-        MemoryPagination pagination3 = new MemoryPagination(3, 2, personList);
+        MemoryPagination pagination3 = new MemoryPagination(3, 10, personList);
         System.out.println(pagination3.getData());
         System.out.println("==================");
 
