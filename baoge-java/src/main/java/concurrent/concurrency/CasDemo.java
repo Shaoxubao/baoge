@@ -54,8 +54,8 @@ public class CasDemo {
         private void casIncrOne() {
             int nowCount;
             do {
-                nowCount = casCount;
-            } while (!UNSAFE
+                nowCount = casCount; // 参数说明：casCountOffset:内存值(V), nowCount:旧的预期值(A), nowCount + 1:要修改的新值(B)
+            } while (!UNSAFE         // 当且仅当预期值A和内存值V相同时，将内存值V修改为B，否则返回V
                     .compareAndSwapInt(CasDemo.this, casCountOffset, nowCount, nowCount + 1));
         }
     }
