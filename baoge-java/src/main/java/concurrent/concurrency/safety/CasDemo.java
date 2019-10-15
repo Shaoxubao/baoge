@@ -1,4 +1,4 @@
-package concurrent.concurrency;
+package concurrent.concurrency.safety;
 
 import sun.misc.Unsafe;
 
