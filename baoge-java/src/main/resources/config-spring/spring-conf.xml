@@ -87,4 +87,5 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
           p:basePackage="com.baoge.*.dao" p:sqlSessionFactoryBeanName="sqlSessionFactory" />
 
+    <bean id="springContext" class="utils.SpringContextUtil"></bean>
 </beans>
