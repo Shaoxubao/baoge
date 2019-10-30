@@ -2,6 +2,7 @@ package guaua;
 
 import lombok.Getter;
 import lombok.Setter;
+import utils.object_compare.DescriptionFiled;
 
 import java.io.Serializable;
 
@@ -15,9 +16,24 @@ import java.io.Serializable;
 public class Person implements Serializable {
     private static final long serialVersionUID = -6917551015188433639L;
 
+    @DescriptionFiled(
+            title = "姓名"
+    )
     private String name;
+
+    @DescriptionFiled(
+            title = "年龄"
+    )
     private Integer age;
+
+    @DescriptionFiled(
+            title = "性别"
+    )
     private String sex;
+
+    @DescriptionFiled(
+            title = "国家"
+    )
     private String country;
 
     public Person(String name, Integer age, String sex, String country) {
