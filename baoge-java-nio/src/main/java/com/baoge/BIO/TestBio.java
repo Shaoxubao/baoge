@@ -9,7 +9,7 @@ import java.util.Random;
  *
  * 为了方便在控制台看输出结果，放到同一个程序（jvm）中运行
  */
-public class Test {
+public class TestBio {
     public static void main(String[] args) throws InterruptedException {
         // 运行服务器
         new Thread(new Runnable() {
