@@ -17,6 +17,7 @@
         <module>baoge-python</module>
         <module>baoge-spring</module>
         <module>baoge-dubbo</module>
+        <module>baoge-java-nio</module>
     </modules>
 
     <properties>
