@@ -1,4 +1,4 @@
-package com.baoge.NETTY.bio;
+package com.baoge.netty001.bio;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

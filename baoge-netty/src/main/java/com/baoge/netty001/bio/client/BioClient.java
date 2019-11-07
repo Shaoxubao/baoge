@@ -1,4 +1,4 @@
-package com.baoge.NETTY.bio.client;
+package com.baoge.netty001.bio.client;
 
 import java.net.Socket;
 import java.nio.charset.Charset;

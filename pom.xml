@@ -18,6 +18,7 @@
         <module>baoge-spring</module>
         <module>baoge-dubbo</module>
         <module>baoge-java-nio</module>
+        <module>baoge-netty</module>
     </modules>
 
     <properties>

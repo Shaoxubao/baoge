@@ -1,4 +1,4 @@
-package com.baoge.NETTY.bio.server;
+package com.baoge.netty001.bio.server;
 
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
