@@ -1,6 +1,7 @@
 package com.baoge.NETTY;
 
 import com.baoge.utils.Calculator;
+import com.baoge.utils.DigitUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,13 +25,17 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         in.readBytes(req);
         String body = new String(req,"utf-8");
         System.out.println("收到客户端消息:" + body);
-        String calrResult = null;
+        String calResult = null;
         try {
-            calrResult = Calculator.cal(body).toString();
-        }catch(Exception e){
-            calrResult = "错误的表达式：" + e.getMessage();
+            if (DigitUtil.hasDigit(body)) {
+                calResult = Calculator.cal(body).toString();
+            } else {
+                calResult = body;
+            }
+        } catch(Exception e) {
+            calResult = "错误的表达式：" + e.getMessage();
         }
-        ctx.write(Unpooled.copiedBuffer(calrResult.getBytes()));
+        ctx.write(Unpooled.copiedBuffer(calResult.getBytes()));
     }
 
     @Override

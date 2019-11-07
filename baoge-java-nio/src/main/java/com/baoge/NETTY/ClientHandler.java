@@ -28,7 +28,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf m = Unpooled.buffer(req.length);
         m.writeBytes(req);
         ctx.writeAndFlush(m);
-        return msg.equals("q")?false:true;
+        return msg.equals("q") ? false : true;
     }
 
     /**
@@ -41,7 +41,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         String body = new String(req,"utf-8");
-        System.out.println("服务器消息："+body);
+        System.out.println("服务器消息：" + body);
     }
     /**
      * 发生异常时调用
