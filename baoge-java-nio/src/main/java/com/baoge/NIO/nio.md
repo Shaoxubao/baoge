@@ -4,7 +4,7 @@
         创建Reactor线程，创建多路复用器并启动线程
         将ServerSocketChannel注册到Reactor线程中的Selector上，监听ACCEPT事件
         Selector轮询准备就绪的key
-        Selector监听到新的客户端接入，处理新的接入请求，完成TCP三次握手，简历物理链路
+        Selector监听到新的客户端接入，处理新的接入请求，完成TCP三次握手，建立物理链路
         设置客户端链路为非阻塞模式
         将新接入的客户端连接注册到Reactor线程的Selector上，监听读操作，读取客户端发送的网络消息
         异步读取客户端消息到缓冲区
