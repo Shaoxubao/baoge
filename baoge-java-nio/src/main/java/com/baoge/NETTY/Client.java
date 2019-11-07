@@ -16,13 +16,13 @@ import java.util.Scanner;
  * @Date 2019/11/7 11:46
  */
 public class Client implements Runnable {
-    static ClientHandler client = new ClientHandler();
+    static ClientHandler clientHandler = new ClientHandler();
 
     public static void main(String[] args) throws Exception {
         new Thread(new Client()).start();
         @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
-        while(client.sendMsg(scanner.nextLine()));
+        while(clientHandler.sendMsg(scanner.nextLine()));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Client implements Runnable {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(client);
+                    ch.pipeline().addLast(clientHandler);
                 }
             });
             ChannelFuture f = b.connect(host, port).sync();
