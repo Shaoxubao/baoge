@@ -69,7 +69,7 @@ public class ServerHandle implements Runnable {
                     try {
                         handleInput(key);
                     } catch (Exception e) {
-                        if(key != null){
+                        if(key != null) {
                             key.cancel();
                             if(key.channel() != null) {
                                 key.channel().close();
