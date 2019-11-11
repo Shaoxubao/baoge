@@ -9,6 +9,10 @@ import java.nio.charset.Charset;
  */
 public class BioClient {
     public static void main(String[] args) {
+       runClient();
+    }
+
+    public static void runClient() {
         try {
             Socket socket = new Socket("127.0.0.1", 9090);
             System.out.println("baoge-demo-netty bio client start done. ");

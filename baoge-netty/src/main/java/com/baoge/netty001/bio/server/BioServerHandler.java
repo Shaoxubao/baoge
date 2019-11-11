@@ -20,7 +20,7 @@ public class BioServerHandler extends ChannelAdapter {
 
     @Override
     public void channelActive(ChannelHandler ctx) {
-        System.out.println("链接报告LocalAddress:" + ctx.socket().getLocalAddress());
+        System.out.println("BioServer链接报告LocalAddress:" + ctx.socket().getLocalAddress());
         ctx.writeAndFlush("hi! baoge BioServer to msg for you \r\n");
     }
 
