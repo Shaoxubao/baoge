@@ -127,7 +127,7 @@ public class ClientHandle implements Runnable {
         // 将消息编码为字节数组
         byte[] bytes = msg.getBytes();
         // 根据数组容量创建ByteBuffer
-        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(bytes.length); // 直接内存
+        ByteBuffer writeBuffer = ByteBuffer.allocateDirect(bytes.length); // 直接内存(堆外内存)
 //        ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);
         // 将字节数组复制到缓冲区
         writeBuffer.put(bytes);

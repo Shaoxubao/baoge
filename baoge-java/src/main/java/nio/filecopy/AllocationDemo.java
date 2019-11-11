@@ -22,8 +22,8 @@ public class AllocationDemo {
             FileOutputStream fos = new FileOutputStream("d:/" + System.currentTimeMillis() + ".pdf");
             FileChannel fcOut = fos.getChannel();
 
-//            ByteBuffer buf = ByteBuffer.allocate(size);
-            ByteBuffer buf = ByteBuffer.allocateDirect(size); // 直接堆内存分配
+//            ByteBuffer buf = ByteBuffer.allocate(size);     // 堆内内存(jvm)
+            ByteBuffer buf = ByteBuffer.allocateDirect(size); // 直接内存(堆外内存)
 
             long startTime = System.currentTimeMillis();
             while (fcIn.read(buf) != -1) {
