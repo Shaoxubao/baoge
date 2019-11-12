@@ -22,7 +22,7 @@ public class FileCopyByNio {
             FileChannel inChannel = fis.getChannel();
             FileChannel   outChannel = fos.getChannel();
             // 2.分配指定大小的缓冲区
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            ByteBuffer buffer = ByteBuffer.allocate(1024);  // 或者用allocateDirect，稍快点
             long start = System.currentTimeMillis();
 
             // 3.将通道中的数据缓冲区中
