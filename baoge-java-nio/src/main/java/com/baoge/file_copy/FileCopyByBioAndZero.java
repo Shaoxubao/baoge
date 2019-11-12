@@ -15,14 +15,15 @@ import java.nio.file.StandardOpenOption;
 public class FileCopyByBioAndZero {
 
     public static void main(String[] args) {
-
+        copy1(); // 180ms
+        copy2(); // 106ms
     }
 
     private static void copy1() {
         try {
             // 直接获取通道
-            FileChannel inChannel2 = FileChannel.open(Paths.get("123.txt"), StandardOpenOption.READ);
-            FileChannel outChannel2 = FileChannel.open(Paths.get("output123.txt"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
+            FileChannel inChannel2 = FileChannel.open(Paths.get("E:/webant.7z"), StandardOpenOption.READ);
+            FileChannel outChannel2 = FileChannel.open(Paths.get("E:/output123.7z"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
 
             // 内存映射文件
             MappedByteBuffer inMappedBuf = inChannel2.map(FileChannel.MapMode.READ_ONLY, 0, inChannel2.size());
@@ -33,6 +34,7 @@ public class FileCopyByBioAndZero {
             long start = System.currentTimeMillis();
             inMappedBuf.get(dst);
             outMappedBuf.put(dst);
+
             System.out.println("耗费的时间为：" + ( System.currentTimeMillis() - start));
             inChannel2.close();
             outChannel2.close();
@@ -45,11 +47,12 @@ public class FileCopyByBioAndZero {
         try {
 
             // 通道之间的数据传输（直接缓冲区）
-            FileChannel inChannel3 = FileChannel.open(Paths.get("123.txt"), StandardOpenOption.READ);
-            FileChannel outChannel3 = FileChannel.open(Paths.get("output123.txt"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
+            FileChannel inChannel3 = FileChannel.open(Paths.get("E:/webant.7z"), StandardOpenOption.READ);
+            FileChannel outChannel3 = FileChannel.open(Paths.get("E:/output1234.7z"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
             long start = System.currentTimeMillis();
             inChannel3.transferTo(0, inChannel3.size(), outChannel3);
-            System.out.println("耗时: "+(System.currentTimeMillis()-start) );
+
+            System.out.println("耗时: "+(System.currentTimeMillis() - start));
             //等价于
             // outChannel3.transferFrom(inChannel3, 0, inChannel3.size());
 
