@@ -18,7 +18,7 @@ public class Test {
         // 运行客户端
         Client.start();
         // 输入一个表达式，如：1+2
-        while(Client.sendMsg(new Scanner(System.in).nextLine()));
+        while (Client.sendMsg(new Scanner(System.in).nextLine()));
     }
 
 }

@@ -239,7 +239,7 @@ public class AdCleanser {
             conn.setConnectTimeout(3000);
             conn.setReadTimeout(3000);
             conn.setRequestMethod("GET");
-            if(filePath != null && !filePath.trim().equals("")) {
+            if (filePath != null && !filePath.trim().equals("")) {
                 File tmpFile = new File(filePath);
                 bos = new FileOutputStream(tmpFile);
             }

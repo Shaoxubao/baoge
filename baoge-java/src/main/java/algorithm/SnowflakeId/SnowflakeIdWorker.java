@@ -151,7 +151,7 @@ public class SnowflakeIdWorker {
             String hostAddress = Inet4Address.getLocalHost().getHostAddress();
             int[] ints = StringUtils.toCodePoints(hostAddress);
             int sums = 0;
-            for(int b : ints) {
+            for (int b : ints) {
                 sums += b;
             }
             return (long)(sums % 32);

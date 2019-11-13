@@ -69,9 +69,9 @@ public class ServerHandle implements Runnable {
                     try {
                         handleInput(key);
                     } catch (Exception e) {
-                        if(key != null) {
+                        if (key != null) {
                             key.cancel();
-                            if(key.channel() != null) {
+                            if (key.channel() != null) {
                                 key.channel().close();
                             }
                         }
@@ -131,7 +131,7 @@ public class ServerHandle implements Runnable {
                     doWrite(serverChannel, result);
                 }
                 // 没有读取到字节 忽略
-//				else if(readBytes==0);
+//				else if (readBytes==0);
                 // 链路已经关闭，释放资源
                 else if (readBytes < 0) {
                     key.cancel();

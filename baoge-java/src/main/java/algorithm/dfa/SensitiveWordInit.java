@@ -62,14 +62,14 @@ public class SensitiveWordInit {
         Map<String, String> newWorMap = null;
         // 迭代keyWordSet
         Iterator<String> iterator = keyWordSet.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             key = iterator.next();                          // 关键字
             nowMap = sensitiveWordMap;
-            for(int i = 0; i < key.length(); i++) {
+            for (int i = 0; i < key.length(); i++) {
                 char keyChar = key.charAt(i);               // 转换成char型
                 Object wordMap = nowMap.get(keyChar);       // 获取
 
-                if(wordMap != null) {                       // 如果存在该key，直接赋值
+                if (wordMap != null) {                       // 如果存在该key，直接赋值
                     nowMap = (Map) wordMap;
                 }
                 else {                                      // 不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
@@ -79,7 +79,7 @@ public class SensitiveWordInit {
                     nowMap = newWorMap;
                 }
 
-                if(i == key.length() - 1) {
+                if (i == key.length() - 1) {
                     nowMap.put("isEnd", "1");               // 最后一个
                 }
             }
@@ -110,11 +110,11 @@ public class SensitiveWordInit {
         File file = new File("D:\\SensitiveWord.txt");    //读取文件
         InputStreamReader read = new InputStreamReader(new FileInputStream(file), ENCODING);
         try {
-            if(file.isFile() && file.exists()) {                   //文件流是否存在
+            if (file.isFile() && file.exists()) {                   //文件流是否存在
                 set = new HashSet<>();
                 BufferedReader bufferedReader = new BufferedReader(read);
                 String txt = null;
-                while((txt = bufferedReader.readLine()) != null) {  //读取文件，将文件内容放入到set中
+                while ((txt = bufferedReader.readLine()) != null) {  //读取文件，将文件内容放入到set中
                     set.add(txt);
                 }
             }

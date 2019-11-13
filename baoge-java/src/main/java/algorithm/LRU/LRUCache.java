@@ -55,7 +55,7 @@ public class LRUCache {
     }
 
     public int get(int key) {
-        if(!map.containsKey(key)) {
+        if (!map.containsKey(key)) {
             return -1;
         }
         DoubleLinkedListNode node = map.get(key);

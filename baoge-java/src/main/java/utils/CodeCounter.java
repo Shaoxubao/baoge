@@ -28,29 +28,29 @@ public class CodeCounter {
         BufferedReader br = null;
         String s = null;
 
-        if(file.isDirectory()) {
+        if (file.isDirectory()) {
             File[] files = file.listFiles();
-            for(File f : files) {
+            for (File f : files) {
                 factFiles(f);
             }
         } else if (file.getName().endsWith(".java")) {
             try {
                 br = new BufferedReader(new FileReader(file));
                 boolean comm = false;
-                while((s = br.readLine()) != null) {
-                    if(s.startsWith("/*") && s.endsWith("*/")) {
+                while ((s = br.readLine()) != null) {
+                    if (s.startsWith("/*") && s.endsWith("*/")) {
                         codeComments++;
-                    } else if(s.trim().startsWith("//")) {
+                    } else if (s.trim().startsWith("//")) {
                         codeComments++;
-                    } else if(s.startsWith("/*") && !s.endsWith("*/")) {
+                    } else if (s.startsWith("/*") && !s.endsWith("*/")) {
                         codeComments++;
                         comm = true;
-                    } else if(!s.startsWith("/*") && s.endsWith("*/")) {
+                    } else if (!s.startsWith("/*") && s.endsWith("*/")) {
                         codeComments++;
                         comm = false;
-                    } else if(comm) {
+                    } else if (comm) {
                         codeComments++;
-                    } else if(s.trim().length() < 1) {
+                    } else if (s.trim().length() < 1) {
                         codeBlank++;
                     } else {
                         code++;

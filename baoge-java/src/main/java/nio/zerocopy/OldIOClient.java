@@ -25,7 +25,7 @@ public class OldIOClient {
 
         long startTime = System.nanoTime();
 
-        while((readCount = inputStream.read(buffer)) >= 0) {
+        while ((readCount = inputStream.read(buffer)) >= 0) {
             total += readCount;
             dataOutputStream.write(buffer,0,readCount);
         }

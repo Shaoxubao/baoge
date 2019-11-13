@@ -16,7 +16,7 @@ public class Client {
     }
 
     public static synchronized void start(String ip,int port) {
-        if(clientHandle!=null)
+        if (clientHandle!=null)
             return;
         clientHandle = new AsyncClientHandler(ip,port);
         new Thread(clientHandle,"Client").start();
@@ -24,7 +24,7 @@ public class Client {
 
     // 向服务器发送消息
     public static boolean sendMsg(String msg) throws Exception {
-        if(msg.equals("q")) return false;
+        if (msg.equals("q")) return false;
         clientHandle.sendMsg(msg);
         return true;
     }
@@ -33,7 +33,7 @@ public class Client {
         Client.start();
         System.out.println("请输入请求消息：");
         Scanner scanner = new Scanner(System.in);
-        while(Client.sendMsg(scanner.nextLine()));
+        while (Client.sendMsg(scanner.nextLine()));
     }
 
 }

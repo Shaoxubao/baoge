@@ -23,7 +23,7 @@ public class FileCopyByByte {
         FileOutputStream fos = new FileOutputStream(fileName + "123.7z");
         int read = 0;
         long start = 0;
-        while((read=fis.read()) != -1) {
+        while ((read=fis.read()) != -1) {
             fos.write(read);
         }
         System.out.println("耗时: " + (System.currentTimeMillis() - start));

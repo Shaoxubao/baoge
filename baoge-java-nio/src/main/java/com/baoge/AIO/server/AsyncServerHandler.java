@@ -30,7 +30,7 @@ public class AsyncServerHandler implements Runnable {
         // CountDownLatch初始化
         // 它的作用：在完成一组正在执行的操作之前，允许当前的现场一直阻塞
         // 此处，让现场在此阻塞，防止服务端执行完成后退出
-        // 也可以使用while(true)+sleep
+        // 也可以使用while (true)+sleep
         // 生成环境就不需要担心这个问题，以为服务端是不会退出的
         latch = new CountDownLatch(1);
         //用于接收客户端的连接

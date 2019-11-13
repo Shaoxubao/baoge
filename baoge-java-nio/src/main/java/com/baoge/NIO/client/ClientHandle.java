@@ -65,9 +65,9 @@ public class ClientHandle implements Runnable {
                     try {
                         processInput(key);
                     } catch (Exception e) {
-                        if(key != null) {
+                        if (key != null) {
                             key.cancel();
-                            if(key.channel() != null) {
+                            if (key.channel() != null) {
                                 key.channel().close();
                             }
                         }
@@ -79,10 +79,10 @@ public class ClientHandle implements Runnable {
             }
         }
         //selector关闭后会自动释放里面管理的资源
-        if(selector != null)
+        if (selector != null)
             try{
                 selector.close();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
     }
@@ -91,7 +91,7 @@ public class ClientHandle implements Runnable {
         if (key.isValid()) {
             SocketChannel sc = (SocketChannel) key.channel();
             if (key.isConnectable()) {
-                if(sc.finishConnect());
+                if (sc.finishConnect());
                 else System.exit(1);
             }
             // 读消息
@@ -112,7 +112,7 @@ public class ClientHandle implements Runnable {
                     System.out.println("客户端收到消息：" + result);
                 }
                 // 没有读取到字节 忽略
-//				else if(readBytes==0);
+//				else if (readBytes==0);
                 // 链路已经关闭，释放资源
                 else if (readBytes<0) {
                     key.cancel();
@@ -138,7 +138,7 @@ public class ClientHandle implements Runnable {
     }
 
     private void doConnect() throws IOException {
-        if(socketChannel.connect(new InetSocketAddress(host,port)));
+        if (socketChannel.connect(new InetSocketAddress(host,port)));
         else socketChannel.register(selector, SelectionKey.OP_CONNECT);
     }
 

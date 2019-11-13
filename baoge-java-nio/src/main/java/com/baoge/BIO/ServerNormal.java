@@ -31,7 +31,7 @@ public final class ServerNormal {
             System.out.println("服务器已启动，端口号：" + port);
             // 通过无线循环监听客户端连接
             // 如果没有客户端接入，将阻塞在accept操作上。
-            while(true) {
+            while (true) {
                 Socket socket = server.accept();
                 // 当有新的客户端接入时，会执行下面的代码
                 // 然后创建一个新的线程处理这条Socket链路

@@ -29,7 +29,7 @@ public class AtomicIntegerDemo {
                 }
             }.start();
         }
-        while(Thread.activeCount()>1) { // 保证前面的线程都执行完
+        while (Thread.activeCount()>1) { // 保证前面的线程都执行完
             Thread.yield();
         }
         System.out.println(demo.inc);

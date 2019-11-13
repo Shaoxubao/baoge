@@ -19,7 +19,7 @@ public class Test {
         Client.start();
         System.out.println("请输入请求消息：");
         Scanner scanner = new Scanner(System.in);
-        while(Client.sendMsg(scanner.nextLine()));
+        while (Client.sendMsg(scanner.nextLine()));
     }
 
 }

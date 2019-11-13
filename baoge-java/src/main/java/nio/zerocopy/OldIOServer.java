@@ -13,7 +13,7 @@ public class OldIOServer {
         // 创建一个ServerSocket并监听8888端口
         ServerSocket serverSocket = new ServerSocket(8888);
 
-        while(true) {
+        while (true) {
             // 阻塞方法，获得连接的socket对象
             Socket socket = serverSocket.accept();
             // 通过装饰器模式获取DataInputStream
@@ -25,7 +25,7 @@ public class OldIOServer {
                 byte[] buffer = new byte[4096];
 
                 int read = 0;
-                while((read = dataInputStream.read(buffer)) > 0) {
+                while ((read = dataInputStream.read(buffer)) > 0) {
                     totalCount += read;
                 }
             } catch (Exception e) {

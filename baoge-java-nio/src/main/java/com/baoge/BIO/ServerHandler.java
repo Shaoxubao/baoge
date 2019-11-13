@@ -26,11 +26,11 @@ public class ServerHandler implements Runnable {
             out = new PrintWriter(socket.getOutputStream(),true);
             String expression;
             String result;
-            while(true) {
+            while (true) {
                 // 通过BufferedReader读取一行
                 // 如果已经读到输入流尾部，返回null,退出循环
                 // 如果得到非空值，就尝试计算结果并返回
-                if((expression = in.readLine()) == null) break;
+                if ((expression = in.readLine()) == null) break;
                 System.out.println("服务器收到消息：" + expression);
                 try {
                     result = Calculator.cal(expression).toString();

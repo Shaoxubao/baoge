@@ -92,7 +92,7 @@ public class HttpUtils {
             boolean var5 = false;
 
             int count;
-            while((count = reader.read(chars)) > 0) {
+            while ((count = reader.read(chars)) > 0) {
                 writer.write(chars, 0, count);
             }
 
@@ -113,7 +113,7 @@ public class HttpUtils {
             String[] arr$ = params;
             int len$ = params.length;
 
-            for(int i$ = 0; i$ < len$; ++i$) {
+            for (int i$ = 0; i$ < len$; ++i$) {
                 String param = arr$[i$];
                 param = param.trim();
                 if (param.startsWith("charset")) {

@@ -30,7 +30,7 @@ public class EmployeeDao {
 	private static Integer initId = 1006;
 	
 	public void save(Employee employee) {
-		if(employee.getId() == null) {
+		if (employee.getId() == null) {
 			employee.setId(initId++);
 		}
 		

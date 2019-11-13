@@ -56,7 +56,7 @@ public class MemcachedJavaClient {
         String [] keys = {"1", "2","3","INVALID","5"};
         HashMap<String,Object> hm = (HashMap<String, Object>) mcc.getMulti(keys);
 
-        for(String key : hm.keySet()) {
+        for (String key : hm.keySet()) {
             System.out.println("KEY:" + key + " VALUE:" + hm.get(key));
         }
 

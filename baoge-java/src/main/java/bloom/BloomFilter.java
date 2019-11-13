@@ -66,7 +66,7 @@ public class BloomFilter {
         for (int i = 0; i < strs.size(); i++) {
             String s = strs.get(i);
             boolean bl = bf.contains(s);
-            if(bl) {
+            if (bl) {
                 System.out.println(i + "," + s);
             } else {
                 bf.add(s);

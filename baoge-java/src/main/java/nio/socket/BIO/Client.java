@@ -33,21 +33,21 @@ public class Client {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            if(in != null) {
+            if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
             }
-            if(out != null) {
+            if (out != null) {
                 try {
                     out.close();
                 } catch (Exception e2) {
                     e2.printStackTrace();
                 }
             }
-            if(socket != null) {
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (Exception e3) {

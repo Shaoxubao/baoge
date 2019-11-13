@@ -24,16 +24,16 @@ public class ServerHandler implements Runnable {
             in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             out = new PrintWriter(this.socket.getOutputStream(), true);
             String body = null;
-            while(true) {
+            while (true) {
                 body = in.readLine();
-                if(body == null) break;
+                if (body == null) break;
                 System.out.println("Server:" + body);
                 out.println("Server response");
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(in != null) {
+            if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e1) {

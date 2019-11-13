@@ -19,7 +19,7 @@ public class CasCounter {
         do {
             value = simulateCAS.getValue();
             newValue = value + 1;
-        } while(!simulateCAS.compareAndSet(value, newValue));
+        } while (!simulateCAS.compareAndSet(value, newValue));
         return newValue;
     }
     public static void main(String[] args) throws InterruptedException {

@@ -25,7 +25,7 @@ public class Md5Utils {
     private static String byteToString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
 
-        for(int i = 0; i < bytes.length; ++i) {
+        for (int i = 0; i < bytes.length; ++i) {
             sb.append(byteToArrayString(bytes[i]));
         }
 

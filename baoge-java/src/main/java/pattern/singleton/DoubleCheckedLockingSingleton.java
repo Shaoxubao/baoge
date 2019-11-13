@@ -13,10 +13,10 @@ public class DoubleCheckedLockingSingleton {
     private DoubleCheckedLockingSingleton() {}
 
     public DoubleCheckedLockingSingleton getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             synchronized(DoubleCheckedLockingSingleton.class) {
                 // double checking Singleton instance
-                if(INSTANCE == null) {
+                if (INSTANCE == null) {
                     INSTANCE = new DoubleCheckedLockingSingleton();
                 }
             }

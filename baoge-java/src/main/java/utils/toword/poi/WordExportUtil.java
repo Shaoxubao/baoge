@@ -199,12 +199,12 @@ public class WordExportUtil {
      */
     private static void appendWordImg(WordXWPFDocument doc , WordImg imgParam) {
         //添加图片
-        if(imgParam != null && imgParam.getImgs() != null && imgParam.getImgs().length > 0) {
+        if (imgParam != null && imgParam.getImgs() != null && imgParam.getImgs().length > 0) {
             XWPFParagraph para;
             XWPFRun run;
             String[] imgs = imgParam.getImgs();
             try {
-                for(int i=0;i<imgs.length;i++) {
+                for (int i=0;i<imgs.length;i++) {
                     para = doc.createParagraph();
                     para.setAlignment(imgParam.getAlign());//设置对齐方式
                     run = para.createRun();
@@ -284,7 +284,7 @@ public class WordExportUtil {
         try {
             OutputStream os = new FileOutputStream(targetPath);
             doc.write(os);
-            if(os != null) {
+            if (os != null) {
                 try {
                     os.close();
                     System.out.println("已生成word文件，文件地址：" + targetPath);

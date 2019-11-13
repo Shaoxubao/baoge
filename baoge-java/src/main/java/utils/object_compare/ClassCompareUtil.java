@@ -33,7 +33,7 @@ public class ClassCompareUtil {
     public static boolean compareObject(Object oldObject, Object newObject) {
         Map<String, Map<String, Object>> resultMap=compareFields(oldObject, newObject);
 
-        if(resultMap.size() > 0) {
+        if (resultMap.size() > 0) {
             return true;
         } else {
             return false;
@@ -71,7 +71,7 @@ public class ClassCompareUtil {
 
                     // 获取属性注解描述
                     Field f = fieldMap.get(name);
-                    if(f == null) {
+                    if (f == null) {
                         System.out.println("fieldName:" + name + "is not exist or not set annotation!");
                         continue;
                     }
@@ -86,25 +86,25 @@ public class ClassCompareUtil {
                     // 在newObject上调用get方法等同于获得newObject的属性值
                     Object newValue = readMethod.invoke(newObject);
 
-                    if(oldValue instanceof List) {
+                    if (oldValue instanceof List) {
                         continue;
                     }
 
-                    if(newValue instanceof List) {
+                    if (newValue instanceof List) {
                         continue;
                     }
 
-                    if(oldValue instanceof Timestamp) {
+                    if (oldValue instanceof Timestamp) {
                         oldValue = new Date(((Timestamp) oldValue).getTime());
                     }
 
-                    if(newValue instanceof Timestamp) {
+                    if (newValue instanceof Timestamp) {
                         newValue = new Date(((Timestamp) newValue).getTime());
                     }
 
-                    if(oldValue == null && newValue == null) {
+                    if (oldValue == null && newValue == null) {
                         continue;
-                    } else if(oldValue == null && newValue != null) {
+                    } else if (oldValue == null && newValue != null) {
                         Map<String,Object> valueMap = new HashMap<>();
                         valueMap.put("oldValue", oldValue);
                         valueMap.put("newValue", newValue);
@@ -139,7 +139,7 @@ public class ClassCompareUtil {
      */
     private static Map<String, Field> getFields(Class clazz) {
         Map<String, Field> fields = null;
-        if((fields = classMap.get(clazz)) == null) {
+        if ((fields = classMap.get(clazz)) == null) {
             fields = getField2(clazz, new HashMap<>());
             classMap.put(clazz, fields);
         }

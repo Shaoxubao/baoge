@@ -46,7 +46,7 @@ public class PageParserTool {
             Element element = (Element) iterator.next();
             if ( element.hasAttr("href") ) {
                 links.add(element.attr("abs:href"));
-            }else if( element.hasAttr("src") ) {
+            } else if ( element.hasAttr("src") ) {
                 links.add(element.attr("abs:src"));
             }
         }
