@@ -16,7 +16,7 @@ public class MyExceptionHandler {
     // 浏览器客户端返回的都是json
 //    @ResponseBody
 //    @ExceptionHandler(UserNotException.class)
-//    public Map<String, Object> handleException(Exception e){
+//    public Map<String, Object> handleException(Exception e) {
 //
 //        Map<String, Object> map = new HashMap<>();
 //        map.put("code", "user.notexist");
@@ -27,7 +27,7 @@ public class MyExceptionHandler {
 
     // 浏览器客户端返回的都是json
     @ExceptionHandler(UserNotException.class)
-    public String handleException(Exception e, HttpServletRequest request){
+    public String handleException(Exception e, HttpServletRequest request) {
 
         Map<String, Object> map = new HashMap<>();
         // 传入我们自己的错误状态码

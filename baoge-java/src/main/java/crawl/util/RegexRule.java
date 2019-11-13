@@ -27,20 +27,20 @@ import java.util.regex.Pattern;
  */
 public class RegexRule {
     
-    public RegexRule(){
+    public RegexRule() {
         
     }
-    public RegexRule(String rule){
+    public RegexRule(String rule) {
         addRule(rule);
     }
     
-    public RegexRule(ArrayList<String> rules){
+    public RegexRule(ArrayList<String> rules) {
         for (String rule : rules) {
             addRule(rule);
         }
     }
     
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return positive.isEmpty();
     }
 

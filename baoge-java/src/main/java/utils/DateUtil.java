@@ -85,14 +85,14 @@ public class DateUtil {
     private static SimpleDateFormat sdf_hour_format = new SimpleDateFormat(HOUR_FORMAT);
     private static SimpleDateFormat sdf_datetime_format = new SimpleDateFormat(DATETIME_FORMAT);
     private static SimpleDateFormat sdf_datetime_format2 = new SimpleDateFormat(yyyyMMddHHmmss_FORMAT);
-    public static long calTowDateOfDay(Date endDate,Date nowDate){
+    public static long calTowDateOfDay(Date endDate,Date nowDate) {
         long nd = 1000 * 24 * 60 * 60;
         long diff = endDate.getTime() - nowDate.getTime();
         // 计算差多少天
         long day = diff / nd;
         return day;
     }
-    public static long calTowDateOfHour(Date endDate,Date nowDate){
+    public static long calTowDateOfHour(Date endDate,Date nowDate) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long diff = endDate.getTime() - nowDate.getTime();
@@ -100,7 +100,7 @@ public class DateUtil {
         long hour = diff % nd / nh;
         return hour;
     }
-    public static long calTowDateOfMin(Date endDate,Date nowDate){
+    public static long calTowDateOfMin(Date endDate,Date nowDate) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
@@ -109,7 +109,7 @@ public class DateUtil {
         long min = diff % nd % nh / nm;
         return min;
     }
-    public static long calTowDateOfSecond(Date endDate,Date nowDate){
+    public static long calTowDateOfSecond(Date endDate,Date nowDate) {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
@@ -119,7 +119,7 @@ public class DateUtil {
         long second = diff % nd % nh % nm / ns;
         return second;
     }
-    public static String calTime(Date nowDate,Date create_time){
+    public static String calTime(Date nowDate,Date create_time) {
         String subTime="";
         long min = 0;
         long day;
@@ -134,7 +134,7 @@ public class DateUtil {
             subTime = hour + "小时前";
         } else if (min > 0) {
             subTime = min + "分钟前";
-        }else if(second > 0) {
+        } else if (second > 0) {
             subTime = second + "秒前";
         }
         return subTime;
@@ -1680,7 +1680,7 @@ public class DateUtil {
         return str;
     }
 
-    public static Date getTodyTime(int hour,int minute,int second,int millisecond){
+    public static Date getTodyTime(int hour,int minute,int second,int millisecond) {
         Calendar todayStart = Calendar.getInstance();
         todayStart.set(Calendar.HOUR_OF_DAY, hour);
         todayStart.set(Calendar.MINUTE, minute);
@@ -1690,9 +1690,9 @@ public class DateUtil {
     }
 
     // 返回当前在哪个季度
-    public static int getThisQuarter(int month){
+    public static int getThisQuarter(int month) {
         int quater[] = { 1, 2, 3, 4 };//季度
-        switch (month){
+        switch (month) {
             case 1:
             case 2:
             case 3:

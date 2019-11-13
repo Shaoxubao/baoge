@@ -23,9 +23,9 @@ public class WordImg extends WordBase {
      */
     private int height = 180;
 
-    public WordImg(){}
+    public WordImg() {}
 
-    public WordImg(String[] imgs , ParagraphAlignment align , String fontFamily , int fontSize){
+    public WordImg(String[] imgs , ParagraphAlignment align , String fontFamily , int fontSize) {
         this.imgs = imgs;
         super.setAlign(align);
         super.setFontFamily(fontFamily);

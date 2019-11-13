@@ -42,11 +42,11 @@ public class PageParserTool {
         Set<String> links  = new HashSet<String>() ;
         Elements es = select(page , cssSelector);
         Iterator iterator  = es.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Element element = (Element) iterator.next();
             if ( element.hasAttr("href") ) {
                 links.add(element.attr("abs:href"));
-            }else if( element.hasAttr("src") ){
+            }else if( element.hasAttr("src") ) {
                 links.add(element.attr("abs:src"));
             }
         }

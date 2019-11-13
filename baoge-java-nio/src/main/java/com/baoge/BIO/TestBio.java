@@ -32,7 +32,7 @@ public class TestBio {
             @SuppressWarnings("static-access")
             @Override
             public void run() {
-                while(true){
+                while (true) {
                     // 随机产生算术表达式
                     String expression = random.nextInt(10) + "" + operators[random.nextInt(4)] + (random.nextInt(10) + 1);
                     Client.send(expression);

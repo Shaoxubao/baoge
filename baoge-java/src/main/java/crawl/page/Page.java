@@ -21,7 +21,7 @@ public class Page {
     private String contentType; // 内容类型
 
 
-    public Page(byte[] content, String url, String contentType){
+    public Page(byte[] content, String url, String contentType) {
         this.content = content;
         this.url = url;
         this.contentType = contentType;
@@ -30,9 +30,9 @@ public class Page {
     public String getCharset() {
         return charset;
     }
-    public String getUrl(){return url ;}
-    public String getContentType(){ return contentType ;}
-    public byte[] getContent(){ return content ;}
+    public String getUrl() {return url ;}
+    public String getContentType() { return contentType ;}
+    public byte[] getContent() { return content ;}
 
     /**
      * 返回网页的源码字符串
@@ -46,7 +46,7 @@ public class Page {
         if (content == null) {
             return null;
         }
-        if(charset==null){
+        if (charset==null) {
             charset = CharsetDetector.guessEncoding(content); // 根据内容来猜测 字符编码
         }
         try {
@@ -61,7 +61,7 @@ public class Page {
     /*
     *  得到文档
     * */
-    public Document getDoc(){
+    public Document getDoc() {
         if (doc != null) {
             return doc;
         }

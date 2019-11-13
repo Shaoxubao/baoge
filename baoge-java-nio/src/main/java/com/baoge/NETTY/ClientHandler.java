@@ -22,7 +22,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         sendMsg("客户端消息");
     }
 
-    public boolean sendMsg(String msg){
+    public boolean sendMsg(String msg) {
         System.out.println("客户端发送消息：" + msg);
         byte[] req = msg.getBytes();
         ByteBuf m = Unpooled.buffer(req.length);

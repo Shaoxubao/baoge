@@ -88,9 +88,9 @@ public class ClientHandle implements Runnable {
     }
 
     private void processInput(SelectionKey key) throws IOException{
-        if (key.isValid()){
+        if (key.isValid()) {
             SocketChannel sc = (SocketChannel) key.channel();
-            if (key.isConnectable()){
+            if (key.isConnectable()) {
                 if(sc.finishConnect());
                 else System.exit(1);
             }

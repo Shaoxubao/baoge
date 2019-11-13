@@ -19,7 +19,7 @@ public class MyCrawler {
      * @return
      */
     private void initCrawlerWithSeeds(String[] seeds) {
-        for (int i = 0; i < seeds.length; i++){
+        for (int i = 0; i < seeds.length; i++) {
             Links.addUnvisitedUrlQueue(seeds[i]);
         }
     }
@@ -51,7 +51,7 @@ public class MyCrawler {
 
             // 先从待访问的序列中取出第一个；
             String visitUrl = (String) Links.removeHeadOfUnVisitedUrlQueue();
-            if (visitUrl == null){
+            if (visitUrl == null) {
                 continue;
             }
 
@@ -60,7 +60,7 @@ public class MyCrawler {
 
             //对page进行处理： 访问DOM的某个标签
             Elements es = PageParserTool.select(page,"a");
-            if(!es.isEmpty()){
+            if(!es.isEmpty()) {
                 System.out.println("下面将打印所有a标签： ");
                 System.out.println(es);
             }

@@ -14,7 +14,7 @@ public class CommonUtil {
      * 获取指定目录
      * @return
      */
-    public static String getPathByCondition(String where){
+    public static String getPathByCondition(String where) {
         String rootPath = getRootPath();
         String modulesPath = rootPath.substring(0 ,rootPath.indexOf(where)) + "\\" + where;
         return modulesPath;
@@ -24,17 +24,17 @@ public class CommonUtil {
      * 获取应用根目录
      * @return
      */
-    public static String getRootPath(){
+    public static String getRootPath() {
         String rootPath = "";
         try {
             File path = new File(ResourceUtils.getURL("classpath:").getPath());
             if (!path.exists()) path = new File("");
             rootPath = path.getAbsolutePath();
             //System.out.println("rootPath:" + rootPath);
-            if(rootPath.contains("\\target\\classes")){
+            if(rootPath.contains("\\target\\classes")) {
                 rootPath = rootPath.replace("\\target\\classes","");
             }
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return rootPath;
@@ -45,7 +45,7 @@ public class CommonUtil {
      * @param picName
      * @return
      */
-    public static int getDocumentImgType(String picName){
+    public static int getDocumentImgType(String picName) {
         //bmp|jpg|jpeg|png|gif|psd|dwg
         int format = XWPFDocument.PICTURE_TYPE_PNG;
         if(picName.endsWith(".emf")) format = XWPFDocument.PICTURE_TYPE_EMF;

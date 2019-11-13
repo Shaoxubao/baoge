@@ -22,7 +22,7 @@ public abstract class SpringTestBase {
     private static final String ENV = "dev";
 
     @BeforeClass
-    public static void beforeClass(){
+    public static void beforeClass() {
         // 设置测试环境变量
         System.setProperty("env", ENV);
         System.out.println("set env to " + ENV);

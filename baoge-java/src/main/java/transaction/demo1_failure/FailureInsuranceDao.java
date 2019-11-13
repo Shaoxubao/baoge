@@ -14,7 +14,7 @@ public class FailureInsuranceDao {
 
     private DataSource dataSource;
 
-    public FailureInsuranceDao(DataSource dataSource){
+    public FailureInsuranceDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

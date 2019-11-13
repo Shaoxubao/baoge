@@ -19,7 +19,7 @@ public class SensitiveWordInit {
     @SuppressWarnings("rawtypes")
     public HashMap sensitiveWordMap;
 
-    public SensitiveWordInit(){
+    public SensitiveWordInit() {
         super();
     }
 

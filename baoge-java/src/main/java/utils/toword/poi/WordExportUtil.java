@@ -27,7 +27,7 @@ public class WordExportUtil {
     }
 
     //测试组合list，生成word时，会根据list添加各种类型内容的顺序生成到word中
-    private static void testExportDoc(){
+    private static void testExportDoc() {
         String content ="";
         ParagraphAlignment align = ParagraphAlignment.CENTER;
         String fontFamily = "仿宋";
@@ -70,7 +70,7 @@ public class WordExportUtil {
             exportDoc(list, targetPath);
 
             System.out.println("耗时：" + (System.currentTimeMillis() - startTime));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -80,14 +80,14 @@ public class WordExportUtil {
      * @param path
      * @throws Exception
      */
-    private static void checkPath(String path){
-        if(!(path.contains(".doc") || path.contains(".docx"))){
+    private static void checkPath(String path) {
+        if (!(path.contains(".doc") || path.contains(".docx"))) {
             throw new RuntimeException("生成word目标路径需包含.doc、.docx");
         }
         //检查文件目录，不存在则创建
         String mkPath = path.substring(0, path.lastIndexOf("\\"));
         File file = new File(mkPath);
-        if(!file.exists()){
+        if (!file.exists()) {
             file.mkdirs();
         }
     }
@@ -114,7 +114,7 @@ public class WordExportUtil {
      * @param textParam
      * @param targetPath
      */
-    public static void exportTextDoc(WordText textParam , String targetPath){
+    public static void exportTextDoc(WordText textParam , String targetPath) {
         // 检测路径
         checkPath(targetPath);
         // 组装word
@@ -130,7 +130,7 @@ public class WordExportUtil {
      * @param imgParam
      * @param targetPath
      */
-    public static void exportImgDoc(WordImg imgParam , String targetPath){
+    public static void exportImgDoc(WordImg imgParam , String targetPath) {
         // 检测路径
         checkPath(targetPath);
         // 组装word
@@ -145,7 +145,7 @@ public class WordExportUtil {
      * @param tableParam
      * @param targetPath
      */
-    public static void exportTableDoc(WordTable tableParam , String targetPath){
+    public static void exportTableDoc(WordTable tableParam , String targetPath) {
         // 检测路径
         checkPath(targetPath);
         // 组装word
@@ -160,14 +160,14 @@ public class WordExportUtil {
      * @param list
      * @return
      */
-    private static XWPFDocument generatorDocument(ArrayList<Object> list){
+    private static XWPFDocument generatorDocument(ArrayList<Object> list) {
         WordXWPFDocument doc = new WordXWPFDocument();
         list.forEach( item -> {
-            if(item instanceof WordText){
+            if (item instanceof WordText) {
                 appendWordText(doc , (WordText)item);
-            }else if(item instanceof WordImg){
+            } else if (item instanceof WordImg) {
                 appendWordImg(doc , (WordImg)item);
-            }else if(item instanceof WordTable){
+            } else if (item instanceof WordTable) {
                 appendWordTable(doc , (WordTable)item);
             }
         });
@@ -179,9 +179,9 @@ public class WordExportUtil {
      * @param doc XWPFDocument
      * @param textParam 文本数据模型
      */
-    private static void appendWordText(XWPFDocument doc , WordText textParam){
+    private static void appendWordText(XWPFDocument doc , WordText textParam) {
         //添加文本
-        if(textParam != null && !StrUtil.isEmpty(textParam.getContent())){
+        if (textParam != null && !StrUtil.isEmpty(textParam.getContent())) {
             XWPFParagraph para = doc.createParagraph();
             para.setAlignment(textParam.getAlign());//设置左对齐
             XWPFRun run = para.createRun();
@@ -197,14 +197,14 @@ public class WordExportUtil {
      * @param doc XWPFDocument
      * @param imgParam 图片数据模型
      */
-    private static void appendWordImg(WordXWPFDocument doc , WordImg imgParam){
+    private static void appendWordImg(WordXWPFDocument doc , WordImg imgParam) {
         //添加图片
-        if(imgParam != null && imgParam.getImgs() != null && imgParam.getImgs().length > 0){
+        if(imgParam != null && imgParam.getImgs() != null && imgParam.getImgs().length > 0) {
             XWPFParagraph para;
             XWPFRun run;
             String[] imgs = imgParam.getImgs();
             try {
-                for(int i=0;i<imgs.length;i++){
+                for(int i=0;i<imgs.length;i++) {
                     para = doc.createParagraph();
                     para.setAlignment(imgParam.getAlign());//设置对齐方式
                     run = para.createRun();
@@ -223,7 +223,7 @@ public class WordExportUtil {
                     run.setFontSize(11);
                     run.setText(filename);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             doc.createParagraph();
@@ -235,9 +235,9 @@ public class WordExportUtil {
      * @param doc XWPFDocument
      * @param tableParam 表格数据模型
      */
-    private static void appendWordTable(XWPFDocument doc, WordTable tableParam){
+    private static void appendWordTable(XWPFDocument doc, WordTable tableParam) {
         //添加表格
-        if(tableParam != null && tableParam.getHeader() != null && tableParam.getValues() != null){
+        if (tableParam != null && tableParam.getHeader() != null && tableParam.getValues() != null) {
             XWPFParagraph para;
             XWPFRun run;
             XWPFTable table  = doc.createTable(tableParam.getRows(),tableParam.getCols());
@@ -248,11 +248,11 @@ public class WordExportUtil {
             XWPFTableCell cell;
             CTTcPr cellPr;
             //循环行
-            for(int j = 0; j < tableParam.getRows(); j++){
+            for (int j = 0; j < tableParam.getRows(); j++) {
                 row = table.getRow(j);
                 row.setHeight(tableParam.getRowHeight());
                 //循环列
-                for(int i=0;i< tableParam.getCols();i++){
+                for (int i = 0; i < tableParam.getCols(); i++) {
                     cell = row.getCell(i);
                     cellPr = cell.getCTTc().addNewTcPr();
                     cellPr.addNewTcW().setW(BigInteger.valueOf(tableParam.getColWidth()));
@@ -261,11 +261,11 @@ public class WordExportUtil {
                     run = para.createRun();
                     run.setFontFamily(tableParam.getFontFamily());
                     run.setFontSize(tableParam.getFontSize());
-                    if(j==0){//第一行输出标题
+                    if (j == 0) {//第一行输出标题
                         run.setBold(true);
                         run.setText(tableParam.getHeader()[i]);
                     }
-                    else{//输出表格内容
+                    else {//输出表格内容
                         run.setText(String.valueOf(tableParam.getValues().get(j -1)[i]));
                     }
                 }
@@ -279,23 +279,23 @@ public class WordExportUtil {
      * @param doc XWPFDocument
      * @param targetPath 生成文件目标地址
      */
-    private static void outPutWord(XWPFDocument doc , String targetPath){
-        //生成word
+    private static void outPutWord(XWPFDocument doc , String targetPath) {
+        // 生成word
         try {
             OutputStream os = new FileOutputStream(targetPath);
             doc.write(os);
-            if(os!=null){
-                try{
+            if(os != null) {
+                try {
                     os.close();
-                    System.out.println("已生成word文件，文件地址："+ targetPath);
+                    System.out.println("已生成word文件，文件地址：" + targetPath);
                 }
-                catch(IOException e){
+                catch(IOException e) {
                     e.printStackTrace();
                 }
             }
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
 
-        }catch (IOException e){
+        } catch (IOException e) {
 
         }
     }
@@ -307,7 +307,7 @@ public class WordExportUtil {
      * @throws Exception
      */
     private static InputStream getImgInputStream(String imgPath) throws Exception{
-        if(imgPath.startsWith("http://")){
+        if (imgPath.startsWith("http://")) {
             //new一个URL对象
             URL url = new URL(imgPath);
             //打开链接

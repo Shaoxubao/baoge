@@ -14,9 +14,9 @@ public class WordText extends WordBase {
      */
     private String content;
 
-    public WordText(){}
+    public WordText() {}
 
-    public WordText(String content , ParagraphAlignment align , String fontFamily , int fontSize){
+    public WordText(String content , ParagraphAlignment align , String fontFamily , int fontSize) {
         this.content = content;
         super.setAlign(align);
         super.setFontFamily(fontFamily);

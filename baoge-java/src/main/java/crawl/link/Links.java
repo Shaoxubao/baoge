@@ -40,7 +40,7 @@ public class Links {
 
     // 添加到待访问的集合中  保证每个 URL 只被访问一次
     public static void addUnvisitedUrlQueue(String url) {
-        if (url != null && !url.trim().equals("")  && !visitedUrlSet.contains(url)  && !unVisitedUrlQueue.contains(url)){
+        if (url != null && !url.trim().equals("")  && !visitedUrlSet.contains(url)  && !unVisitedUrlQueue.contains(url)) {
             unVisitedUrlQueue.add(url);
         }
     }

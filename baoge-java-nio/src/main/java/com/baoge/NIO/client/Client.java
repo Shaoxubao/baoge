@@ -11,7 +11,7 @@ public class Client {
     public static void start() {
         start(DEFAULT_HOST, DEFAULT_PORT);
     }
-    public static synchronized void start(String ip, int port){
+    public static synchronized void start(String ip, int port) {
         if(clientHandle != null)
             clientHandle.stop();
         clientHandle = new ClientHandle(ip, port);
@@ -23,7 +23,7 @@ public class Client {
         clientHandle.sendMsg(msg);
         return true;
     }
-    public static void main(String[] args){
+    public static void main(String[] args) {
         start();
     }
 }

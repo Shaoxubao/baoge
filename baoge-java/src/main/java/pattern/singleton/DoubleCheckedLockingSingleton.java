@@ -10,7 +10,7 @@ public class DoubleCheckedLockingSingleton {
 
     private volatile DoubleCheckedLockingSingleton INSTANCE;
 
-    private DoubleCheckedLockingSingleton(){}
+    private DoubleCheckedLockingSingleton() {}
 
     public DoubleCheckedLockingSingleton getInstance() {
         if(INSTANCE == null) {

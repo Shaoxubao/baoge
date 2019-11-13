@@ -30,7 +30,7 @@ public class SensitivewordFilter {
      */
     public boolean isContaintSensitiveWord(String txt,int matchType) {
         boolean flag = false;
-        for(int i = 0 ; i < txt.length() ; i++){
+        for (int i = 0 ; i < txt.length() ; i++) {
             int matchFlag = this.checkSensitiveWord(txt, i, matchType); // 判断是否包含敏感字符
             if(matchFlag > 0) {                                         // 大于0存在，返回true
                 flag = true;
@@ -65,7 +65,7 @@ public class SensitivewordFilter {
      * @param matchType
      * @param replaceChar 替换字符，默认*
      */
-    public String replaceSensitiveWord(String txt,int matchType,String replaceChar){
+    public String replaceSensitiveWord(String txt,int matchType,String replaceChar) {
         String resultTxt = txt;
         Set<String> set = getSensitiveWord(txt, matchType);     // 获取所有的敏感词
         Iterator<String> iterator = set.iterator();

@@ -63,7 +63,7 @@ public class AsyncClientHandler implements CompletionHandler<Void, AsyncClientHa
         }
     }
     // 向服务器发送消息
-    public void sendMsg(String msg){
+    public void sendMsg(String msg) {
         byte[] req = msg.getBytes();
         ByteBuffer writeBuffer = ByteBuffer.allocate(req.length);
         writeBuffer.put(req);

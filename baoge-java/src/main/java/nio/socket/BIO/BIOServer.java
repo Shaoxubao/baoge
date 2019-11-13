@@ -25,7 +25,7 @@ public class BIOServer {
             Socket socket = null;
             HandlerExecutorPool executorPool = new HandlerExecutorPool(25,50, 1000,
                     TimeUnit.SECONDS, new LinkedBlockingQueue());
-            while(true){
+            while (true) {
                 socket = server.accept();
                 System.out.println("有新的连接，当前线程数量：" + executorPool.getActiveCount());
                 executorPool.execute(new ServerHandler(socket));
@@ -34,21 +34,21 @@ public class BIOServer {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(in != null){
+            if(in != null) {
                 try {
                     in.close();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
             }
-            if(out != null){
+            if(out != null) {
                 try {
                     out.close();
                 } catch (Exception e2) {
                     e2.printStackTrace();
                 }
             }
-            if(server != null){
+            if(server != null) {
                 try {
                     server.close();
                 } catch (Exception e3) {

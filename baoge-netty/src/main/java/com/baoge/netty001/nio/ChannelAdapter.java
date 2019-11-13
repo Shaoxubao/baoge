@@ -49,7 +49,7 @@ public abstract class ChannelAdapter extends Thread {
 
         // 客户端SocketChannel
         Class<?> superclass = key.channel().getClass().getSuperclass();
-        if (superclass == SocketChannel.class){
+        if (superclass == SocketChannel.class) {
             SocketChannel socketChannel = (SocketChannel) key.channel();
             if (key.isConnectable()) {
                 if (socketChannel.finishConnect()) {
@@ -63,7 +63,7 @@ public abstract class ChannelAdapter extends Thread {
         }
 
         // 服务端ServerSocketChannel
-        if (superclass == ServerSocketChannel.class){
+        if (superclass == ServerSocketChannel.class) {
             if (key.isAcceptable()) {
                 ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
                 SocketChannel socketChannel = serverSocketChannel.accept();

@@ -13,7 +13,7 @@ public class Student {
     private int age;
     private String brith;
 
-    public Student(){
+    public Student() {
 
     }
 

@@ -43,7 +43,7 @@ public class ServerHandler implements Runnable {
             e.printStackTrace();
         } finally {
             // 一些必要的清理工作
-            if(in != null){
+            if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
@@ -51,11 +51,11 @@ public class ServerHandler implements Runnable {
                 }
                 in = null;
             }
-            if(out != null){
+            if (out != null) {
                 out.close();
                 out = null;
             }
-            if(socket != null) {
+            if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {

@@ -52,7 +52,7 @@ public class HandlerExecutorPool {
                                int maximumPoolSize,
                                long keepAliveTime,
                                TimeUnit unit,
-                               BlockingQueue<Runnable> workQueue){
+                               BlockingQueue<Runnable> workQueue) {
         this.threadPool = new ThreadPoolExecutor(
                 corePoolSize,
                 maximumPoolSize,
@@ -61,7 +61,7 @@ public class HandlerExecutorPool {
                 workQueue);
     }
 
-    public void execute(Runnable task){
+    public void execute(Runnable task) {
         this.threadPool.execute(task);
     }
 

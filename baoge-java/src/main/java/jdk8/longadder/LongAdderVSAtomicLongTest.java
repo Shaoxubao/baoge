@@ -68,11 +68,11 @@ public class LongAdderVSAtomicLongTest {
             }));
         }
 
-        for (Thread thread : list){
+        for (Thread thread : list) {
             thread.start();
         }
 
-        for (Thread thread : list){
+        for (Thread thread : list) {
             thread.join();
         }
     }

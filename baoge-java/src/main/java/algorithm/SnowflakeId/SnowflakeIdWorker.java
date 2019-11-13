@@ -146,12 +146,12 @@ public class SnowflakeIdWorker {
         return System.currentTimeMillis();
     }
 
-    private static Long getWorkId(){
+    private static Long getWorkId() {
         try {
             String hostAddress = Inet4Address.getLocalHost().getHostAddress();
             int[] ints = StringUtils.toCodePoints(hostAddress);
             int sums = 0;
-            for(int b : ints){
+            for(int b : ints) {
                 sums += b;
             }
             return (long)(sums % 32);
@@ -161,7 +161,7 @@ public class SnowflakeIdWorker {
         }
     }
 
-    private static Long getDataCenterId(){
+    private static Long getDataCenterId() {
         int[] ints = StringUtils.toCodePoints(SystemUtils.getHostName());
         int sums = 0;
         for (int i: ints) {
@@ -176,7 +176,7 @@ public class SnowflakeIdWorker {
      *
      * @return
      */
-    public static Long generateId(){
+    public static Long generateId() {
         long id = idWorker.nextId();
         return id;
     }

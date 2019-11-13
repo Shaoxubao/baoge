@@ -29,8 +29,8 @@ public class EmployeeDao {
 	
 	private static Integer initId = 1006;
 	
-	public void save(Employee employee){
-		if(employee.getId() == null){
+	public void save(Employee employee) {
+		if(employee.getId() == null) {
 			employee.setId(initId++);
 		}
 		
@@ -39,15 +39,15 @@ public class EmployeeDao {
 	}
 
 	// 查询所有员工
-	public Collection<Employee> getAll(){
+	public Collection<Employee> getAll() {
 		return employees.values();
 	}
 	
-	public Employee get(Integer id){
+	public Employee get(Integer id) {
 		return employees.get(id);
 	}
 	
-	public void delete(Integer id){
+	public void delete(Integer id) {
 		employees.remove(id);
 	}
 }

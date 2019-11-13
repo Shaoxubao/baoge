@@ -15,7 +15,7 @@ public class Client {
     // 默认的端口号
     private static int DEFAULT_SERVER_PORT = 12345;
     private static String DEFAULT_SERVER_IP = "127.0.0.1";
-    public static void send(String expression){
+    public static void send(String expression) {
         send(DEFAULT_SERVER_PORT, expression);
     }
     public static void send(int port,String expression) {

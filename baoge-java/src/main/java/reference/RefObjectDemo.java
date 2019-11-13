@@ -15,7 +15,7 @@ public class RefObjectDemo {
     /**
      * 简单使用demo
      */
-    private static void simpleUseDemo(){
+    private static void simpleUseDemo() {
         List<String> myList = new ArrayList<>();
         SoftReference<List<String>> refObj = new SoftReference<>(myList);
 
@@ -30,7 +30,7 @@ public class RefObjectDemo {
     /**
      * 正确使用demo
      */
-    private static void trueUseRefObjDemo(){
+    private static void trueUseRefObjDemo() {
         List<String> myList = new ArrayList<>();
         SoftReference<List<String>> refObj = new SoftReference<>(myList);
 
@@ -46,7 +46,7 @@ public class RefObjectDemo {
     /**
      * 错误使用demo
      */
-    private static void falseUseRefObjDemo(){
+    private static void falseUseRefObjDemo() {
         List<String> myList = new ArrayList<>();
         SoftReference<List<String>> refObj = new SoftReference<>(myList);
 

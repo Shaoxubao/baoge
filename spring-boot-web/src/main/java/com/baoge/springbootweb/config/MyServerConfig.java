@@ -16,13 +16,13 @@ public class MyServerConfig {
 
     // 注册三大组件
     @Bean
-    public ServletRegistrationBean myServlet(){
+    public ServletRegistrationBean myServlet() {
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new MyServlet(), "/myServlet");
         return registrationBean;
     }
 
     @Bean
-    public FilterRegistrationBean myFilter(){
+    public FilterRegistrationBean myFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new MyFilter());
         registrationBean.setUrlPatterns(Arrays.asList("/hello", "/myServlet"));
@@ -30,7 +30,7 @@ public class MyServerConfig {
     }
 
     @Bean
-    public ServletListenerRegistrationBean myListener(){
+    public ServletListenerRegistrationBean myListener() {
         ServletListenerRegistrationBean<MyListener> registrationBean = new ServletListenerRegistrationBean<>(new MyListener());
         return registrationBean;
     }

@@ -20,14 +20,14 @@ import java.util.Arrays;
  *    2. 空间复杂度：堆排序不要任何辅助数组，只需要一个辅助变量，所占空间是常数与n无关，所以空间复杂度为O(1)。
  */
 public class HeapSort {
-    public static void main(String []args){
+    public static void main(String []args) {
         int []arr = {7, 6, 7, 11, 5, 12, 3, 0, 1};
         System.out.println("排序前："+ Arrays.toString(arr));
         sort(arr);
         System.out.println("排序后："+ Arrays.toString(arr));
     }
 
-    public static void sort(int []arr){
+    public static void sort(int []arr) {
         // 1.构建大顶堆
         for(int i = arr.length / 2 - 1; i >= 0; i--) {
             // 从第一个非叶子结点(最后一个父节点)从下至上，从右至左调整结构
@@ -69,7 +69,7 @@ public class HeapSort {
      * @param a
      * @param b
      */
-    public static void swap(int []arr,int a ,int b){
+    public static void swap(int []arr,int a ,int b) {
         int temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;

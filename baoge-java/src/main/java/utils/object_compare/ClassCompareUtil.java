@@ -137,7 +137,7 @@ public class ClassCompareUtil {
      * @param clazz
      * @return
      */
-    private static Map<String, Field> getFields(Class clazz){
+    private static Map<String, Field> getFields(Class clazz) {
         Map<String, Field> fields = null;
         if((fields = classMap.get(clazz)) == null) {
             fields = getField2(clazz, new HashMap<>());
@@ -146,9 +146,9 @@ public class ClassCompareUtil {
         return fields;
     }
 
-    private static Map<String, Field> getField2(Class clazz, Map<String, Field> fieldMap){
+    private static Map<String, Field> getField2(Class clazz, Map<String, Field> fieldMap) {
         Class parentClass = clazz.getSuperclass();
-        if(parentClass != null){
+        if (parentClass != null) {
             getField2(parentClass, fieldMap);
         }
         Field[] tmp = clazz.getDeclaredFields();

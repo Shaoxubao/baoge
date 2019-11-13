@@ -51,7 +51,7 @@ public class WordTable extends WordBase {
      * 表格行数 = 表格内容 + 表头(1行)
      * @return
      */
-    public int getRows(){
+    public int getRows() {
         return values.size() + 1;
     }
 
@@ -59,7 +59,7 @@ public class WordTable extends WordBase {
      * 表格列数
      * @return
      */
-    public int getCols(){
+    public int getCols() {
         return header.length;
     }
 }
