@@ -18,7 +18,7 @@ public class Client {
     public static void send(String expression) {
         send(DEFAULT_SERVER_PORT, expression);
     }
-    public static void send(int port,String expression) {
+    public static void send(int port, String expression) {
         System.out.println("算术表达式为：" + expression);
         Socket socket = null;
         BufferedReader in = null;

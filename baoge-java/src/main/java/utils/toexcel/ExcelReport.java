@@ -46,16 +46,16 @@ public class ExcelReport {
         //5.设置合并单元格的边框样式，用RegionUtil这个工具类
 
         //5.1设置合并单元格的边框是------or.........0r__________等等这样的样式
-        RegionUtil.setBorderBottom(BorderStyle.THIN,region1,sheet);
-        RegionUtil.setBorderLeft(BorderStyle.THIN,region1,sheet);
-        RegionUtil.setBorderRight(BorderStyle.THIN,region1,sheet);
-        RegionUtil.setBorderTop(BorderStyle.THIN,region1,sheet);
+        RegionUtil.setBorderBottom(BorderStyle.THIN,region1, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.THIN,region1, sheet);
+        RegionUtil.setBorderRight(BorderStyle.THIN,region1, sheet);
+        RegionUtil.setBorderTop(BorderStyle.THIN,region1, sheet);
 
         //5.2设置合并单元格边框的颜色
-        RegionUtil.setBottomBorderColor(12,region1,sheet);
-        RegionUtil.setLeftBorderColor(12,region1,sheet);
-        RegionUtil.setRightBorderColor(12,region1,sheet);
-        RegionUtil.setTopBorderColor(12,region1,sheet);
+        RegionUtil.setBottomBorderColor(12,region1, sheet);
+        RegionUtil.setLeftBorderColor(12,region1, sheet);
+        RegionUtil.setRightBorderColor(12,region1, sheet);
+        RegionUtil.setTopBorderColor(12,region1, sheet);
 
         //6.创建单元格（单个cell）样式（为合并的单元格设置样式，设计上就是合并单元格的最左上角
         //那个单元格设置样式，这儿坐标为（1.1），excel中为（2,2））这同时也是单个单元格的样式设置的代码
@@ -93,15 +93,15 @@ public class ExcelReport {
         sheet.addMergedRegion(region2);
         row1.createCell(5).setCellValue("第二至四行6--10列合并");
 
-        RegionUtil.setBorderBottom(BorderStyle.DASHED,region2,sheet);
-        RegionUtil.setBorderLeft(BorderStyle.DASHED,region2,sheet);
-        RegionUtil.setBorderRight(BorderStyle.DASHED,region2,sheet);
-        RegionUtil.setBorderTop(BorderStyle.DASHED,region2,sheet);
+        RegionUtil.setBorderBottom(BorderStyle.DASHED,region2, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.DASHED,region2, sheet);
+        RegionUtil.setBorderRight(BorderStyle.DASHED,region2, sheet);
+        RegionUtil.setBorderTop(BorderStyle.DASHED,region2, sheet);
 
-        RegionUtil.setBottomBorderColor(50,region2,sheet);
-        RegionUtil.setLeftBorderColor(50,region2,sheet);
-        RegionUtil.setRightBorderColor(50,region2,sheet);
-        RegionUtil.setTopBorderColor(50,region2,sheet);
+        RegionUtil.setBottomBorderColor(50,region2, sheet);
+        RegionUtil.setLeftBorderColor(50,region2, sheet);
+        RegionUtil.setRightBorderColor(50,region2, sheet);
+        RegionUtil.setTopBorderColor(50,region2, sheet);
 
         HSSFCellStyle cellStyle1 = wb.createCellStyle();
         // 创建字体样式对象
@@ -139,15 +139,15 @@ public class ExcelReport {
         HSSFRow row2 = sheet.createRow(5);
         row2.createCell(1).setCellValue("第六至九行2--4列合并");
 
-        RegionUtil.setBorderBottom(BorderStyle.THIN,region3,sheet);
-        RegionUtil.setBorderLeft(BorderStyle.THIN,region3,sheet);
-        RegionUtil.setBorderRight(BorderStyle.THIN,region3,sheet);
-        RegionUtil.setBorderTop(BorderStyle.THIN,region3,sheet);
+        RegionUtil.setBorderBottom(BorderStyle.THIN,region3, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.THIN,region3, sheet);
+        RegionUtil.setBorderRight(BorderStyle.THIN,region3, sheet);
+        RegionUtil.setBorderTop(BorderStyle.THIN,region3, sheet);
 
-        RegionUtil.setBottomBorderColor(12,region3,sheet);
-        RegionUtil.setLeftBorderColor(12,region3,sheet);
-        RegionUtil.setRightBorderColor(12,region3,sheet);
-        RegionUtil.setTopBorderColor(12,region3,sheet);
+        RegionUtil.setBottomBorderColor(12,region3, sheet);
+        RegionUtil.setLeftBorderColor(12,region3, sheet);
+        RegionUtil.setRightBorderColor(12,region3, sheet);
+        RegionUtil.setTopBorderColor(12,region3, sheet);
 
         //单个单元格的样式我不想再写，可以服用第一次创建的单元格样式cellStyle,，可抽取成工具类
         //注意：该合并的单元区设置的边框样式必须和第一次设置单元格的样式保持一致
@@ -161,15 +161,15 @@ public class ExcelReport {
         HSSFRow row3 = sheet.createRow(6);
         row3.createCell(6).setCellValue("第7--12行7--9列合并");
 
-        RegionUtil.setBorderBottom(BorderStyle.THIN,region4,sheet);
-        RegionUtil.setBorderLeft(BorderStyle.THIN,region4,sheet);
-        RegionUtil.setBorderRight(BorderStyle.THIN,region4,sheet);
-        RegionUtil.setBorderTop(BorderStyle.THIN,region4,sheet);
+        RegionUtil.setBorderBottom(BorderStyle.THIN,region4, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.THIN,region4, sheet);
+        RegionUtil.setBorderRight(BorderStyle.THIN,region4, sheet);
+        RegionUtil.setBorderTop(BorderStyle.THIN,region4, sheet);
 
-        RegionUtil.setBottomBorderColor(12,region4,sheet);
-        RegionUtil.setLeftBorderColor(12,region4,sheet);
-        RegionUtil.setRightBorderColor(12,region4,sheet);
-        RegionUtil.setTopBorderColor(12,region4,sheet);
+        RegionUtil.setBottomBorderColor(12,region4, sheet);
+        RegionUtil.setLeftBorderColor(12,region4, sheet);
+        RegionUtil.setRightBorderColor(12,region4, sheet);
+        RegionUtil.setTopBorderColor(12,region4, sheet);
 
         //第三个  第四个合并的单元区域起始行不在同一列，所以必须创建新的Row
         CellUtil.getCell(row3,6).setCellStyle(cellStyle);

@@ -204,7 +204,7 @@ public class WordExportUtil {
             XWPFRun run;
             String[] imgs = imgParam.getImgs();
             try {
-                for (int i=0;i<imgs.length;i++) {
+                for (int i = 0; i < imgs.length; i++) {
                     para = doc.createParagraph();
                     para.setAlignment(imgParam.getAlign());//设置对齐方式
                     run = para.createRun();

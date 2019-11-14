@@ -38,7 +38,7 @@ public class PageParserTool {
      * @param cssSelector
      * @return
      */
-    public static  Set<String> getLinks(Page page ,String cssSelector) {
+    public static  Set<String> getLinks(Page page , String cssSelector) {
         Set<String> links  = new HashSet<String>() ;
         Elements es = select(page , cssSelector);
         Iterator iterator  = es.iterator();

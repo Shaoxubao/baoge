@@ -65,7 +65,7 @@ public class AccessClient {
     public void access() throws Exception{
         final URL url = new URL("http://localhost:8080/access");
 
-        for (int i=0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             fixedThreadPool.submit(new Runnable() {
                 public void run() {
                     System.out.println(sendGet(url));

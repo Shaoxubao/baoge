@@ -92,7 +92,7 @@ public class SensitiveWordInit {
             Set<String> keyWordSet = readSensitiveWordFile();
             // 将敏感词库加入到HashMap中
             addSensitiveWordToHashMap(keyWordSet);
-            // spring获取application，然后application.setAttribute("sensitiveWordMap",sensitiveWordMap);
+            // spring获取application，然后application.setAttribute("sensitiveWordMap", sensitiveWordMap);
         } catch (Exception e) {
             e.printStackTrace();
         }

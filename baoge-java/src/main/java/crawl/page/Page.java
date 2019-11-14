@@ -46,7 +46,7 @@ public class Page {
         if (content == null) {
             return null;
         }
-        if (charset==null) {
+        if (charset == null) {
             charset = CharsetDetector.guessEncoding(content); // 根据内容来猜测 字符编码
         }
         try {

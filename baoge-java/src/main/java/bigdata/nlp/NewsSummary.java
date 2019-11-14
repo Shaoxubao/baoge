@@ -420,7 +420,7 @@ public class NewsSummary {
     public String summarize(String text, String style) {
         try {
             if (!styleSet.contains(style) || text.trim().equals(""))
-                throw new IllegalArgumentException("方法 summarize(String text,String style)中text不能为空，style必须是meanstd、default或者MMR");
+                throw new IllegalArgumentException("方法 summarize(String text, String style)中text不能为空，style必须是meanstd、default或者MMR");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

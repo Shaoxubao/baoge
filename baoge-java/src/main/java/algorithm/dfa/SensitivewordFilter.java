@@ -65,7 +65,7 @@ public class SensitivewordFilter {
      * @param matchType
      * @param replaceChar 替换字符，默认*
      */
-    public String replaceSensitiveWord(String txt,int matchType,String replaceChar) {
+    public String replaceSensitiveWord(String txt, int matchType, String replaceChar) {
         String resultTxt = txt;
         Set<String> set = getSensitiveWord(txt, matchType);     // 获取所有的敏感词
         Iterator<String> iterator = set.iterator();

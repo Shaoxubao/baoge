@@ -1061,7 +1061,7 @@ public class DateUtil {
      * @return    参数说明
      * @return java.util.Date    返回类型
      */
-    public final static Date string2Date(String dateString,String df) {
+    public final static Date string2Date(String dateString, String df) {
         DateFormat dateFormat = new SimpleDateFormat(df, Locale.SIMPLIFIED_CHINESE);
         dateFormat.setLenient(false);
         Date date = null;
@@ -1593,7 +1593,7 @@ public class DateUtil {
         String years = dateFormat.format(date);
         int years_value = Integer.parseInt(years);
 
-        int start_days = 1;// years+"-"+String.valueOf(start_month)+"-1";//getLastDayOfMonth(years_value,start_month);
+        int start_days = 1;// years+"-"+String.valueOf(start_month)+"-1";//getLastDayOfMonth(years_value, start_month);
         int end_days = getLastDayOfMonth(years_value, end_month);
         String seasonDate = years_value + "-" + start_month + "-" + start_days + ";" + years_value + "-" + end_month
                 + "-" + end_days;

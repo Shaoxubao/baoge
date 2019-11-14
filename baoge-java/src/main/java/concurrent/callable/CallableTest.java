@@ -25,7 +25,7 @@ public class CallableTest {
         try {
             List<Future<Integer>> futureList = executorService.invokeAll(taskList);
             for (Future<Integer> future : futureList) { // 取出结果
-                System.out.println("==============num:" + " = " + future.get());
+                System.out.println("============== num:" + " = " + future.get());
             }
         } catch (Exception e) {
             e.printStackTrace();
