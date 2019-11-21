@@ -12,9 +12,10 @@ public class CyclicBarrierDemo {
     public static void main(String[] args) {
 
         CyclicBarrier barrier = new CyclicBarrier(3);
-        for(int i = 0; i < barrier.getParties(); i++){
+        for(int i = 0; i < barrier.getParties(); i++) {
             new Thread(new MyRunnable(barrier), "队友" + i).start();
         }
+
         System.out.println("main function is finished.");
     }
 
