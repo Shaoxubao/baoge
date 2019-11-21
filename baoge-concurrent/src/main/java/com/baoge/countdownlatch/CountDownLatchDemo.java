@@ -9,7 +9,11 @@ import java.util.concurrent.Executors;
  * @Author shaoxubao
  * @Date 2019/11/21 17:35
  *
- * 多线程控制
+ * 多线程控制：
+ * CountDown表示减法计数，Latch表示门闩的意思，计数为0的时候就可以打开门闩了。Cyclic Barrier表示循环的障碍物。
+ * 两个类都含有这一个意思：对应的线程都完成工作之后再进行下一步动作，也就是大家都准备好之后再进行下一步。然而两者最大的区别是，进行下一步动作的动作实施者是不一样的。
+ * 这里的“动作实施者”有两种，一种是主线程（即执行main函数），另一种是执行任务的其他线程，后面叫这种线程为“其他线程”，区分于主线程。
+ * 对于CountDownLatch，当计数为0的时候，下一步的动作实施者是main函数；对于CyclicBarrier，下一步动作实施者是“其他线程”。
  */
 public class CountDownLatchDemo implements Runnable {
 
