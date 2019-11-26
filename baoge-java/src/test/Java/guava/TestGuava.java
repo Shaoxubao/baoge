@@ -129,6 +129,8 @@ public class TestGuava {
         Person p4 = new Person("d", 14, "男", "USA");
         Person p5 = new Person("e", 14, "女", "china");
         List<Person> persons = Lists.newArrayList(p1, p2, p3, p4, p5);
+
+        // 去除重复的对象及Null对象
         ImmutableList<Person> people = ImmutableSet.copyOf(Iterables.filter(persons, Predicates.not(Predicates.isNull()))).asList();
 
         Set<Person> personsSet = Sets.newHashSet(p1, p2, p3, p4, p5);
