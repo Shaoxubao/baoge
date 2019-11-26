@@ -117,4 +117,23 @@ public class TestGuava {
 
     }
 
+    /**
+     * 对象去重
+     * Person 重写equals和hashcode方法，用hashset和guaua的ImmutableSet
+     */
+    @Test
+    public void testSet() {
+        Person p1 = new Person("a", 10, "男", "china");
+        Person p2 = new Person("a", 10, "男", "china");
+        Person p3 = new Person("c", 12, "男", "japan");
+        Person p4 = new Person("d", 14, "男", "USA");
+        Person p5 = new Person("e", 14, "女", "china");
+        List<Person> persons = Lists.newArrayList(p1, p2, p3, p4, p5);
+        ImmutableList<Person> people = ImmutableSet.copyOf(Iterables.filter(persons, Predicates.not(Predicates.isNull()))).asList();
+
+        Set<Person> personsSet = Sets.newHashSet(p1, p2, p3, p4, p5);
+
+        System.out.println(personsSet);
+    }
+
 }
