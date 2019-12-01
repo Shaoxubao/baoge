@@ -104,6 +104,25 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!--jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+        <!-- 以下两个依赖配合lombok使用，可以用@Slf4j注解下的log打印日志，见案例ZKIDMakerTester -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>

@@ -359,6 +359,13 @@
 
         </dependency>
 
+        <!-- 用于展示对象在Heap中的分布（layout） -->
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.9</version>
+        </dependency>
+
 
     </dependencies>
 
