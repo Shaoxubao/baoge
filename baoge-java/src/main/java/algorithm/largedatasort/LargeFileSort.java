@@ -86,7 +86,7 @@ public class LargeFileSort {
         doneSignal = new CountDownLatch(10);
         for (int i = 0; i < genFiles.length; i++) {
             genFiles[i] = ROOT_FILE_PATH + "/originalData" + i + ".txt";
-            executorService.submit(new generateFileTask(genFiles[i]));
+            executorService.submit(new GenerateFileTask(genFiles[i]));
         }
         try {
             // 等待生成文件
@@ -98,10 +98,10 @@ public class LargeFileSort {
     }
 
 
-    static class generateFileTask implements Runnable {
+    static class GenerateFileTask implements Runnable {
         final String filePath;
 
-        public generateFileTask(String filePath) {
+        public GenerateFileTask(String filePath) {
             this.filePath = filePath;
         }
 
@@ -183,10 +183,10 @@ public class LargeFileSort {
     /**
      * 分割文件task
      */
-    static class divWorkTask implements Runnable {
+    static class DivWorkTask implements Runnable {
         final String filePath;
 
-        public divWorkTask(String filePath) {
+        public DivWorkTask(String filePath) {
             this.filePath = filePath;
         }
 
@@ -232,7 +232,7 @@ public class LargeFileSort {
         BlockThreadPool pool = new BlockThreadPool(3);
         doneSignal = new CountDownLatch(divTwo.size());
         for (int i = 0; i < divTwo.size(); i++) {
-            pool.execute(new mergeTask(divTwo.get(i), ROOT_FILE_PATH + "/temp_reslt" + i + ".txt"));
+            pool.execute(new MergeTask(divTwo.get(i), ROOT_FILE_PATH + "/temp_reslt" + i + ".txt"));
         }
         try {
             // 等待合并文件完成
@@ -251,11 +251,11 @@ public class LargeFileSort {
     /**
      * 合并任务
      */
-    static class mergeTask implements Runnable {
+    static class MergeTask implements Runnable {
         private final List<File> ListFiles;
         private final String fileName;
 
-        public mergeTask(List<File> ListFiles, String fileName) {
+        public MergeTask(List<File> ListFiles, String fileName) {
             this.fileName = fileName;
             this.ListFiles = ListFiles;
         }
@@ -284,7 +284,7 @@ public class LargeFileSort {
         // 切分任务开始
         doneSignal = new CountDownLatch(10);
         for (int i = 0; i < 10; i++)
-            blockPool.execute(new divWorkTask(genFiles[i]));
+            blockPool.execute(new DivWorkTask(genFiles[i]));
         try {
             // 等待切分完成
             doneSignal.await();
