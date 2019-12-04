@@ -548,7 +548,7 @@ public class LargeFileSort {
     }
 
     /**
-     * 生成零时文件
+     * 生成临时文件
      *
      * @param file
      * @param fileNum
