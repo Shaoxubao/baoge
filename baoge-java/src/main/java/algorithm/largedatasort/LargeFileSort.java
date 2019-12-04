@@ -75,6 +75,18 @@ public class LargeFileSort {
         // 验证
         validation();
         System.exit(0);
+
+        /**
+         // 合并文件
+        File tempFile = new File(ROOT_FILE_PATH + "/originalData0.txt.temp_0.txt");
+        File tempFile2 = new File(ROOT_FILE_PATH + "/originalData0.txt.temp_1.txt");
+
+        List<File> tempFileList = new ArrayList<>();
+        tempFileList.add(tempFile);
+        tempFileList.add(tempFile2);
+        File file = mergeLargeFile(tempFileList, ROOT_FILE_PATH + "/temp_reslt.txt");
+        **/
+
     }
 
     /**
