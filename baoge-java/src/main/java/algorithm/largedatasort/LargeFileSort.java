@@ -264,18 +264,18 @@ public class LargeFileSort {
      * 合并任务
      */
     static class MergeTask implements Runnable {
-        private final List<File> ListFiles;
+        private final List<File> fileList;
         private final String fileName;
 
-        public MergeTask(List<File> ListFiles, String fileName) {
+        public MergeTask(List<File> fileList, String fileName) {
             this.fileName = fileName;
-            this.ListFiles = ListFiles;
+            this.fileList = fileList;
         }
 
         @Override
         public void run() {
             try {
-                File file = mergeLargeFile(ListFiles, fileName);
+                File file = mergeLargeFile(fileList, fileName);
                 divFiles.add(file);
                 // 任务执行完毕递减锁存器
                 doneSignal.countDown();
