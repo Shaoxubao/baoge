@@ -37,7 +37,7 @@ public class ProducerConsumer {
                             // 向队列添加元素
                             String pro = "baoge";
                             queue.add(pro);
-                            System.out.println("================producer :" + pro);
+                            System.out.println(Thread.currentThread() + "================producer :" + pro);
 
                             Thread.sleep(1000);
 
@@ -70,7 +70,7 @@ public class ProducerConsumer {
                             // 消费元素
                             String result = queue.poll();
                             Thread.sleep(1000);
-                            System.out.println("================consumer :" + result);
+                            System.out.println(Thread.currentThread() + "================consumer :" + result);
 
                             // 唤醒生产线程
                             notEmpty.signalAll();

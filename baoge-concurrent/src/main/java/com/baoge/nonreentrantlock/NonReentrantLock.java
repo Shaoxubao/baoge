@@ -25,6 +25,10 @@ public class NonReentrantLock implements Lock, java.io.Serializable {
         public boolean tryAcquire(int acquires) {
             assert acquires == 1;
 
+            if (getState() == 1 && Thread.currentThread() == getExclusiveOwnerThread()) {
+                return false;
+            }
+
             if (compareAndSetState(0, 1)) {
                 setExclusiveOwnerThread(Thread.currentThread());
                 return true;
@@ -40,10 +44,11 @@ public class NonReentrantLock implements Lock, java.io.Serializable {
 //            if (getState() == 0 || Thread.currentThread() != getExclusiveOwnerThread()) {
 //                throw new IllegalMonitorStateException();
 //            }
-
-            //清空独占模式的拥有者
-            setExclusiveOwnerThread(null);
-            setState(0);
+            if (getState() == 1 && Thread.currentThread() == getExclusiveOwnerThread()) {
+                //清空独占模式的拥有者
+                setExclusiveOwnerThread(null);
+                setState(0);
+            }
 
             return true;
         }
