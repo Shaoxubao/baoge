@@ -496,7 +496,7 @@ public abstract class AbstractQueuedSynchronizer
          *
          * EXCLUSIVE 模式只需要关心 CANCELLED 和 SIGNAL
          */
-        volatile int waitStatus;
+        volatile int waitStatus; // 可取值 0、CANCELLED(1)、SIGNAL(-1)、CONDITION(-2)、PROPAGATE(-3)
 
         /**
          * Link to predecessor node that current node/thread relies on
@@ -1304,6 +1304,7 @@ public abstract class AbstractQueuedSynchronizer
      *         {@code false} otherwise
      * @throws UnsupportedOperationException if conditions are not supported
      */
+    // 当前同步器实例持有的线程是否当前线程(currentThread())
     protected boolean isHeldExclusively() {
         throw new UnsupportedOperationException();
     }
@@ -1966,8 +1967,11 @@ public abstract class AbstractQueuedSynchronizer
     public class ConditionObject implements Condition, java.io.Serializable {
         private static final long serialVersionUID = 1173984872572414699L;
         /** First node of condition queue. */
+        // 条件队列的第一个节点
+        // 不要管这里的关键字 transient，是不参与序列化的意思
         private transient Node firstWaiter;
         /** Last node of condition queue. */
+        // 条件队列的最后一个节点
         private transient Node lastWaiter;
 
         /**
@@ -1982,17 +1986,24 @@ public abstract class AbstractQueuedSynchronizer
          * @return its new wait node
          */
         private Node addConditionWaiter() {
+            // 临时节点t赋值为lastWaiter引用
             Node t = lastWaiter;
             // If lastWaiter is cancelled, clean out.
+            // 最后一个节点不为条件等待状态，则是取消状态
             if (t != null && t.waitStatus != Node.CONDITION) {
+                // 解除所有取消等待的节点的连接
                 unlinkCancelledWaiters();
                 t = lastWaiter;
             }
+            // 基于当前线程新建立一个条件等待类型的节点
             Node node = new Node(Thread.currentThread(), Node.CONDITION);
+            // 首次创建Condition的时候，最后一个节点临时引用t为null，则把第一个节点置为新建的节点
             if (t == null)
                 firstWaiter = node;
             else
+                // 已经存在第一个节点，则通过nextWaiter连接新的节点
                 t.nextWaiter = node;
+            // 最后一个节点的引用更新为新节点的引用
             lastWaiter = node;
             return node;
         }
@@ -2040,11 +2051,13 @@ public abstract class AbstractQueuedSynchronizer
          * without requiring many re-traversals during cancellation
          * storms.
          */
+        // 从条件等待队列解除所有取消等待的节点的连接，其实就是所有取消节点移除的操作，涉及到双向链表的断链操作、第一个和最后一个节点的引用更新
         private void unlinkCancelledWaiters() {
             Node t = firstWaiter;
             Node trail = null;
             while (t != null) {
                 Node next = t.nextWaiter;
+                // 注意这里等待状态的判断
                 if (t.waitStatus != Node.CONDITION) {
                     t.nextWaiter = null;
                     if (trail == null)
@@ -2125,8 +2138,10 @@ public abstract class AbstractQueuedSynchronizer
          */
 
         /** Mode meaning to reinterrupt on exit from wait */
+        // 退出等待后主动进行中断当前线程
         private static final int REINTERRUPT =  1;
         /** Mode meaning to throw InterruptedException on exit from wait */
+        // 退出等待后抛出InterruptedException异常
         private static final int THROW_IE    = -1;
 
         /**
@@ -2165,21 +2180,43 @@ public abstract class AbstractQueuedSynchronizer
          * <li> If interrupted while blocked in step 4, throw InterruptedException.
          * </ol>
          */
+        /**
+         * 可中断的条件等待实现
+         * 1、当前线程处于中断状态则抛出InterruptedException
+         * 2、保存getState返回的锁状态，并且使用此锁状态调用release释放所有的阻塞线程
+         * 3、线程加入等待队列进行阻塞，直到signall或者中断
+         * 4、通过保存getState返回的锁状态调用acquire方法
+         * 5、第4步中阻塞过程中中断则抛出InterruptedException
+         */
         public final void await() throws InterruptedException {
+            // 如果线程是中断状态则清空中断标记位并且抛出InterruptedException
             if (Thread.interrupted())
                 throw new InterruptedException();
+            // 1. 将当前线程包装成Node，尾插入到等待队列中
             Node node = addConditionWaiter();
+
+            // 2. 释放当前AQS中的所有资源返回资源的status保存值，也就是基于status的值调用release(status) - 其实这一步是解锁操作
             int savedState = fullyRelease(node);
+            // 初始化中断模式
             int interruptMode = 0;
+            // 如果节点新建的节点不位于同步队列中(理论上应该是一定不存在)，则对节点所在线程进行阻塞，第二轮循环理论上节点一定在同步等待队列中
             while (!isOnSyncQueue(node)) {
+                // 3. 当前线程进入到等待状态
                 LockSupport.park(this);
+                // 处理节点所在线程中断的转换操作
                 if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
                     break;
             }
+            // 4. 自旋等待获取到同步状态（即获取到lock）
+            // 节点所在线程被唤醒后，如果节点所在线程没有处于中断状态，则以独占模式进行头节点竞争
+            // 注意这里使用的status是前面释放资源时候返回的保存下来的status
             if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
                 interruptMode = REINTERRUPT;
+            // 下一个等待节点不空，则从等待队列中移除所有取消的等待节点
             if (node.nextWaiter != null) // clean up if cancelled
                 unlinkCancelledWaiters();
+            // 5. 处理被中断的情况
+            // interruptMode不为0则按照中断模式进行不同的处理
             if (interruptMode != 0)
                 reportInterruptAfterWait(interruptMode);
         }

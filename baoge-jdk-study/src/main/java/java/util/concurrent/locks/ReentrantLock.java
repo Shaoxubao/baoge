@@ -165,6 +165,7 @@ public class ReentrantLock implements Lock, java.io.Serializable {
         }
 
         final ConditionObject newCondition() {
+            // 实例化一个 ConditionObject
             return new ConditionObject();
         }
 
