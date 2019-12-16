@@ -21,6 +21,7 @@
         <module>baoge-netty</module>
         <module>baoge-concurrent</module>
         <module>baoge-jdk-study</module>
+        <module>baoge-jvm-study</module>
     </modules>
 
     <properties>
