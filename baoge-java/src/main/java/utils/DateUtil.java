@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class DateUtil {
 
@@ -1776,18 +1777,40 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    /**
+     * Fri Apr 18 2014 00:00:00 GMT+0800 (中国标准时间) 转为yyyy-MM-dd
+     */
+    public static String str2Date(String dateString) {
+        dateString = dateString.replace("GMT", "").replaceAll("\\(.*\\)", "");
+        //将字符串转化为date类型，格式2016-10-12
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss z", Locale.ENGLISH);
+        Date dateTrans = null;
+        try {
+            dateTrans = format.parse(dateString);
+            return new SimpleDateFormat(DATE_FORMAT).format(dateTrans);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+
     public static void main(String[] args) throws ParseException {
-        System.out.println(getNextWeekMonday(getNextWeekMonday(new Date())));
-        Date expectedTime = getNextWeekMonday(getNextWeekMonday(new Date()));
-        expectedTime = DateUtil.convertStringToDate(date2String(expectedTime, DateUtil.DATE_FORMAT) + " 08:00:00");
+//        System.out.println(getNextWeekMonday(getNextWeekMonday(new Date())));
+//        Date expectedTime = getNextWeekMonday(getNextWeekMonday(new Date()));
+//        expectedTime = DateUtil.convertStringToDate(date2String(expectedTime, DateUtil.DATE_FORMAT) + " 08:00:00");
+//
+//        System.out.println(expectedTime);
+//
+//
+//        String nextMonthFirstDay = getNextMonthFirst();
+//        nextMonthFirstDay = addDay(nextMonthFirstDay, 9) + " 08:00:00";
+//        System.out.println(nextMonthFirstDay);
 
-        System.out.println(expectedTime);
 
-
-        String nextMonthFirstDay = getNextMonthFirst();
-        nextMonthFirstDay = addDay(nextMonthFirstDay, 9) + " 08:00:00";
-        System.out.println(nextMonthFirstDay);
-
+        System.out.println(str2Date("Fri Apr 18 2014 00:00:00 GMT+0800 (中国标准时间)"));
+        System.out.println(str2Date("Wed Nov 25 2015 00:00:00 GMT+0800 (ä¸\u00ADå\u009B½æ \u0087å\u0087\u0086æ\u0097¶é\u0097´)"));
+        System.out.println(str2Date("Fri Aug 04 2034 00:00:00 GMT+0800"));
+        System.out.println(str2Date("Fri Feb 22 2047 00:00:00 GMT+0800 (CST)"));
 
     }
 

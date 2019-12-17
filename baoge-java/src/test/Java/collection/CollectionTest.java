@@ -103,4 +103,26 @@ public class CollectionTest {
         long resultTime = endTime - startTime;
         return resultTime;
     }
+
+    @Test
+    public void testListClear() {
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+        list.add(2);
+
+        List<Integer> listSub = list.subList(0, 2);
+
+        list.subList(0, 2).clear();
+
+        System.out.println(list.size());
+    }
+
 }
