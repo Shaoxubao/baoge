@@ -14,6 +14,8 @@ public class MyTest16 extends ClassLoader {
 
     private String classLoaderName;
 
+    private String path;
+
     private final String fileExtension = ".class";
 
     public MyTest16(String classLoaderName) {
@@ -26,21 +28,29 @@ public class MyTest16 extends ClassLoader {
         this.classLoaderName = classLoaderName;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
     protected Class<?> findClass(String className) {
+        System.out.println("findClass invoked:" + className);
+        System.out.println("class loader name:" + this.classLoaderName);
+
         byte[] data = loadClassData(className);
 
         return this.defineClass(className, data, 0, data.length);
     }
 
-    private byte[] loadClassData(String name) {
+    private byte[] loadClassData(String className) {
         InputStream in = null;
         byte[] data = null;
         ByteArrayOutputStream out = null;
 
         try {
-            this.classLoaderName = name.replace(".", "/");
-            in = new FileInputStream(new File(name + this.fileExtension));
+            this.classLoaderName = className.replace(".", "\\");
+
+            in = new FileInputStream(new File(this.path + classLoaderName + this.fileExtension));
 
             out = new ByteArrayOutputStream();
 
@@ -72,6 +82,7 @@ public class MyTest16 extends ClassLoader {
         Object object = clazz.newInstance();
 
         System.out.println(object);
+        System.out.println(object.getClass().getClassLoader());
     }
 
     @Override
@@ -83,8 +94,37 @@ public class MyTest16 extends ClassLoader {
 
 
     public static void main(String[] args) throws Exception {
-        MyTest16 myTest16 = new MyTest16("loader1");
-        test(myTest16);
+        MyTest16 loader1 = new MyTest16("loader1");
+//        myTest16.setPath("workspace\\baoge\\baoge-jvm-study\\target\\classes");
+
+        // 删除项目classes下的MyTest1，加载桌面路径下MyTest1，会调用自定义的类加载器
+        loader1.setPath("C:\\Users\\Qing\\Desktop\\");
+
+        Class<?> clazz = loader1.loadClass("com.baoge.jvm.classloader.MyTest1");
+        System.out.println("class:" + clazz.hashCode());
+
+        Object object = clazz.newInstance();
+
+        System.out.println(object);
+        System.out.println(object.getClass().getClassLoader());
+
+
+        System.out.println("========================");
+
+//        MyTest16 loader2 = new MyTest16("loader2");
+        MyTest16 loader2 = new MyTest16(loader1,"loader2");
+        loader2.setPath("C:\\Users\\Qing\\Desktop\\");
+
+        Class<?> clazz2 = loader2.loadClass("com.baoge.jvm.classloader.MyTest1");
+        System.out.println("class2:" + clazz2.hashCode());
+
+        Object object2 = clazz2.newInstance();
+
+        System.out.println(object2);
+        System.out.println(object2.getClass().getClassLoader());
+
+
+//        test(myTest16);
     }
 
 }
