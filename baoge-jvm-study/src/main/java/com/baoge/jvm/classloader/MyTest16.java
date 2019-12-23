@@ -94,6 +94,7 @@ public class MyTest16 extends ClassLoader {
 
 
     public static void main(String[] args) throws Exception {
+        /**
         MyTest16 loader1 = new MyTest16("loader1");
 //        myTest16.setPath("workspace\\baoge\\baoge-jvm-study\\target\\classes");
 
@@ -123,8 +124,55 @@ public class MyTest16 extends ClassLoader {
         System.out.println(object2);
         System.out.println(object2.getClass().getClassLoader());
 
+        System.out.println("========================");
+
+        MyTest16 loader3 = new MyTest16("loader3");
+        loader3.setPath("C:\\Users\\Qing\\Desktop\\");
+
+        Class<?> clazz3 = loader3.loadClass("com.baoge.jvm.classloader.MyTest1");
+        System.out.println("class2:" + clazz3.hashCode());
+
+        Object object3 = clazz3.newInstance();
+
+        System.out.println(object3);
+        System.out.println(object3.getClass().getClassLoader());
+
 
 //        test(myTest16);
+*/
+
+        System.out.println("============以下演示类的卸载============");
+
+        MyTest16 loader1 = new MyTest16("loader1");
+//        myTest16.setPath("workspace\\baoge\\baoge-jvm-study\\target\\classes");
+        loader1.setPath("C:\\Users\\Qing\\Desktop\\");
+
+        Class<?> clazz = loader1.loadClass("com.baoge.jvm.classloader.MyTest1");
+        System.out.println("class:" + clazz.hashCode());
+
+        Object object = clazz.newInstance();
+        System.out.println(object);
+
+        loader1 = null;
+        clazz = null;
+        object = null;
+
+        System.gc();
+
+        Thread.sleep(100000); // jvisualvm 工具观察类卸载情况
+
+        System.out.println("==============");
+
+        loader1 = new MyTest16("loader1");
+        loader1.setPath("C:\\Users\\Qing\\Desktop\\");
+
+        clazz = loader1.loadClass("com.baoge.jvm.classloader.MyTest1");
+        System.out.println("class:" + clazz.hashCode());
+
+        object = clazz.newInstance();
+        System.out.println(object);
+
+
     }
 
 }
