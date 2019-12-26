@@ -10,7 +10,7 @@ import java.io.InputStream;
  * Author: Shao Xu Bao <15818589952@163.com>
  * Date:   2019/12/22
  */
-public class MyTest16 extends ClassLoader {
+public class MyTest16_MyClassLoader extends ClassLoader {
 
     private String classLoaderName;
 
@@ -18,12 +18,12 @@ public class MyTest16 extends ClassLoader {
 
     private final String fileExtension = ".class";
 
-    public MyTest16(String classLoaderName) {
+    public MyTest16_MyClassLoader(String classLoaderName) {
         super(); // 将系统类加载器当作该类加载器的父加载器
         this.classLoaderName = classLoaderName;
     }
 
-    public MyTest16(ClassLoader parent, String classLoaderName) {
+    public MyTest16_MyClassLoader(ClassLoader parent, String classLoaderName) {
         super(parent); // 显式指定该类加载器的父加载器
         this.classLoaderName = classLoaderName;
     }
@@ -48,9 +48,9 @@ public class MyTest16 extends ClassLoader {
         ByteArrayOutputStream out = null;
 
         try {
-            this.classLoaderName = className.replace(".", "\\");
+            className = className.replace(".", "\\");
 
-            in = new FileInputStream(new File(this.path + classLoaderName + this.fileExtension));
+            in = new FileInputStream(new File(this.path + className + this.fileExtension));
 
             out = new ByteArrayOutputStream();
 
@@ -87,7 +87,7 @@ public class MyTest16 extends ClassLoader {
 
     @Override
     public String toString() {
-        return "MyTest16{" +
+        return "MyTest16_MyClassLoader{" +
                 "classLoaderName='" + classLoaderName + '\'' +
                 '}';
     }
@@ -95,7 +95,7 @@ public class MyTest16 extends ClassLoader {
 
     public static void main(String[] args) throws Exception {
         /**
-        MyTest16 loader1 = new MyTest16("loader1");
+        MyTest16_MyClassLoader loader1 = new MyTest16_MyClassLoader("loader1");
 //        myTest16.setPath("workspace\\baoge\\baoge-jvm-study\\target\\classes");
 
         // 删除项目classes下的MyTest1，加载桌面路径下MyTest1，会调用自定义的类加载器
@@ -112,8 +112,8 @@ public class MyTest16 extends ClassLoader {
 
         System.out.println("========================");
 
-//        MyTest16 loader2 = new MyTest16("loader2");
-        MyTest16 loader2 = new MyTest16(loader1,"loader2");
+//        MyTest16_MyClassLoader loader2 = new MyTest16_MyClassLoader("loader2");
+        MyTest16_MyClassLoader loader2 = new MyTest16_MyClassLoader(loader1,"loader2");
         loader2.setPath("C:\\Users\\Qing\\Desktop\\");
 
         Class<?> clazz2 = loader2.loadClass("com.baoge.jvm.classloader.MyTest1");
@@ -126,7 +126,7 @@ public class MyTest16 extends ClassLoader {
 
         System.out.println("========================");
 
-        MyTest16 loader3 = new MyTest16("loader3");
+        MyTest16_MyClassLoader loader3 = new MyTest16_MyClassLoader("loader3");
         loader3.setPath("C:\\Users\\Qing\\Desktop\\");
 
         Class<?> clazz3 = loader3.loadClass("com.baoge.jvm.classloader.MyTest1");
@@ -143,7 +143,7 @@ public class MyTest16 extends ClassLoader {
 
         System.out.println("============以下演示类的卸载============");
 
-        MyTest16 loader1 = new MyTest16("loader1");
+        MyTest16_MyClassLoader loader1 = new MyTest16_MyClassLoader("loader1");
 //        myTest16.setPath("workspace\\baoge\\baoge-jvm-study\\target\\classes");
         loader1.setPath("C:\\Users\\Qing\\Desktop\\");
 
@@ -163,7 +163,7 @@ public class MyTest16 extends ClassLoader {
 
         System.out.println("==============");
 
-        loader1 = new MyTest16("loader1");
+        loader1 = new MyTest16_MyClassLoader("loader1");
         loader1.setPath("C:\\Users\\Qing\\Desktop\\");
 
         clazz = loader1.loadClass("com.baoge.jvm.classloader.MyTest1");
