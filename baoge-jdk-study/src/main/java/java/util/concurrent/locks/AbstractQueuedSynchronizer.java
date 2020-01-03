@@ -714,9 +714,16 @@ public abstract class AbstractQueuedSynchronizer
      * @return the new node
      */
     private Node addWaiter(Node mode) {
+        // 由于AQS队列当中的元素类型为Node，故而需要把当前线程tc封装成为一个Node对象,下文我们叫做nc
         Node node = new Node(Thread.currentThread(), mode);
         // Try the fast path of enq; backup to full enq on failure
         Node pred = tail;
+        // 判断pred是否为空，其实就是判断对尾是否有节点，其实只要队列被初始化了对尾肯定不为空，假设队列里面只有一个元素，那么对尾和对首都是这个元素
+        // 换言之就是判断队列有没有初始化
+        // 上面我们说过代码执行到这里有两种情况，1、队列没有初始化和2、队列已经初始化了
+        // pred不等于空表示第二种情况，队列被初始化了，如果是第二种情况那比较简单
+        // 直接把当前线程封装的nc的上一个节点设置成为pred即原来的对尾
+        // 继而把pred的下一个节点设置为当nc，这个nc自己成为对尾了
         if (pred != null) {
             node.prev = pred;
             if (compareAndSetTail(pred, node)) {
@@ -730,6 +737,7 @@ public abstract class AbstractQueuedSynchronizer
         //    2. CAS失败
         // 注意, 这里是并发条件下, 所以什么都有可能发生, 尤其注意CAS失败后也会来到这里.
         // 例如: 有可能其他线程已经成为了新的尾节点，导致尾节点不再是我们之前看到的那个prev了。
+        // 如果上面的if不成了就会执行到这里，表示第一种情况队列并没有初始化
         enq(node);
         return node;
     }
@@ -1330,6 +1338,27 @@ public abstract class AbstractQueuedSynchronizer
      * 如果在整个等待过程中被中断过，则返回true，否则返回false。
      *
      * 如果线程在等待过程中被中断过，先不响应的。在获取资源后才再进行自我中断selfInterrupt()
+     *
+     * ===============================0103注释==========================
+     * 加锁过程总结：公平锁和非公平锁
+     *   如果是第一个线程tf，那么和队列无关，线程直接持有锁。并且也不会初始化队列，如果接下来的线程都是交替执行，那么永远和AQS队列无关，都是直接线程持有锁，
+     *   如果发生了竞争，比如tf持有锁的过程中T2来lock，那么这个时候就会初始化AQS，初始化AQS的时候会在队列的头部虚拟一个Thread为NULL的Node，
+     *   因为队列当中的head永远是持有锁的那个node（除了第一次会虚拟一个，其他时候都是持有锁的那个线程锁封装的node），
+     *   现在第一次的时候持有锁的是tf而tf不在队列当中所以虚拟了一个node节点，队列当中的除了head之外的所有的node都在park，
+     *   当tf释放锁之后unPark某个（基本是队列当中的第二个，为什么是第二个呢？前面说过head永远是持有锁的那个node，
+     *   当有时候也不会是第二个，比如第二个被cancel之后，至于为什么会被cancel，不在我们讨论范围之内，cancel的条件很苛刻，基本不会发生）node之后，node被唤醒，
+     *   假设node是t2，那么这个时候会首先把t2变成head（setHead），在setHead方法里面会把t2代表的node设置为head，并且把node的Thread设置为null，
+     *   为什么需要设置null？其实原因很简单，现在t2已经拿到锁了，node就不要排队了，那么node对Thread的引用就没有意义了。所以队列的head里面的Thread永远为null。
+     *
+     *   acquireQueued(addWaiter(Node.exclusive),arg))方法解析-----如果代码能执行到这里说tc需要排队
+     *
+     * 需要排队有两种情况：
+     *
+     * 1、tf持有了锁，并没有释放，所以tc来加锁的时候需要排队，但这个时候队列并没有初始化
+     *
+     * 2、tn(无所谓哪个线程，反正就是一个线程)持有了锁，那么由于加锁tn!=tf(tf是属于第一种情况，我们现在不考虑tf了)，所以队列是一定被初始化了的，tc来加锁，
+     *    那么队列当中有人在排队，故而他也去排队
+     * ================================================================
      */
     public final void acquire(int arg) {
         if (!tryAcquire(arg) &&
