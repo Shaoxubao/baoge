@@ -1,4 +1,4 @@
-package com.baoge.timer;
+package com.baoge.springboot.service.timer;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,9 @@ import java.util.TimerTask;
 @Service
 public class BusinessCount implements InitializingBean {
 
-    private Timer timer = new Timer();
-
     @Override
     public void afterPropertiesSet() throws Exception {
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
