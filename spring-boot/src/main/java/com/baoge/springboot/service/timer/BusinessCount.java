@@ -28,7 +28,7 @@ public class BusinessCount implements InitializingBean {
 
                 }
             }
-        }, 1000, 1000);
+        }, 1000, 1000); // 1000后开始执行程序，结束后， 每1000ms 后开始执行下一次程序
     }
 
     class CountThread extends Thread {
