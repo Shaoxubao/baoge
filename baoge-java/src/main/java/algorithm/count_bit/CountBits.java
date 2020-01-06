@@ -43,6 +43,8 @@ public class CountBits {
      *  3      0011      2
      *  4      0100      1
      *  5      0101      2
+     *  6      0110      2
+     *  7      0111      3
      */
     public static int[] countBits(int num) {
         // 新建一个数组，数组长度为num + 1
