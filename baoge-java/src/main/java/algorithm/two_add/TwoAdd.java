@@ -43,9 +43,9 @@ public class TwoAdd {
         int sum = 0, x = 0, y = 0;
         int l1_size = l1.size();
         int l2_size = l2.size();
-        int size = l1_size > l2_size ? l1_size : l2_size;
+        int maxSize = l1_size > l2_size ? l1_size : l2_size; // 取list最大size
         int index = 0;
-        while (size != index) {
+        while (maxSize != index) {
 
             // 如果当前链表的当前节点为空，则值为null
             x = (index > l1_size - 1) ? 0 : l1.get(index);
