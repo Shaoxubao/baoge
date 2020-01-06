@@ -45,7 +45,7 @@ public class SubStringNoRepeat {
             String charAtEnd = String.valueOf(inputStr.charAt(end));
             if (!set.contains(charAtEnd)) {
                 set.add(charAtEnd);
-                end = end +1;
+                end = end + 1;
                 // 更新maxLength，此处是重点：注意一定要用max函数比较 当前的不重复字符串长度 与 上一次出现重复字符时记录的最长不重复字符串长度
                 maxLength = Math.max(maxLength , end - begin);
             } else {
