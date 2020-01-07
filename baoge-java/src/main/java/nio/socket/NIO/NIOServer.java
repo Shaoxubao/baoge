@@ -93,7 +93,7 @@ class NIOSocketServerProcessor implements Runnable {
             socketChannel.read(requestBuffer);
             requestBuffer.flip();
             byte[] array = requestBuffer.array();
-            System.out.println("收到请求内容:" + new String(array));
+            System.out.println("收到请求内容:" + new String(array, "UTF-8"));
             requestBuffer.clear();
 
             String response = "baooge";
