@@ -86,7 +86,13 @@ public class PalindromeSubString {
         return res;
     }
 
-    // 动态规划
+    /**
+     * 动态规划:
+     * 我们创建一个二维数组，boolean[][]dp,其中dp[i][j]表示字符串第i到j是否为回文。
+     * 那么边界值其实很清楚了，字符串长度为1的都为true。
+     * 状态转换如何设定呢？当字符串i所在的字符等于字符串j所在的字符，并且它的内部(dp[i+1][j-1])为回文那么dp[i][j]为true。
+     * 因为这样的规律，我们要保证判断dp[i][j]的时候dp[i+1][j-1]已经判断，所以我们遍历采用i降序j升序的嵌套遍历的方式
+     */
     public static String longestPalindromeByDynamicProgramming(String s) {
         if (s.isEmpty()) {
             return s;
