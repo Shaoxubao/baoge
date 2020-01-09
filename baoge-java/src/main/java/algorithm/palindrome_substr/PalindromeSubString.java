@@ -104,6 +104,7 @@ public class PalindromeSubString {
         for (int i = n - 2; i >= 0; i--) {
             dp[i][i] = true;
             for (int j = i + 1; j < n; j++) {
+                // 3  4             3              4       4   3           3      4
                 dp[i][j] = s.charAt(i) == s.charAt(j) && ( j - i < 3 || dp[i + 1][j - 1]); // 小于3是因为aba一定是回文
                 if (dp[i][j] && right - left < j - i) {
                     left = i;
