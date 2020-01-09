@@ -93,7 +93,7 @@ public class PalindromeSubString {
      * 状态转换如何设定呢？当字符串i所在的字符等于字符串j所在的字符，并且它的内部(dp[i+1][j-1])为回文那么dp[i][j]为true。
      * 因为这样的规律，我们要保证判断dp[i][j]的时候dp[i+1][j-1]已经判断，所以我们遍历采用i降序j升序的嵌套遍历的方式
      */
-    public static String longestPalindromeByDynamicProgramming(String s) {
+    public static String longestPalindromeByDynamicProgramming(String s) { // "babad"
         if (s.isEmpty()) {
             return s;
         }
