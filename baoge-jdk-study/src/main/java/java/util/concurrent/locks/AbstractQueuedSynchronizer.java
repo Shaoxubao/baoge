@@ -759,6 +759,8 @@ public abstract class AbstractQueuedSynchronizer
      * Wakes up node's successor, if one exists.
      *
      * @param node the node
+     *
+     * 唤醒离头节点最近的节点线程，从后向前迭代，在分析节点插入时，因为不是原子操作，所以可能会有尾节点分叉现象，所以从后往前找更合适
      */
     private void unparkSuccessor(Node node) {
         /*
@@ -767,6 +769,9 @@ public abstract class AbstractQueuedSynchronizer
          * fails or if status is changed by waiting thread.
          */
         int ws = node.waitStatus;
+
+        // ws：CANCELLED=1 ，初始化时等于0，但是进入这个方法前确定ws不等于0,
+        // 所以只要ws不为CANCELLED，就将ws置为0
         if (ws < 0)
             compareAndSetWaitStatus(node, ws, 0);
 
@@ -777,13 +782,20 @@ public abstract class AbstractQueuedSynchronizer
          * non-cancelled successor.
          */
         Node s = node.next;
+
+        // 后继节点为null或者后继节点ws为CANCELLED
         if (s == null || s.waitStatus > 0) {
             s = null;
+
+            // 从后往前迭代，获取到需要唤醒的离头节点最近的节点
             for (Node t = tail; t != null && t != node; t = t.prev)
                 if (t.waitStatus <= 0)
                     s = t;
         }
+
+        // 找到了需要被唤醒的节点
         if (s != null)
+            // 唤醒节点所标识的线程
             LockSupport.unpark(s.thread);
     }
 
