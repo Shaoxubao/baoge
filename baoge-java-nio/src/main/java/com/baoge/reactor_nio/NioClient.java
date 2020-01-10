@@ -16,7 +16,6 @@ import java.util.Set;
 public class NioClient {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
         SocketChannel clientClient;
         Selector selector = null;
@@ -32,7 +31,7 @@ public class NioClient {
 
             Set<SelectionKey> ops = null;
 
-            while(true) {
+            while (true) {
                 try {
                     selector.select();
                     ops = selector.selectedKeys();
@@ -83,7 +82,6 @@ public class NioClient {
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
