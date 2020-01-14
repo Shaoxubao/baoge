@@ -1,7 +1,7 @@
-package com.baoge.netty001.bio.client;
+package com.baoge.netty000.bio.client;
 
-import com.baoge.netty001.bio.ChannelAdapter;
-import com.baoge.netty001.bio.ChannelHandler;
+import com.baoge.netty000.bio.ChannelAdapter;
+import com.baoge.netty000.bio.ChannelHandler;
 
 import java.net.Socket;
 import java.nio.charset.Charset;

@@ -1,6 +1,6 @@
-package com.baoge.netty001.bio.client;
+package com.baoge.netty000.bio.client;
 
-import com.baoge.netty001.bio.server.BioServer;
+import com.baoge.netty000.bio.server.BioServer;
 
 /**
  * @Author shaoxubao
