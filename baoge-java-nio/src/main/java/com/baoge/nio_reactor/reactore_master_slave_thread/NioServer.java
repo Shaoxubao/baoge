@@ -1,4 +1,4 @@
-package com.baoge.reactor_nio.reactore_master_slave_thread;
+package com.baoge.nio_reactor.reactore_master_slave_thread;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

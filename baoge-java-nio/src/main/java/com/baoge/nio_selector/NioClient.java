@@ -1,12 +1,14 @@
-package com.baoge.reactor_nio;
+package com.baoge.nio_selector;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ public class NioClient {
 
             clientClient.register(selector, SelectionKey.OP_CONNECT);
 
-            clientClient.connect(new InetSocketAddress("127.0.0.1",9080));
+            clientClient.connect(new InetSocketAddress("127.0.0.1",12345));
 
             Set<SelectionKey> ops = null;
 
@@ -47,18 +49,28 @@ public class NioClient {
                                 sc.finishConnect();
                                 System.out.println("完成连接!");
                                 ByteBuffer buffer = ByteBuffer.allocate(1024);
-                                buffer.put("Hello,Server".getBytes());
+                                buffer.put("Hello, Server, I already Connect to you.".getBytes());
                                 buffer.flip();
                                 sc.write(buffer);
                             }
-                            sc.register(selector, SelectionKey.OP_READ);
+                            sc.register(selector, SelectionKey.OP_WRITE);
                         } else if(key.isWritable()) {
-                            System.out.println("客户端写");
+                            System.out.println("客户端写:");
                             SocketChannel sc = (SocketChannel)key.channel();
                             ByteBuffer buffer = ByteBuffer.allocate(1024);
-                            buffer.put("hello server.".getBytes());
-                            buffer.flip();
-                            sc.write(buffer);
+
+                            sc.register(selector, SelectionKey.OP_READ);
+                            while (true) {
+                                buffer.clear();
+                                String message = new Scanner(System.in).nextLine();
+                                buffer.put(message.getBytes());
+                                buffer.flip();
+                                sc.write(buffer);
+
+                                if (message.contains("over")) {
+                                    break;
+                                }
+                            }
                         } else if(key.isReadable()) {
                             System.out.println("客户端收到服务器的响应....");
                             SocketChannel sc = (SocketChannel)key.channel();
@@ -68,7 +80,11 @@ public class NioClient {
                                 buffer.flip();
                                 byte[] response = new byte[buffer.remaining()];
                                 buffer.get(response);
-                                System.out.println(new String(response));
+                                System.out.println(URLDecoder.decode(new String(response), "UTF-8"));
+                            } else {
+//                                key.cancel();
+//                                sc.close();
+                                sc.register(selector, SelectionKey.OP_WRITE);
                             }
 
                         }

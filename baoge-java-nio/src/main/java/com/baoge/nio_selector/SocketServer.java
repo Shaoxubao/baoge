@@ -1,4 +1,4 @@
-package com.baoge.NIO.selector;
+package com.baoge.nio_selector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -187,7 +187,7 @@ public class SocketServer {
             //======================================================
 
             // 回发数据，并关闭channel
-            ByteBuffer sendBuffer = ByteBuffer.wrap(URLEncoder.encode("回发处理结果", "UTF-8").getBytes());
+            ByteBuffer sendBuffer = ByteBuffer.wrap(URLEncoder.encode("回发服务器处理结果", "UTF-8").getBytes());
             clientSocketChannel.write(sendBuffer);
             clientSocketChannel.close();
         } else {
@@ -200,8 +200,8 @@ public class SocketServer {
             StringBuffer historyMessage = MESSAGEHASHCONTEXT.get(channelUUID);
             if(historyMessage == null) {
                 historyMessage = new StringBuffer();
-                MESSAGEHASHCONTEXT.put(channelUUID, historyMessage.append(message));
             }
+            MESSAGEHASHCONTEXT.put(channelUUID, historyMessage.append(message).append("，"));
         }
     }
 

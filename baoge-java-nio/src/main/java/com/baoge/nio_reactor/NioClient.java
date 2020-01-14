@@ -1,4 +1,4 @@
-package com.baoge.NIO.selector;
+package com.baoge.nio_reactor;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -47,7 +47,7 @@ public class NioClient {
                                 sc.finishConnect();
                                 System.out.println("完成连接!");
                                 ByteBuffer buffer = ByteBuffer.allocate(1024);
-                                buffer.put("Hello, Server, I already Connect to you.".getBytes());
+                                buffer.put("Hello,Server".getBytes());
                                 buffer.flip();
                                 sc.write(buffer);
                             }
