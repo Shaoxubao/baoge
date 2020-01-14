@@ -42,8 +42,8 @@ public class SocketServer {
 
     /**
      * 改进的java nio server的代码中，由于buffer的大小设置的比较小。
-     * 我们不再把一个client通过socket channel多次传给服务器的信息保存在beff中了(因为根本存不下)
-     * 我们使用socketchanel的hashcode作为key(当然您也可以自己确定一个id)，信息的stringbuffer作为value，存储到服务器端的一个内存区域MESSAGEHASHCONTEXT。
+     * 我们不再把一个client通过socket channel多次传给服务器的信息保存在buffer中了(因为根本存不下)
+     * 我们使用socketChanel的hashcode作为key(当然您也可以自己确定一个id)，信息的stringBuffer作为value，存储到服务器端的一个内存区域MESSAGEHASHCONTEXT。
      */
     private static final ConcurrentMap<Integer, StringBuffer> MESSAGEHASHCONTEXT = new ConcurrentHashMap<>();
 
