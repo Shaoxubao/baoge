@@ -59,7 +59,7 @@ public class SocketServer {
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 
         try {
-            while(true) {
+            while (true) {
                 // 如果条件成立，说明本次询问selector，并没有获取到任何准备好的、感兴趣的事件
                 // java程序对多路复用IO的支持也包括了阻塞模式 和非阻塞模式两种。
                 selector.select(100);
@@ -71,14 +71,14 @@ public class SocketServer {
                 // 这里就是本次询问操作系统，所获取到的“所关心的事件”的事件类型(每一个通道都是独立的)
                 Iterator<SelectionKey> selectionKeys = selector.selectedKeys().iterator();
 
-                while(selectionKeys.hasNext()) {
+                while (selectionKeys.hasNext()) {
                     SelectionKey readyKey = selectionKeys.next();
                     // 这个已经处理的readyKey一定要移除。如果不移除，就会一直存在在selector.selectedKeys集合中
                     // 待到下一次selector.select() > 0时，这个readyKey又会被处理一次
                     selectionKeys.remove();
 
                     SelectableChannel selectableChannel = readyKey.channel();
-                    if(readyKey.isValid() && readyKey.isAcceptable()) {
+                    if (readyKey.isValid() && readyKey.isAcceptable()) {
                         SocketServer.LOGGER.info("======channel通道已经准备好=======");
                         /*
                          * 当server socket channel通道已经准备好，就可以从server socket channel中获取socketchannel了
@@ -89,15 +89,17 @@ public class SocketServer {
                         SocketChannel socketChannel = serverSocketChannel.accept();
                         registerSocketChannel(socketChannel , selector);
 
-                    } else if(readyKey.isValid() && readyKey.isConnectable()) {
+                    } else if (readyKey.isValid() && readyKey.isConnectable()) {
                         SocketServer.LOGGER.info("======socket channel 建立连接=======");
-                    } else if(readyKey.isValid() && readyKey.isReadable()) {
+                    } else if (readyKey.isValid() && readyKey.isReadable()) {
                         SocketServer.LOGGER.info("======socket channel 数据准备完成，可以去读==读取=======");
                         readSocketChannel(readyKey);
                     }
                 }
+
+                selector.selectedKeys().clear();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             SocketServer.LOGGER.error(e.getMessage() , e);
         } finally {
             serverSocket.close();
@@ -143,7 +145,7 @@ public class SocketServer {
         StringBuffer message = new StringBuffer();
         // 这句话的意思是，将目前通道中的数据写入到缓存区
         // 最大可写入的数据量就是buff的容量
-        while((realLen = clientSocketChannel.read(contextBytes)) != 0) {
+        while ((realLen = clientSocketChannel.read(contextBytes)) != 0) {
 
             // 一定要把buffer切换成“读”模式，否则由于limit = capacity
             // 在read没有写满的情况下，就会导致多读
@@ -168,14 +170,14 @@ public class SocketServer {
         }
 
         // 如果发现本次接收的信息中有over关键字，说明信息接收完了
-        if(URLDecoder.decode(message.toString(), "UTF-8").indexOf("over") != -1) {
+        if (URLDecoder.decode(message.toString(), "UTF-8").indexOf("over") != -1) {
             // 则从messageHashContext中，取出之前已经收到的信息，组合成完整的信息
             Integer channelUUID = clientSocketChannel.hashCode();
             SocketServer.LOGGER.info("端口:" + resourcePort + "客户端发来的信息======message : " + message);
             StringBuffer completeMessage;
             // 清空MESSAGEHASHCONTEXT中的历史记录
             StringBuffer historyMessage = MESSAGEHASHCONTEXT.remove(channelUUID);
-            if(historyMessage == null) {
+            if (historyMessage == null) {
                 completeMessage = message;
             } else {
                 completeMessage = historyMessage.append(message);
@@ -186,11 +188,11 @@ public class SocketServer {
             //          当然接受完成后，可以在这里正式处理业务了
             //======================================================
 
-            // 回发数据，并关闭channel
-            ByteBuffer sendBuffer = ByteBuffer.wrap(URLEncoder.encode("回发服务器处理结果", "UTF-8").getBytes());
+            // 回发数据
+            ByteBuffer sendBuffer = ByteBuffer.wrap(URLEncoder.encode("回发服务器处理结果，您输入了over，继续吗？", "UTF-8").getBytes());
             clientSocketChannel.write(sendBuffer);
-            clientSocketChannel.close();
-            readyKey.cancel();
+//            clientSocketChannel.close();
+//            readyKey.cancel();
         } else {
             // 如果没有发现有“over”关键字，说明还没有接受完，则将本次接受到的信息存入messageHashContext
             SocketServer.LOGGER.info("端口:" + resourcePort + "客户端信息还未接受完，继续接受======message : " + URLDecoder.decode(message.toString(), "UTF-8"));
@@ -199,7 +201,7 @@ public class SocketServer {
 
             // 然后获取这个channel下以前已经达到的message信息
             StringBuffer historyMessage = MESSAGEHASHCONTEXT.get(channelUUID);
-            if(historyMessage == null) {
+            if (historyMessage == null) {
                 historyMessage = new StringBuffer();
             }
             MESSAGEHASHCONTEXT.put(channelUUID, historyMessage.append(message).append("，"));

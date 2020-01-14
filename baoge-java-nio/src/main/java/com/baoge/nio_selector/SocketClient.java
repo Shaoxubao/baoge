@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
@@ -17,90 +18,81 @@ import java.util.Set;
  */
 public class SocketClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         SocketChannel clientClient;
-        Selector selector = null;
-        try {
-            clientClient = SocketChannel.open();
-            clientClient.configureBlocking(false);
+        clientClient = SocketChannel.open();
+        clientClient.configureBlocking(false);
 
-            selector = Selector.open();
+        Selector selector = Selector.open();
 
-            clientClient.register(selector, SelectionKey.OP_CONNECT);
+        clientClient.register(selector, SelectionKey.OP_CONNECT);
+        clientClient.connect(new InetSocketAddress("127.0.0.1",12345));
 
-            clientClient.connect(new InetSocketAddress("127.0.0.1",12345));
-
-            Set<SelectionKey> ops = null;
-
-            while (true) {
-                try {
-                    selector.select();
-                    ops = selector.selectedKeys();
-                    for (Iterator<SelectionKey> it = ops.iterator(); it.hasNext();) {
-                        SelectionKey key = it.next();
-                        it.remove();
-                        if(key.isConnectable()) {
-                            System.out.println("client connect");
-                            SocketChannel sc =  (SocketChannel) key.channel();
-                            // 判断此通道上是否正在进行连接操作。
-                            // 完成套接字通道的连接过程。
-                            if (sc.isConnectionPending()) {
-                                sc.finishConnect();
-                                System.out.println("完成连接!");
-                                ByteBuffer buffer = ByteBuffer.allocate(1024);
-                                buffer.put("Hello, Server, I already Connect to you.".getBytes());
-                                buffer.flip();
-                                sc.write(buffer);
-                            }
-                            sc.register(selector, SelectionKey.OP_WRITE);
-                        } else if(key.isWritable()) {
-                            System.out.println("客户端写:");
-                            SocketChannel sc = (SocketChannel)key.channel();
+        new Thread(() -> {
+        while (true) {
+            try {
+                selector.select();
+                Set<SelectionKey> ops = selector.selectedKeys();
+                for (Iterator<SelectionKey> it = ops.iterator(); it.hasNext();) {
+                    SelectionKey key = it.next();
+                    it.remove();
+                    if (key.isConnectable()) {
+                        System.out.println("client connect");
+                        SocketChannel sc =  (SocketChannel) key.channel();
+                        // 判断此通道上是否正在进行连接操作。
+                        // 完成套接字通道的连接过程。
+                        if (sc.isConnectionPending()) {
+                            sc.finishConnect();
+                            System.out.println("完成连接!");
                             ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-                            sc.register(selector, SelectionKey.OP_READ);
-                            while (true) {
-                                buffer.clear();
-                                String message = new Scanner(System.in).nextLine();
-                                buffer.put(message.getBytes());
-                                buffer.flip();
-                                sc.write(buffer);
-
-                                if (message.contains("over")) {
-                                    break;
-                                }
-                            }
-                        } else if(key.isReadable()) {
-                            System.out.println("客户端收到服务器的响应....");
-                            SocketChannel sc = (SocketChannel)key.channel();
-                            ByteBuffer buffer = ByteBuffer.allocate(1024);
-                            int count = sc.read(buffer);
-                            if(count > 0 ) {
-                                buffer.flip();
-                                byte[] response = new byte[buffer.remaining()];
-                                buffer.get(response);
-                                System.out.println(URLDecoder.decode(new String(response), "UTF-8"));
-                            } else {
-//                                key.cancel();
-//                                sc.close();
-                                clientClient.register(selector, SelectionKey.OP_WRITE);
-                            }
-
+                            buffer.put("Hello, Server, I already Connect to you.".getBytes());
+                            buffer.flip();
+                            sc.write(buffer);
                         }
+                        sc.register(selector, SelectionKey.OP_READ);
+                    } else if (key.isReadable()) {
+                        System.out.println("客户端收到服务器的响应....");
+                        SocketChannel sc = (SocketChannel)key.channel();
+                        ByteBuffer buffer = ByteBuffer.allocate(1024);
+                        int count = sc.read(buffer);
+                        if (count > 0 ) {
+                            buffer.flip();
+                            byte[] response = new byte[buffer.remaining()];
+                            buffer.get(response);
+                            System.out.println(URLDecoder.decode(new String(response), "UTF-8"));
 
+                            key.interestOps(SelectionKey.OP_READ);
+                        }
                     }
-
-                } catch(Throwable e) {
-                    e.printStackTrace();
                 }
 
+                ops.clear();
+            } catch(Throwable e) {
+                e.printStackTrace();
+            }
+        }
+        }).start();
+
+        Thread.sleep(2000);
+
+        // 主线程，用于写消息给服务端
+        System.out.println("请输入：");
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String msg = "";
+            msg = scanner.nextLine();
+
+            if (msg.equals("q")) {
+                break;
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            buffer.clear();
+            buffer.put(msg.getBytes(StandardCharsets.UTF_8));
+            buffer.flip();
+            clientClient.write(buffer);
         }
-
     }
 
 }
