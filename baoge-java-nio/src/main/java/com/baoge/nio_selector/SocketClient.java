@@ -20,8 +20,7 @@ public class SocketClient {
 
     public static void main(String[] args) throws Exception {
 
-        SocketChannel clientClient;
-        clientClient = SocketChannel.open();
+        SocketChannel clientClient = SocketChannel.open();
         clientClient.configureBlocking(false);
 
         Selector selector = Selector.open();
