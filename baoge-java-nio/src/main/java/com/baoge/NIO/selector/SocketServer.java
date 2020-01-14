@@ -52,7 +52,7 @@ public class SocketServer {
         serverChannel.configureBlocking(false);
         ServerSocket serverSocket = serverChannel.socket();
         serverSocket.setReuseAddress(true);
-        serverSocket.bind(new InetSocketAddress(83));
+        serverSocket.bind(new InetSocketAddress(9080));
 
         Selector selector = Selector.open();
         // 注意、服务器通道只能注册SelectionKey.OP_ACCEPT事件
@@ -69,13 +69,13 @@ public class SocketServer {
                     continue;
                 }
                 // 这里就是本次询问操作系统，所获取到的“所关心的事件”的事件类型(每一个通道都是独立的)
-                Iterator<SelectionKey> selecionKeys = selector.selectedKeys().iterator();
+                Iterator<SelectionKey> selectionKeys = selector.selectedKeys().iterator();
 
-                while(selecionKeys.hasNext()) {
-                    SelectionKey readyKey = selecionKeys.next();
+                while(selectionKeys.hasNext()) {
+                    SelectionKey readyKey = selectionKeys.next();
                     // 这个已经处理的readyKey一定要移除。如果不移除，就会一直存在在selector.selectedKeys集合中
                     // 待到下一次selector.select() > 0时，这个readyKey又会被处理一次
-                    selecionKeys.remove();
+                    selectionKeys.remove();
 
                     SelectableChannel selectableChannel = readyKey.channel();
                     if(readyKey.isValid() && readyKey.isAcceptable()) {
@@ -106,7 +106,7 @@ public class SocketServer {
 
     /**
      * 在server socket channel接收到/准备好 一个新的 TCP连接后。
-     * 就会向程序返回一个新的socketChannel。<br>
+     * 就会向程序返回一个新的socketChannel。
      * 但是这个新的socket channel并没有在selector“选择器/代理器”中注册，
      * 所以程序还没法通过selector通知这个socket channel的事件。
      * 于是我们拿到新的socket channel后，要做的第一个事情就是到selector“选择器/代理器”中注册这个
@@ -118,7 +118,7 @@ public class SocketServer {
     private static void registerSocketChannel(SocketChannel socketChannel , Selector selector) throws Exception {
         socketChannel.configureBlocking(false);
         //socket通道可以且只可以注册三种事件SelectionKey.OP_READ | SelectionKey.OP_WRITE | SelectionKey.OP_CONNECT
-        //最后一个参数视为 为这个socketchanne分配的缓存区
+        //最后一个参数视为 为这个socketChannel分配的缓存区
         socketChannel.register(selector, SelectionKey.OP_READ , ByteBuffer.allocate(50));
     }
 
@@ -131,7 +131,7 @@ public class SocketServer {
         SocketChannel clientSocketChannel = (SocketChannel)readyKey.channel();
         // 获取客户端使用的端口
         InetSocketAddress sourceSocketAddress = (InetSocketAddress)clientSocketChannel.getRemoteAddress();
-        Integer resoucePort = sourceSocketAddress.getPort();
+        Integer resourcePort = sourceSocketAddress.getPort();
 
         // 拿到这个socket channel使用的缓存区，准备读取数据
         // 在后文，将详细讲解缓存区的用法概念，实际上重要的就是三个元素capacity,position和limit。
@@ -171,7 +171,7 @@ public class SocketServer {
         if(URLDecoder.decode(message.toString(), "UTF-8").indexOf("over") != -1) {
             // 则从messageHashContext中，取出之前已经收到的信息，组合成完整的信息
             Integer channelUUID = clientSocketChannel.hashCode();
-            SocketServer.LOGGER.info("端口:" + resoucePort + "客户端发来的信息======message : " + message);
+            SocketServer.LOGGER.info("端口:" + resourcePort + "客户端发来的信息======message : " + message);
             StringBuffer completeMessage;
             // 清空MESSAGEHASHCONTEXT中的历史记录
             StringBuffer historyMessage = MESSAGEHASHCONTEXT.remove(channelUUID);
@@ -180,7 +180,7 @@ public class SocketServer {
             } else {
                 completeMessage = historyMessage.append(message);
             }
-            SocketServer.LOGGER.info("端口:" + resoucePort + "客户端发来的完整信息======completeMessage : " + URLDecoder.decode(completeMessage.toString(), "UTF-8"));
+            SocketServer.LOGGER.info("端口:" + resourcePort + "客户端发来的完整信息======completeMessage : " + URLDecoder.decode(completeMessage.toString(), "UTF-8"));
 
             //======================================================
             //          当然接受完成后，可以在这里正式处理业务了
@@ -192,7 +192,7 @@ public class SocketServer {
             clientSocketChannel.close();
         } else {
             // 如果没有发现有“over”关键字，说明还没有接受完，则将本次接受到的信息存入messageHashContext
-            SocketServer.LOGGER.info("端口:" + resoucePort + "客户端信息还未接受完，继续接受======message : " + URLDecoder.decode(message.toString(), "UTF-8"));
+            SocketServer.LOGGER.info("端口:" + resourcePort + "客户端信息还未接受完，继续接受======message : " + URLDecoder.decode(message.toString(), "UTF-8"));
             // 每一个channel对象都是独立的，所以可以使用对象的hash值，作为唯一标示
             Integer channelUUID = clientSocketChannel.hashCode();
 
