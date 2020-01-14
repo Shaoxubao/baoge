@@ -22,6 +22,6 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
         byte[] msgByte = new byte[buf.readableBytes()];
         buf.readBytes(msgByte);
         System.out.print(new Date() + "接收到消息：");
-        System.out.println(new String(msgByte, Charset.forName("UTF-8")));
+        System.out.println(new String(msgByte, Charset.forName("GBK")));
     }
 }
