@@ -84,7 +84,7 @@ public class SocketClient {
                             } else {
 //                                key.cancel();
 //                                sc.close();
-                                sc.register(selector, SelectionKey.OP_WRITE);
+                                clientClient.register(selector, SelectionKey.OP_WRITE);
                             }
 
                         }
