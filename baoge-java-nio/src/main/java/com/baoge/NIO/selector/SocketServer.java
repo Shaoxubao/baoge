@@ -52,7 +52,7 @@ public class SocketServer {
         serverChannel.configureBlocking(false);
         ServerSocket serverSocket = serverChannel.socket();
         serverSocket.setReuseAddress(true);
-        serverSocket.bind(new InetSocketAddress(9080));
+        serverSocket.bind(new InetSocketAddress(12345));
 
         Selector selector = Selector.open();
         // 注意、服务器通道只能注册SelectionKey.OP_ACCEPT事件
@@ -117,8 +117,8 @@ public class SocketServer {
      */
     private static void registerSocketChannel(SocketChannel socketChannel , Selector selector) throws Exception {
         socketChannel.configureBlocking(false);
-        //socket通道可以且只可以注册三种事件SelectionKey.OP_READ | SelectionKey.OP_WRITE | SelectionKey.OP_CONNECT
-        //最后一个参数视为 为这个socketChannel分配的缓存区
+        // socket通道可以且只可以注册三种事件SelectionKey.OP_READ | SelectionKey.OP_WRITE | SelectionKey.OP_CONNECT
+        // 最后一个参数视为 为这个socketChannel分配的缓存区
         socketChannel.register(selector, SelectionKey.OP_READ , ByteBuffer.allocate(50));
     }
 
