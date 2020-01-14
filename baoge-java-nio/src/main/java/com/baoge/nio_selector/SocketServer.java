@@ -190,6 +190,7 @@ public class SocketServer {
             ByteBuffer sendBuffer = ByteBuffer.wrap(URLEncoder.encode("回发服务器处理结果", "UTF-8").getBytes());
             clientSocketChannel.write(sendBuffer);
             clientSocketChannel.close();
+            readyKey.cancel();
         } else {
             // 如果没有发现有“over”关键字，说明还没有接受完，则将本次接受到的信息存入messageHashContext
             SocketServer.LOGGER.info("端口:" + resourcePort + "客户端信息还未接受完，继续接受======message : " + URLDecoder.decode(message.toString(), "UTF-8"));

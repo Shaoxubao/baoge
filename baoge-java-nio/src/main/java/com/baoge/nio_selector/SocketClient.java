@@ -15,7 +15,7 @@ import java.util.Set;
  * @Author shaoxubao
  * @Date 2020/1/10 9:43
  */
-public class NioClient {
+public class SocketClient {
 
     public static void main(String[] args) {
 
