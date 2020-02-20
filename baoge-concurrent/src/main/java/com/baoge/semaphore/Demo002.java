@@ -16,6 +16,7 @@ public class Demo002 {
      * 银行存钱类
      */
     class Bank {
+
         private int account = 100;
 
         public int getAccount() {
@@ -71,7 +72,7 @@ public class Demo002 {
         Semaphore semaphore = new Semaphore(2);
         // 建立一个缓存线程池
         ExecutorService es = Executors.newCachedThreadPool();
-        // 建立20个线程
+        // 建立10个线程
         for (int i = 0; i < 10; i++) {
             // 执行一个线程
             es.submit(new Thread(new NewThread(bank, semaphore)));
