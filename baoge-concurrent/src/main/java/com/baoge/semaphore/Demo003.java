@@ -18,7 +18,10 @@ public class Demo003 {
         try {
             System.out.println("availablePermits:" + semaphore.availablePermits() +
                     ",semaphore.tryAcquire(3,1, TimeUnit.SECONDS):" + semaphore.tryAcquire(3,1, TimeUnit.SECONDS));
+
+            // 调用release()方法
             semaphore.release();
+
             System.out.println("availablePermits:" + semaphore.availablePermits() +
                     ",semaphore.tryAcquire(3,1, TimeUnit.SECONDS):" + semaphore.tryAcquire(3,1, TimeUnit.SECONDS));
         } catch (Exception e) {
