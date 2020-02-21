@@ -816,19 +816,31 @@ public abstract class AbstractQueuedSynchronizer
          * unparkSuccessor, we need to know if CAS to reset status
          * fails, if so rechecking.
          */
+        /*
+         * 如果头节点的后继节点需要唤醒，那么执行唤醒
+         * 动作；如果不需要，将头结点的等待状态设置为PROPAGATE保证
+         * 唤醒传递。另外，为了防止过程中有新节点进入(队列)，这里必
+         * 需做循环，所以，和其他unparkSuccessor方法使用方式不一样
+         * 的是，如果(头结点)等待状态设置失败，重新检测。
+         */
         for (;;) {
             Node h = head;
             if (h != null && h != tail) {
                 int ws = h.waitStatus;
+                // 如果头节点对应的线程是SIGNAL状态，则意味着头
+                // 结点的后继结点所对应的线程需要被unpark唤醒
                 if (ws == Node.SIGNAL) {
+                    // 修改头结点对应的线程状态设置为0。失败的话，则继续循环。
                     if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
                         continue;            // loop to recheck cases
+                    // 唤醒头结点h的后继结点所对应的线程
                     unparkSuccessor(h);
                 }
                 else if (ws == 0 &&
                          !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
                     continue;                // loop on failed CAS
             }
+            // 如果头结点发生变化，则继续循环。否则，退出循环
             if (h == head)                   // loop if head changed
                 break;
         }

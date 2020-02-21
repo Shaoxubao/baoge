@@ -174,10 +174,13 @@ public class Semaphore implements java.io.Serializable {
             return getState();
         }
 
+        // 共享模式下非公平策略获取
         final int nonfairTryAcquireShared(int acquires) {
             for (;;) {
                 int available = getState();
                 int remaining = available - acquires;
+                // remaining < 0说明许可已经供不应求了，这个时候进来的线程需要被阻塞
+                // 否则CAS操作更新available的值，它表示剩余的许可数
                 if (remaining < 0 ||
                     compareAndSetState(available, remaining))
                     return remaining;
