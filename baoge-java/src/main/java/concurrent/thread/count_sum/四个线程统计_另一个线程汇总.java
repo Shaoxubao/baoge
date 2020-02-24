@@ -20,6 +20,7 @@ public class 四个线程统计_另一个线程汇总 {
     }
 
     public static void test0() throws InterruptedException {
+
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -242,7 +243,7 @@ public class 四个线程统计_另一个线程汇总 {
         int total = 0;
         for (int i = 0; i < 4; i++) {
             try {
-                //一个需要注意的小细节，completionService.take.get()获取返回值，是按照完成的顺序的，即上面案例返回顺序是CEFD
+                // 一个需要注意的小细节，completionService.take.get()获取返回值，是按照完成的顺序的，即上面案例返回顺序是CEFD
                 total += completionService.take().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
