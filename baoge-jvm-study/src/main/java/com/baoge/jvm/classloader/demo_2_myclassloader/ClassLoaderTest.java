@@ -5,6 +5,12 @@ import java.lang.reflect.Method;
 /**
  * @Author shaoxubao
  * @Date 2020/2/24 10:46
+ *
+ * 分析下,Fib类的加载过程,初始化自定义类加载器后,loadClass方法肯定将其委派到双亲Application ClassLoader,
+ * 而Application ClassLoader又将其委派到Extension ClassLoader,继而委派到Bootstrap ClassLoader.
+ * 但是Bootstrap ClassLoader发现Fib并不在自己的加载能力范围内,于是移向Extension ClassLoader,同理Extension ClassLoader只能加载/ext中的class,
+ * 继而让给Application ClassLoader,而Application ClassLoader只加载classpath中的类,于是又回到我们自定义的MyClassLoader,
+ * 幸好我们重写了findClass方法进而执行了加载,否在findClass抛出找不到类的异常.至此Fib类加载完成.
  */
 public class ClassLoaderTest {
 
