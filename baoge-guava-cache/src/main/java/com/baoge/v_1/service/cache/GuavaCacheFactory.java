@@ -1,7 +1,7 @@
-package com.baoge.service.cache;
+package com.baoge.v_1.service.cache;
 
-import com.baoge.service.GuavaCacheService;
-import com.baoge.service.impl.GuavaCacheServiceImpl;
+import com.baoge.v_1.service.GuavaCacheService;
+import com.baoge.v_1.service.impl.GuavaCacheServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;

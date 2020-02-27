@@ -1,8 +1,8 @@
-package com.baoge.controller;
+package com.baoge.v_1.controller;
 
 import com.baoge.common.Result;
-import com.baoge.service.GuavaCacheService;
-import com.baoge.service.cache.GuavaCacheFactory;
+import com.baoge.v_1.service.GuavaCacheService;
+import com.baoge.v_1.service.cache.GuavaCacheFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

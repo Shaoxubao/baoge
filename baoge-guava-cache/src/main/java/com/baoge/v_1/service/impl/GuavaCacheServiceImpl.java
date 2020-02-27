@@ -1,6 +1,6 @@
-package com.baoge.service.impl;
+package com.baoge.v_1.service.impl;
 
-import com.baoge.service.GuavaCacheService;
+import com.baoge.v_1.service.GuavaCacheService;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheStats;
