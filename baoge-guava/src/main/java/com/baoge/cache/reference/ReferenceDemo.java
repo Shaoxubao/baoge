@@ -97,7 +97,7 @@ public class ReferenceDemo {
          */
 
         Ref ref = new Ref(10);
-        ReferenceQueue queue = new ReferenceQueue<>(); // GC完之后会记录被GC的对象PhantomReference<Ref>
+        ReferenceQueue queue = new ReferenceQueue<>(); // GC完之后会记录被GC的对象PhantomReference<Ref>，可参考FileCleaningTracker类
         MyPhantomReference phantomReference = new MyPhantomReference(ref, queue, 10);
         ref = null;
 
