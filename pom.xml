@@ -14,7 +14,6 @@
         <module>baoge-common</module>
         <module>baoge-scala</module>
         <module>baoge-bigdata</module>
-        <module>baoge-python</module>
         <module>baoge-spring</module>
         <module>baoge-dubbo</module>
         <module>baoge-java-nio</module>
