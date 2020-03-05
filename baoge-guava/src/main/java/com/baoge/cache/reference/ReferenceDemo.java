@@ -29,7 +29,15 @@ public class ReferenceDemo {
             TimeUnit.MILLISECONDS.sleep(500);
         }*/
 
-        // ===== Soft Reference:发现JVM内存快不够用的时候，引发 Soft GC
+        // ===== Soft Reference:发现JVM内存快不够用的时候，引发 Soft 被 GC
+        // jdk1.8 API:鼓励虚拟机实现偏离清除最近创建或最近使用的软参考,在虚拟机抛出OutOfMemoryError之前，所有软引用对象可以保证被清除
+        // 若发生FULL GC的时候或者OOM时，该软引用对象由一个强引用指向，那么这个软引用就不会被垃圾回收器所回收
+        /**
+         * 总结一下:
+         * 1.当发生GC时，虚拟机可能会回收SoftReference对象所指向的软引用，是否被回收取决于该软引用是否是新创建或近期使用过。
+         * 2.在虚拟机抛出OutOfMemoryError之前，所有软引用对象都会被回收。
+         * 3.只要一个软引用对象由一个强引用指向，那么即使是OutOfMemoryError时，也不会被回收。
+         */
         /**
         SoftReference<Ref> softReference = new SoftReference<>(new Ref(0));
 
