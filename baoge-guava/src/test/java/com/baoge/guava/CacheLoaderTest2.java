@@ -26,6 +26,7 @@ public class CacheLoaderTest2 {
     @Test
     public void testBasic() throws Exception {
         LoadingCache<String, Employee> cache = CacheBuilder.newBuilder().maximumSize(10)
+                // 缓存项在给定时间内没有被访问（读/写操作），则回收这个数据项占用内存
                 .expireAfterAccess(30, TimeUnit.MILLISECONDS)
                 .build(new CacheLoader<String, Employee>() {
                     @Override
