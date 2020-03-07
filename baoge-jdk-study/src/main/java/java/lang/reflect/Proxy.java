@@ -636,6 +636,7 @@ public class Proxy implements java.io.Serializable {
             /*
              * Generate the specified proxy class.
              */
+            // 生成指定代理类class文件的字节数组
             byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
                 proxyName, interfaces, accessFlags);
             try {
