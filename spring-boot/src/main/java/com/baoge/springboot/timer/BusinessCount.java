@@ -1,4 +1,4 @@
-package com.baoge.springboot.service.timer;
+package com.baoge.springboot.timer;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class BusinessCount implements InitializingBean {
     class CountThread extends Thread {
         @Override
         public void run() {
-            System.out.println("================");
+//            System.out.println("test timer is running ...");
         }
     }
 }
