@@ -42,6 +42,12 @@ public class MyTest4 {
 
             System.out.println("hello world");
             enhancer.create(); // 在运行期不断的创建全新的MyTest4的子类，创建完把MyTest4的子类的元信息放入元空间
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+
+            }
         }
     }
 
