@@ -7,6 +7,8 @@ import org.apache.zookeeper.CreateMode;
 /**
  * @Author shaoxubao
  * @Date 2019/11/8 15:49
+ *
+ * 分布式Id（Zookeeper生成）
  */
 public class ZKIDMaker {
     private static final String ZK_ADDRESS = "127.0.0.1:2181";
