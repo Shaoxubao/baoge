@@ -10,9 +10,9 @@ import java.util.concurrent.CountDownLatch;
  */
 public class ZkTest {
 
-    private static String lockRootValue = "/lock_zk_test";
-    private static int sessionTimeoutValue = 10000;
-    private static String connectionStringValue = "localhost:2181";
+    private static String LOCK_ROOT_VALUE = "/lock_zk_test";
+    private static int SESSION_TIMEOUT_VALUE = 10000;
+    private static String CONNECTION_STRING_VALUE = "localhost:2181";
 
     public static void main(String[] args) {
 
@@ -23,7 +23,7 @@ public class ZkTest {
                 public void run() {
                     DistributedLock lock = null;
                     try {
-                        lock = new DistributedLock(lockRootValue, connectionStringValue, sessionTimeoutValue);
+                        lock = new DistributedLock(LOCK_ROOT_VALUE, CONNECTION_STRING_VALUE, SESSION_TIMEOUT_VALUE);
                         latch.countDown();
                         latch.await();
                         lock.lock();
