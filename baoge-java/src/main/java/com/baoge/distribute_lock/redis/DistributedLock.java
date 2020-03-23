@@ -23,37 +23,36 @@ public class DistributedLock {
     /**
      * 加锁
      *
-     * @param locaName       锁的key
+     * @param lockName       锁的key
      * @param acquireTimeout 获取超时时间
      * @param timeout        锁的超时时间
      * @return 锁标识
      */
-    public String lockWithTimeout(String locaName,
-                                  long acquireTimeout, long timeout) {
-        Jedis conn = null;
+    public String lockWithTimeout(String lockName, long acquireTimeout, long timeout) {
+        Jedis jedis = null;
         String retIdentifier = null;
         try {
             // 获取连接
-            conn = jedisPool.getResource();
+            jedis = jedisPool.getResource();
             // 随机生成一个value
             String identifier = UUID.randomUUID().toString();
             // 锁名，即key值
-            String lockKey = "lock:" + locaName;
+            String lockKey = "lock:" + lockName;
             // 超时时间，上锁后超过此时间则自动释放锁
             int lockExpire = (int) (timeout / 1000);
 
             // 获取锁的超时时间，超过这个时间则放弃获取锁
             long end = System.currentTimeMillis() + acquireTimeout;
             while (System.currentTimeMillis() < end) {
-                if (conn.setnx(lockKey, identifier) == 1) {
-                    conn.expire(lockKey, lockExpire);
+                if (jedis.setnx(lockKey, identifier) == 1) {
+                    jedis.expire(lockKey, lockExpire);
                     // 返回value值，用于释放锁时间确认
                     retIdentifier = identifier;
                     return retIdentifier;
                 }
                 // 返回-1代表key没有设置超时时间，为key设置一个超时时间
-                if (conn.ttl(lockKey) == -1) {
-                    conn.expire(lockKey, lockExpire);
+                if (jedis.ttl(lockKey) == -1) {
+                    jedis.expire(lockKey, lockExpire);
                 }
 
                 try {
@@ -65,8 +64,8 @@ public class DistributedLock {
         } catch (JedisException e) {
             e.printStackTrace();
         } finally {
-            if (conn != null) {
-                conn.close();
+            if (jedis != null) {
+                jedis.close();
             }
         }
         return retIdentifier;
