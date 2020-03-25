@@ -17,11 +17,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class GenericConsumer {
 
     /**
-     * Spring配置方式:
+     * 通过API方式:
      * 运行时启动zk,启动服务提供者provider
      */
     @Test
     public void testGeneric() {
+        // 引用远程服务
+        // 该实例很重量，里面封装了所有与注册中心及服务提供方连接，请缓存
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
 
         // 弱类型接口名
@@ -47,7 +49,7 @@ public class GenericConsumer {
     }
 
     /**
-     * 非Spring配置方式，ClassPathXmlApplicationContext
+     * Spring配置方式，ClassPathXmlApplicationContext
      */
     @Test
     public void testGeneric2() {
