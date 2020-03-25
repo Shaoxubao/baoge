@@ -17,7 +17,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class GenericConsumer {
 
     /**
-     * Spring配置方式
+     * Spring配置方式:
+     * 运行时启动zk,启动服务提供者provider
      */
     @Test
     public void testGeneric() {
