@@ -56,6 +56,10 @@ public class JDKProxyExample {
         JDKProxy jdkProxy = new JDKProxy();
         Car carInstance = jdkProxy.getProxy(new Taxi());
         carInstance.isRunning();
+
+
+        Car carInstance2 = jdkProxy.getProxy(new Bus());
+        carInstance2.isRunning();
     }
 
 }
