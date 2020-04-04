@@ -416,6 +416,8 @@ public class Proxy implements java.io.Serializable {
         // If the proxy class defined by the given loader implementing
         // the given interfaces exists, this will simply return the cached copy;
         // otherwise, it will create the proxy class via the ProxyClassFactory
+        // 如果代理类被指定的类加载器loader定义了，并实现了给定的接口interfaces，
+        // 那么就返回缓存的代理类对象，否则使用ProxyClassFactory创建代理类
         return proxyClassCache.get(loader, interfaces);
     }
 
@@ -640,6 +642,7 @@ public class Proxy implements java.io.Serializable {
             byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
                 proxyName, interfaces, accessFlags);
             try {
+                // 把代理类加载到JVM中，至此动态代理过程基本结束了
                 return defineClass0(loader, proxyName,
                                     proxyClassFile, 0, proxyClassFile.length);
             } catch (ClassFormatError e) {
@@ -717,6 +720,8 @@ public class Proxy implements java.io.Serializable {
         /*
          * Look up or generate the designated proxy class.
          */
+
+        // 查询（在缓存中已经有）或生成指定的代理类的class对象。
         Class<?> cl = getProxyClass0(loader, intfs);
 
         /*

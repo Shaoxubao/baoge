@@ -46,12 +46,12 @@ public class DynamicProxyHandler implements InvocationHandler {
      * @param path
      */
     private void addClassToDisk(String className, Class<?> cl, String path) {
-        //用于生产代理对象的字节码
+        // 用于生产代理对象的字节码
         byte[] classFile = ProxyGenerator.generateProxyClass(className, cl.getInterfaces());
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(path);
-            //将代理对象的class字节码写到硬盘上
+            // 将代理对象的class字节码写到硬盘上
             out.write(classFile);
             out.flush();
         } catch (Exception e) {
