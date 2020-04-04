@@ -21,23 +21,23 @@ package com.baoge.jvm.memory;
  * Java stack information for the threads listed above:
  * ===================================================
  * "Thread-B":
- *         at com.baoge.jvm.memory.A.method(MyTest3.java:31)
+ *         at com.baoge.jvm.memory.A.method(MyTest3_deadlock.java:31)
  *         - waiting to lock <0x00000000d6941098> (a java.lang.Class for com.baoge.jvm.memory.A)
- *         at com.baoge.jvm.memory.B.method(MyTest3.java:46)
+ *         at com.baoge.jvm.memory.B.method(MyTest3_deadlock.java:46)
  *         - locked <0x00000000d69e7380> (a java.lang.Class for com.baoge.jvm.memory.B)
- *         at com.baoge.jvm.memory.MyTest3.lambda$main$1(MyTest3.java:17)
- *         at com.baoge.jvm.memory.MyTest3$$Lambda$6/2027961269.run(Unknown Source)
+ *         at com.baoge.jvm.memory.MyTest3_deadlock.lambda$main$1(MyTest3_deadlock.java:17)
+ *         at com.baoge.jvm.memory.MyTest3_deadlock$$Lambda$6/2027961269.run(Unknown Source)
  *         at java.lang.Thread.run(Thread.java:748)
  * "Thread-A":
- *         at com.baoge.jvm.memory.B.method(MyTest3.java:43)
+ *         at com.baoge.jvm.memory.B.method(MyTest3_deadlock.java:43)
  *         - waiting to lock <0x00000000d69e7380> (a java.lang.Class for com.baoge.jvm.memory.B)
- *         at com.baoge.jvm.memory.A.method(MyTest3.java:34)
+ *         at com.baoge.jvm.memory.A.method(MyTest3_deadlock.java:34)
  *         - locked <0x00000000d6941098> (a java.lang.Class for com.baoge.jvm.memory.A)
- *         at com.baoge.jvm.memory.MyTest3.lambda$main$0(MyTest3.java:16)
- *         at com.baoge.jvm.memory.MyTest3$$Lambda$5/580024961.run(Unknown Source)
+ *         at com.baoge.jvm.memory.MyTest3_deadlock.lambda$main$0(MyTest3_deadlock.java:16)
+ *         at com.baoge.jvm.memory.MyTest3_deadlock$$Lambda$5/580024961.run(Unknown Source)
  *         at java.lang.Thread.run(Thread.java:748)
  */
-public class MyTest3 {
+public class MyTest3_deadlock {
 
     public static void main(String[] args) {
 
