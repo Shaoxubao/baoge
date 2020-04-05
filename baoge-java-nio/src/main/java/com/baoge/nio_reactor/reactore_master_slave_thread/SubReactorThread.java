@@ -24,7 +24,7 @@ public class SubReactorThread extends Thread {
 
     private Selector selector;
     private ExecutorService businessExecutorPool;
-    private List<NioTask> taskList = new ArrayList<NioTask>(512);
+    private List<NioTask> taskList = new ArrayList<>(512);
     private ReentrantLock taskMainLock = new ReentrantLock();
 
     /**
@@ -50,14 +50,15 @@ public class SubReactorThread extends Thread {
             try {
                 taskMainLock.lock();
                 taskList.add(task);
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 taskMainLock.unlock();
             }
         }
     }
 
-    // private
-
+    @Override
     public void run() {
         while (!Thread.interrupted()) {
             Set<SelectionKey> ops = null;
@@ -81,11 +82,11 @@ public class SubReactorThread extends Thread {
                         ByteBuffer buf = (ByteBuffer) key.attachment();
                         buf.flip();
                         clientChannel.write(buf);
-                        System.out.println("服务端向客户端发送数据。。。");
+                        System.out.println(" 服务端向客户端发送数据。。。");
                         // 重新注册读事件
                         clientChannel.register(selector, SelectionKey.OP_READ);
                     } else if (key.isReadable()) { // 接受客户端请求
-                        System.out.println("服务端接收客户端连接请求。。。");
+                        System.out.println(" 服务端接收客户端连接请求。。。");
                         SocketChannel clientChannel = (SocketChannel) key.channel();
                         ByteBuffer buf = ByteBuffer.allocate(1024);
                         System.out.println(buf.capacity());
@@ -107,12 +108,11 @@ public class SubReactorThread extends Thread {
             if (!taskList.isEmpty()) {
                 try {
                     taskMainLock.lock();
-                    for (Iterator<NioTask> it = taskList
-                            .iterator(); it.hasNext();) {
+                    for (Iterator<NioTask> it = taskList.iterator(); it.hasNext();) {
                         NioTask task = it.next();
                         try {
                             SocketChannel sc = task.getSc();
-                            if(task.getData() != null) {
+                            if (task.getData() != null) {
                                 sc.register(selector, task.getOp(), task.getData());
                             } else {
                                 sc.register(selector, task.getOp());

@@ -34,7 +34,7 @@ public class SubReactorThreadGroup {
 
     public SubReactorThreadGroup(int threadCount) {
 
-        if(threadCount < 1) {
+        if (threadCount < 1) {
             threadCount = DEFAULT_NIO_THREAD_COUNT;
         }
 
@@ -51,7 +51,7 @@ public class SubReactorThreadGroup {
     }
 
     public void dispatch(SocketChannel socketChannel) {
-        if(socketChannel != null ) {
+        if (socketChannel != null ) {
             next().register(new NioTask(socketChannel, SelectionKey.OP_READ));
         }
     }
