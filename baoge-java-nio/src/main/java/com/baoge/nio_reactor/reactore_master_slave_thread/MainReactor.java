@@ -49,7 +49,7 @@ public class MainReactor implements Runnable {
                 it.remove();
                 try {
                     if (key.isAcceptable()) { // 客户端建立连接
-                        System.out.println("收到客户端的连接请求。。。");
+                        System.out.println("收到客户端的连接请求 。。。");
                         ServerSocketChannel serverSc = (ServerSocketChannel) key.channel(); // 这里其实，可以直接使用ssl这个变量
                         SocketChannel clientChannel = serverSc.accept();
                         clientChannel.configureBlocking(false);
@@ -57,7 +57,7 @@ public class MainReactor implements Runnable {
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    System.out.println("客户端主动断开连接。。。。。。。");
+                    System.out.println("客户端主动断开连接 。。。。。。。");
                 }
 
             }
