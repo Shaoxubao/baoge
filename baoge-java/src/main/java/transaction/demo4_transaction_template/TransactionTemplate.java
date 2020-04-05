@@ -1,6 +1,6 @@
-package transaction_aop.demo4_transaction_template;
+package transaction.demo4_transaction_template;
 
-import transaction_aop.demo3_transaction_holder.TransactionManager;
+import transaction.demo3_transaction_holder.TransactionManager;
 
 import javax.sql.DataSource;
 

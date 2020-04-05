@@ -1,8 +1,8 @@
-package transaction_aop.demo6_annotation;
+package transaction.demo6_annotation;
 
-import transaction_aop.BankService;
-import transaction_aop.demo3_transaction_holder.ConnectionHolderBankDao;
-import transaction_aop.demo3_transaction_holder.ConnectionHolderInsuranceDao;
+import transaction.BankService;
+import transaction.demo3_transaction_holder.ConnectionHolderBankDao;
+import transaction.demo3_transaction_holder.ConnectionHolderInsuranceDao;
 
 import javax.sql.DataSource;
 

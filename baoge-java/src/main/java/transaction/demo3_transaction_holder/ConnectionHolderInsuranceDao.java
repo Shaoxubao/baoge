@@ -1,4 +1,4 @@
-package transaction_aop.demo3_transaction_holder;
+package transaction.demo3_transaction_holder;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -10,18 +10,18 @@ import java.sql.ResultSet;
  * Author: Shao Xu Bao <15818589952@163.com>
  * Date:   2018/10/4
  */
-public class ConnectionHolderBankDao {
+public class ConnectionHolderInsuranceDao {
 
     private DataSource dataSource;
 
-    public ConnectionHolderBankDao(DataSource dataSource) {
+    public ConnectionHolderInsuranceDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void withdraw(int bankId, int amount) throws Exception {
+    public void deposit(int insuranceId, int amount) throws Exception {
         Connection connection = SingleThreadConnectionHolder.getConnection(dataSource);
-        PreparedStatement selectStatement = connection.prepareStatement("SELECT BANK_AMOUNT FROM BANK_ACCOUNT WHERE BANK_ID = ?");
-        selectStatement.setInt(1, bankId);
+        PreparedStatement selectStatement = connection.prepareStatement("SELECT INSURANCE_AMOUNT FROM INSURANCE_ACCOUNT WHERE INSURANCE_ID = ?");
+        selectStatement.setInt(1, insuranceId);
         ResultSet resultSet = selectStatement.executeQuery();
         resultSet.next();
         int previousAmount = resultSet.getInt(1);
@@ -29,10 +29,10 @@ public class ConnectionHolderBankDao {
         selectStatement.close();
 
 
-        int newAmount = previousAmount - amount;
-        PreparedStatement updateStatement = connection.prepareStatement("UPDATE BANK_ACCOUNT SET BANK_AMOUNT = ? WHERE BANK_ID = ?");
+        int newAmount = previousAmount + amount;
+        PreparedStatement updateStatement = connection.prepareStatement("UPDATE INSURANCE_ACCOUNT SET INSURANCE_AMOUNT = ? WHERE INSURANCE_ID = ?");
         updateStatement.setInt(1, newAmount);
-        updateStatement.setInt(2, bankId);
+        updateStatement.setInt(2, insuranceId);
         updateStatement.execute();
 
         updateStatement.close();

@@ -1,6 +1,9 @@
 package transaction_aop.demo1_failure;
 
 import org.junit.Test;
+import transaction.demo1_failure.FailureBankDao;
+import transaction.demo1_failure.FailureBankService;
+import transaction.demo1_failure.FailureInsuranceDao;
 import transaction_aop.BankFixture;
 
 import java.sql.SQLException;

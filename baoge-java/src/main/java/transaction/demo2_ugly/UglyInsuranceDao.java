@@ -1,6 +1,5 @@
-package transaction_aop.demo3_transaction_holder;
+package transaction.demo2_ugly;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,16 +9,8 @@ import java.sql.ResultSet;
  * Author: Shao Xu Bao <15818589952@163.com>
  * Date:   2018/10/4
  */
-public class ConnectionHolderInsuranceDao {
-
-    private DataSource dataSource;
-
-    public ConnectionHolderInsuranceDao(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public void deposit(int insuranceId, int amount) throws Exception {
-        Connection connection = SingleThreadConnectionHolder.getConnection(dataSource);
+public class UglyInsuranceDao {
+    public void deposit(int insuranceId, int amount, Connection connection) throws Exception {
         PreparedStatement selectStatement = connection.prepareStatement("SELECT INSURANCE_AMOUNT FROM INSURANCE_ACCOUNT WHERE INSURANCE_ID = ?");
         selectStatement.setInt(1, insuranceId);
         ResultSet resultSet = selectStatement.executeQuery();

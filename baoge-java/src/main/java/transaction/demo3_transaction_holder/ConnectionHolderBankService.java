@@ -1,6 +1,6 @@
-package transaction_aop.demo3_transaction_holder;
+package transaction.demo3_transaction_holder;
 
-import transaction_aop.BankService;
+import transaction.BankService;
 
 import javax.sql.DataSource;
 

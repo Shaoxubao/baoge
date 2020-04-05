@@ -1,6 +1,7 @@
 package transaction_aop.demo4_transaction_template;
 
 import org.junit.Test;
+import transaction.demo4_transaction_template.TransactionTemplateBankService;
 import transaction_aop.BankFixture;
 
 import static junit.framework.Assert.assertEquals;

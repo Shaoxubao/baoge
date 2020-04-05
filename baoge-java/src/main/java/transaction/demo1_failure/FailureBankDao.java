@@ -1,5 +1,6 @@
-package transaction_aop.demo2_ugly;
+package transaction.demo1_failure;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,13 +8,22 @@ import java.sql.ResultSet;
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
  * Author: Shao Xu Bao <15818589952@163.com>
- * Date:   2018/10/4
+ * Date:   2018/10/3
  */
-public class UglyBankDao {
+public class FailureBankDao {
 
-    public void withdraw(int bankId, int amount, Connection connection) throws Exception {
+    private DataSource dataSource;
+
+    public FailureBankDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+
+    public void withdraw(int bankId, int amount) throws Exception {
+        Connection connection = dataSource.getConnection();
         PreparedStatement selectStatement = connection.prepareStatement("SELECT BANK_AMOUNT FROM BANK_ACCOUNT WHERE BANK_ID = ?");
         selectStatement.setInt(1, bankId);
+
         ResultSet resultSet = selectStatement.executeQuery();
         resultSet.next();
         int previousAmount = resultSet.getInt(1);
@@ -27,6 +37,8 @@ public class UglyBankDao {
         updateStatement.execute();
 
         updateStatement.close();
+        connection.close();
 
     }
+
 }

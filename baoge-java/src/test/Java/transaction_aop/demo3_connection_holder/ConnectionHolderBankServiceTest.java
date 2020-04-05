@@ -2,7 +2,7 @@ package transaction_aop.demo3_connection_holder;
 
 import org.junit.Test;
 import transaction_aop.BankFixture;
-import transaction_aop.demo3_transaction_holder.ConnectionHolderBankService;
+import transaction.demo3_transaction_holder.ConnectionHolderBankService;
 
 import static junit.framework.Assert.assertEquals;
 

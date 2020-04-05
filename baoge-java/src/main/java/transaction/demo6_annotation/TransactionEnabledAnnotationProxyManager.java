@@ -1,6 +1,6 @@
-package transaction_aop.demo6_annotation;
+package transaction.demo6_annotation;
 
-import transaction_aop.demo3_transaction_holder.TransactionManager;
+import transaction.demo3_transaction_holder.TransactionManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

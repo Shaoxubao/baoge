@@ -1,4 +1,4 @@
-package transaction_aop.demo3_transaction_holder;
+package transaction.demo3_transaction_holder;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

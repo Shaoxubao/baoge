@@ -1,6 +1,9 @@
 package transaction_aop.demo2_ugly;
 
 import org.junit.Test;
+import transaction.demo2_ugly.UglyBankDao;
+import transaction.demo2_ugly.UglyBankService;
+import transaction.demo2_ugly.UglyInsuranceDao;
 import transaction_aop.BankFixture;
 import static junit.framework.Assert.assertEquals;
 

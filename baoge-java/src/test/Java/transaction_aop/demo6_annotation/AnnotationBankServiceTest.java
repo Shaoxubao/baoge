@@ -1,9 +1,11 @@
 package transaction_aop.demo6_annotation;
 
 import org.junit.Test;
+import transaction.demo6_annotation.AnnotationBankService;
+import transaction.demo6_annotation.TransactionEnabledAnnotationProxyManager;
 import transaction_aop.BankFixture;
-import transaction_aop.BankService;
-import transaction_aop.demo3_transaction_holder.TransactionManager;
+import transaction.BankService;
+import transaction.demo3_transaction_holder.TransactionManager;
 
 import static junit.framework.Assert.assertEquals;
 

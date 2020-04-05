@@ -1,6 +1,6 @@
-package transaction_aop.demo5_transaction_proxy;
+package transaction.demo5_transaction_proxy;
 
-import transaction_aop.demo3_transaction_holder.TransactionManager;
+import transaction.demo3_transaction_holder.TransactionManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package transaction_aop;
+package transaction;
 
 import org.apache.commons.dbcp.BasicDataSource;
 

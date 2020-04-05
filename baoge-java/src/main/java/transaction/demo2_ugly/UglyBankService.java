@@ -1,6 +1,6 @@
-package transaction_aop.demo1_failure;
+package transaction.demo2_ugly;
 
-import transaction_aop.BankService;
+import transaction.BankService;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -9,15 +9,15 @@ import java.sql.SQLException;
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
  * Author: Shao Xu Bao <15818589952@163.com>
- * Date:   2018/10/3
+ * Date:   2018/10/4
  */
-public class FailureBankService implements BankService {
+public class UglyBankService implements BankService {
 
-    private FailureBankDao failureBankDao;
-    private FailureInsuranceDao failureInsuranceDao;
     private DataSource dataSource;
+    private UglyBankDao uglyBankDao;
+    private UglyInsuranceDao uglyInsuranceDao;
 
-    public FailureBankService(DataSource dataSource) {
+    public UglyBankService(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -27,8 +27,8 @@ public class FailureBankService implements BankService {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
 
-            failureBankDao.withdraw(fromId, amount);
-            failureInsuranceDao.deposit(toId, amount);
+            uglyBankDao.withdraw(fromId, amount, connection);
+            uglyInsuranceDao.deposit(toId, amount, connection);
 
             connection.commit();
         } catch (Exception e) {
@@ -50,12 +50,12 @@ public class FailureBankService implements BankService {
         }
     }
 
-    public void setFailureBankDao(FailureBankDao failureBankDao) {
-        this.failureBankDao = failureBankDao;
+    public void setUglyBankDao(UglyBankDao uglyBankDao) {
+        this.uglyBankDao = uglyBankDao;
     }
 
-    public void setFailureInsuranceDao(FailureInsuranceDao failureInsuranceDao) {
-        this.failureInsuranceDao = failureInsuranceDao;
+    public void setUglyInsuranceDao(UglyInsuranceDao uglyInsuranceDao) {
+        this.uglyInsuranceDao = uglyInsuranceDao;
     }
 
 }

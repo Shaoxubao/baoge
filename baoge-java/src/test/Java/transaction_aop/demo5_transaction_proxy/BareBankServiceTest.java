@@ -1,9 +1,11 @@
 package transaction_aop.demo5_transaction_proxy;
 
 import org.junit.Test;
+import transaction.demo5_transaction_proxy.BareBankService;
+import transaction.demo5_transaction_proxy.TransactionEnabledProxyManager;
 import transaction_aop.BankFixture;
-import transaction_aop.BankService;
-import transaction_aop.demo3_transaction_holder.TransactionManager;
+import transaction.BankService;
+import transaction.demo3_transaction_holder.TransactionManager;
 
 import static junit.framework.Assert.assertEquals;
 

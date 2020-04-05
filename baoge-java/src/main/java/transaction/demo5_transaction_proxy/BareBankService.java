@@ -1,8 +1,8 @@
-package transaction_aop.demo5_transaction_proxy;
+package transaction.demo5_transaction_proxy;
 
-import transaction_aop.BankService;
-import transaction_aop.demo3_transaction_holder.ConnectionHolderBankDao;
-import transaction_aop.demo3_transaction_holder.ConnectionHolderInsuranceDao;
+import transaction.BankService;
+import transaction.demo3_transaction_holder.ConnectionHolderBankDao;
+import transaction.demo3_transaction_holder.ConnectionHolderInsuranceDao;
 
 import javax.sql.DataSource;
 

@@ -1,4 +1,4 @@
-package transaction_aop.demo6_annotation;
+package transaction.demo6_annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
