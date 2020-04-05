@@ -2,7 +2,6 @@ package transaction_aop;
 
 import transaction_aop.factory.BeanFactory;
 import transaction_aop.service.UserService;
-import transaction_aop.service.UserServiceImpl;
 
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
