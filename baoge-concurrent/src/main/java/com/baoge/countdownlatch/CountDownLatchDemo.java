@@ -17,7 +17,9 @@ import java.util.concurrent.Executors;
  */
 public class CountDownLatchDemo implements Runnable {
 
-    static final CountDownLatch end = new CountDownLatch(10);
+    private final static int THREAD_COUNT = 10;
+
+    static final CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
     static final CountDownLatchDemo demo = new CountDownLatchDemo();
 
     public void run() {
@@ -28,20 +30,20 @@ public class CountDownLatchDemo implements Runnable {
 
             System.out.println(Thread.currentThread().getName() + " check complete.");
 
-            end.countDown();
+            countDownLatch.countDown();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        for (int i = 0; i < 10; i++) {
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+        for (int i = 0; i < THREAD_COUNT; i++) {
             executorService.execute(demo);
         }
 
         // 等待检查
-        end.await();
+        countDownLatch.await();
 
         System.out.println("Fire!");
 
