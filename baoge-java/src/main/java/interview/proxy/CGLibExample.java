@@ -1,5 +1,6 @@
 package interview.proxy;
 
+import net.sf.cglib.core.DebuggingClassWriter;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -47,6 +48,9 @@ public class CGLibExample {
     }
 
     public static void main(String[] args) {
+        // 将动态生成的每个class都输出到文件中
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "D:\\data");
+
         CGLibProxy cgLibProxy = new CGLibProxy();
         Car car = (Car) cgLibProxy.getInstance(new Car());
         car.isRunning();
