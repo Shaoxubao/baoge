@@ -1,6 +1,7 @@
 package callable;
 
 import base.SpringTestBase;
+import com.baoge.calable.CallableService;
 import com.baoge.calable.CallableServiceImpl;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TestCallable extends SpringTestBase {
 
     @Autowired
-    private CallableServiceImpl callableService;
+    private CallableService callableService;
 
     @Test
     public void testCallable() {
