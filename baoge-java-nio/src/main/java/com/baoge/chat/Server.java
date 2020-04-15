@@ -129,7 +129,7 @@ public class Server {
      * @throws IOException
      */
     private void boardMsg(String msg) throws IOException {
-        for (SelectionKey key:selector.keys()) {
+        for (SelectionKey key : selector.keys()) {
             Channel target = key.channel();
             if (target.isOpen() && target instanceof SocketChannel) {
                 write(msg, (SocketChannel) target);
