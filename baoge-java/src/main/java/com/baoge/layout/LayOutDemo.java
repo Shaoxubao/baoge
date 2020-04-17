@@ -8,7 +8,7 @@ import utils.HashUtil;
  * Author: Shao Xu Bao <15818589952@163.com>
  * Date:   2019/12/1
  *
- * 查看对象字节码信息
+ * 查看对象字节码信息，内存布局
  */
 public class LayOutDemo {
 

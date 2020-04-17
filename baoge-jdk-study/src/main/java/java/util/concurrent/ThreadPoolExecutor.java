@@ -383,16 +383,22 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     private static final int CAPACITY   = (1 << COUNT_BITS) - 1;
 
     // runState is stored in the high-order bits
-    private static final int RUNNING    = -1 << COUNT_BITS;
-    private static final int SHUTDOWN   =  0 << COUNT_BITS;
-    private static final int STOP       =  1 << COUNT_BITS;
-    private static final int TIDYING    =  2 << COUNT_BITS;
-    private static final int TERMINATED =  3 << COUNT_BITS;
+    // 线程池状态含义：
+    //  RUNNING： 接受新任务并且处理阻塞队列里的任务；
+    //  SHUTDOWN：拒绝新任务但是处理阻塞队列里的任务；
+    //  STOP：    拒绝新任务并且抛弃阻塞队列里的任务，同时会中断正在处理的任务；
+    //  TIDYING： 所有任务都执行完（包含阻塞队列里面任务）当前线程池活动线程为 0，将要调用 terminated 方法；
+    //  TERMINATED：终止状态，terminated方法调用完成以后的状态。
+    private static final int RUNNING    = -1 << COUNT_BITS; // （高3位）：11100000000000000000000000000000
+    private static final int SHUTDOWN   =  0 << COUNT_BITS; // （高3位）：00000000000000000000000000000000
+    private static final int STOP       =  1 << COUNT_BITS; // （高3位）：00100000000000000000000000000000
+    private static final int TIDYING    =  2 << COUNT_BITS; // （高3位）：01000000000000000000000000000000
+    private static final int TERMINATED =  3 << COUNT_BITS; // （高3位）：01100000000000000000000000000000
 
     // Packing and unpacking ctl
-    private static int runStateOf(int c)     { return c & ~CAPACITY; }
-    private static int workerCountOf(int c)  { return c & CAPACITY; }
-    private static int ctlOf(int rs, int wc) { return rs | wc; }
+    private static int runStateOf(int c)     { return c & ~CAPACITY; }  // 获取高三位 运行状态
+    private static int workerCountOf(int c)  { return c & CAPACITY; }   // 获取低29位 线程个数
+    private static int ctlOf(int rs, int wc) { return rs | wc; }        // 计算ctl新值，线程状态 与 线程个数
 
     /*
      * Bit field accessors that don't require unpacking ctl.
@@ -905,16 +911,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             int rs = runStateOf(c);
 
             // Check if queue empty only if necessary.
-            if (rs >= SHUTDOWN &&
-                ! (rs == SHUTDOWN &&
-                   firstTask == null &&
-                   ! workQueue.isEmpty()))
+            if (rs >= SHUTDOWN && ! (rs == SHUTDOWN && firstTask == null && ! workQueue.isEmpty()))
                 return false;
 
             for (;;) {
                 int wc = workerCountOf(c);
-                if (wc >= CAPACITY ||
-                    wc >= (core ? corePoolSize : maximumPoolSize))
+                if (wc >= CAPACITY || wc >= (core ? corePoolSize : maximumPoolSize))
                     return false;
                 if (compareAndIncrementWorkerCount(c))
                     break retry;
@@ -940,8 +942,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                     // shut down before lock acquired.
                     int rs = runStateOf(ctl.get());
 
-                    if (rs < SHUTDOWN ||
-                        (rs == SHUTDOWN && firstTask == null)) {
+                    if (rs < SHUTDOWN || (rs == SHUTDOWN && firstTask == null)) {
                         if (t.isAlive()) // precheck that t is startable
                             throw new IllegalThreadStateException();
                         workers.add(w);
@@ -1362,19 +1363,29 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * thread.  If it fails, we know we are shut down or saturated
          * and so reject the task.
          */
+        // 获取当前线程池的状态+线程个数变量的组合值
         int c = ctl.get();
+
+        // 当前线程池线程个数是否小于corePoolSize,小于则开启新线程运行
         if (workerCountOf(c) < corePoolSize) {
             if (addWorker(command, true))
                 return;
             c = ctl.get();
         }
+
+        // 如果线程池处于RUNNING状态，则添加任务到阻塞队列
         if (isRunning(c) && workQueue.offer(command)) {
+            // 二次检查
             int recheck = ctl.get();
+
+            // 如果当前线程池状态不是RUNNING则从队列删除任务，并执行拒绝策略
             if (! isRunning(recheck) && remove(command))
                 reject(command);
+            // 否则如果当前线程池线程空，则添加一个线程
             else if (workerCountOf(recheck) == 0)
                 addWorker(null, false);
         }
+        // 如果队列满了，则新增线程，新增失败则执行拒绝策略
         else if (!addWorker(command, false))
             reject(command);
     }
