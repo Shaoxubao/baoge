@@ -5,7 +5,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 
 /**
- * 功能：虚引用demo
+ * 功能：虚引用demo（可用于管理申请（DirectByteBuffer）的堆外内存，队列记录释放掉的指向堆外内存的对象，JVM gc线程处理释放堆外内存）
  * 详情：
  * @Author shaoxubao
  * @Date 2019/10/15 14:08
