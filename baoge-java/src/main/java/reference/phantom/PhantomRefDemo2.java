@@ -58,7 +58,7 @@ public class PhantomRefDemo2 {
 
     }
 
-    static class M {
+    public static class M {
 
     }
 }
