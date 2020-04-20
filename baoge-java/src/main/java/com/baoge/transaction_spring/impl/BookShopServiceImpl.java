@@ -73,6 +73,15 @@ public class BookShopServiceImpl implements BookShopService {
 
     /**
      * 事务隔离级别test
+     * 事务并发问题：
+     * 1、脏读
+     * 2、不可重复读
+     * 3、幻读
+     * 事务隔离级别：
+     * 1、读未提交
+     * 2、读已提交
+     * 3、可重复读
+     * 4、串行化
      */
 //    @Transactional(isolation = Isolation.DEFAULT)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
