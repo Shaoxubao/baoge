@@ -79,8 +79,8 @@ public class BookShopServiceImpl implements BookShopService {
      * 3、幻读
      * 事务隔离级别：
      * 1、读未提交
-     * 2、读已提交
-     * 3、可重复读
+     * 2、读已提交:Oracle默认隔离级别
+     * 3、可重复读:MySql默认隔离级别
      * 4、串行化
      */
 //    @Transactional(isolation = Isolation.DEFAULT)
