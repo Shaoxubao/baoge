@@ -378,9 +378,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * that workerCount is 0 (which sometimes entails a recheck -- see
      * below).
      */
+    // ctl是对线程池的运行状态和线程池中有效线程的数量进行控制的一个字段， 它包含两部分的信息: 线程池的运行状态 (runState) 和线程池内有效线程的数量 (workerCount)，
+    // 这里可以看到，使用了Integer类型来保存，高3位保存runState，低29位保存workerCount
     private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
     private static final int COUNT_BITS = Integer.SIZE - 3;
-    private static final int CAPACITY   = (1 << COUNT_BITS) - 1;
+    private static final int CAPACITY   = (1 << COUNT_BITS) - 1; // 1左移29位减1（29个1），这个常量表示workerCount的上限值，大约是5亿
 
     // runState is stored in the high-order bits
     // 线程池状态含义：
