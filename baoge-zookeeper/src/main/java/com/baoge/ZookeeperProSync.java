@@ -15,6 +15,10 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * Zookeeper配置中心
+ * cmd启动配置好的zkServer，然后启动代码（两个客户端），cmd再启动zkClient命令操作节点数据：
+ * create /baoge baoge66
+ * get /baoge
+ * set /baoge
  */
 public class ZookeeperProSync implements Watcher {
 
