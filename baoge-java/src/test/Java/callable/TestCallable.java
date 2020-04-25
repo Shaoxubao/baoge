@@ -1,8 +1,7 @@
 package callable;
 
 import base.SpringTestBase;
-import com.baoge.calable.CallableService;
-import com.baoge.calable.CallableServiceImpl;
+import com.baoge.callable.CallableService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

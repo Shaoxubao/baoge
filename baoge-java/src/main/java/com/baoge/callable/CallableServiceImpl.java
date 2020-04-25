@@ -1,4 +1,4 @@
-package com.baoge.calable;
+package com.baoge.callable;
 
 import com.google.common.collect.Lists;
 import guaua.Person;
