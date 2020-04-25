@@ -5,6 +5,7 @@ import lombok.Setter;
 import utils.object_compare.DescriptionFiled;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,6 +37,8 @@ public class Person implements Serializable {
             title = "国家"
     )
     private String country;
+
+    private List<Person> personList;
 
     public Person(String name, Integer age, String sex, String country) {
         super();
