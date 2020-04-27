@@ -54,6 +54,14 @@ public class HeapSort {
      *                                               6(3)      5(4) |  7(5)      3(6)
      *                                           0(7)   1(8)        |
      *
+     *
+     *                    第一次交换后(j=8,未调整):                   1(0)
+     *                                                    11(1)     |      7(2)
+     *                                               6(3)      5(4) |  7(5)      3(6)
+     *                                           0(7)   12(8)       |
+     *
+     *                    第一次交换后(j=8,且调整):
+     *
      */
     public static void adjustHeap(int []arr, int i, int length) {
         int temp = arr[i]; // 先取出当前元素i
