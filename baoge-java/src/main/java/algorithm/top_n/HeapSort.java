@@ -30,9 +30,10 @@ public class HeapSort {
     public static void sort(int []arr) {
         // 1.构建大顶堆
         for (int i = arr.length / 2 - 1; i >= 0; i--) {
-            // 从第一个非叶子结点(最后一个父节点)从下至上，从右至左调整结构
+            // 从第一个非叶子结点(最后一个父节点)从下至上，从右至左调整结构(调整每颗二叉树，构建完如图2)
             adjustHeap(arr, i, arr.length);
         }
+        System.out.println("构建大顶堆结果：" + Arrays.toString(arr));
         // 2.调整堆结构+交换堆顶元素与末尾元素
         for (int j = arr.length - 1; j > 0; j--) {
             swap(arr,0, j);          // 将堆顶元素与末尾元素进行交换
@@ -46,6 +47,13 @@ public class HeapSort {
      * @param arr                                         6(1)      |       7(2)
      * @param i                                     11(3)     5(4)  |  12(5)     3(6)
      * @param length                             0(7)   1(8)        |
+     *
+     *                                           ---------------------------------------
+     *                              构建大顶堆结果:                  12(0)
+     *                                                    11(1)     |      7(2)
+     *                                               6(3)      5(4) |  7(5)      3(6)
+     *                                           0(7)   1(8)        |
+     *
      */
     public static void adjustHeap(int []arr, int i, int length) {
         int temp = arr[i]; // 先取出当前元素i
