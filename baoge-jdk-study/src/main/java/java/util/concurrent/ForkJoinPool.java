@@ -1389,7 +1389,7 @@ public class ForkJoinPool extends AbstractExecutorService {
     // Instance fields
     volatile long ctl;                   // main pool control
     volatile int runState;               // lockable status
-    final int config;                    // parallelism, mode
+    final int config;                    // parallelism, mode(保存了不变的参数，包括了parallelism(默认为CPU核心数)和mode，供后续读取。mode可取FIFO_QUEUE(先进先出队列)和LIFO_QUEUE(后进先出队列)。默认LIFO_QUEUE)
     int indexSeed;                       // to generate worker index
     volatile WorkQueue[] workQueues;     // main registry
     final ForkJoinWorkerThreadFactory factory;
