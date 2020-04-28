@@ -61,6 +61,7 @@ public class CountTask extends RecursiveTask {
     }
 
     public static void main(String[] args) {
+        // 或者ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
         ForkJoinPool forkJoinPool = new ForkJoinPool();
 
         // 生成一个计算任务，负责计算1+2+3+4+5+n
