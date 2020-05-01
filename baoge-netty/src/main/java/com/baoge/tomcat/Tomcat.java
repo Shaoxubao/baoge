@@ -6,15 +6,13 @@ package com.baoge.tomcat;
  * Date:   2020/5/1
  */
 
-import com.baoge.tomcat.http.MyRequest;
-import com.baoge.tomcat.http.MyResponse;
+import com.baoge.tomcat.handler.MyTomcatHandler;
 import com.baoge.tomcat.http.MyServlet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
@@ -22,6 +20,7 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 简易Netty实现的Tomcat
@@ -31,7 +30,7 @@ public class Tomcat {
 
     private int PORT = 8080;
 
-    private Map<String, MyServlet> servletMapping = new HashMap<>();
+    private Map<String, MyServlet> servletMapping = new ConcurrentHashMap<>();
 
     private Properties webXml = new Properties();
 
@@ -84,7 +83,7 @@ public class Tomcat {
                             // HttpRequestDecoder 解码器
                             socketChannel.pipeline().addLast(new HttpRequestDecoder());
                             // 业务逻辑处理
-                            socketChannel.pipeline().addLast(new MyTomcatHandler());
+                            socketChannel.pipeline().addLast(new MyTomcatHandler(servletMapping));
                         }
                     })
                     // 针对主线程的配置 分配线程最大数量 128)
@@ -100,33 +99,6 @@ public class Tomcat {
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
-        }
-    }
-
-    public class MyTomcatHandler extends ChannelInboundHandlerAdapter {
-        @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            if (msg instanceof HttpRequest) {
-                System.out.println("hello");
-
-                HttpRequest req = (HttpRequest) msg;
-                // 转交给我们自己的request实现
-                MyRequest myRequest = new MyRequest(ctx, req);
-                // 转交给我们自己的response实现
-                MyResponse myResponse = new MyResponse(ctx, req);
-                // 实际业务处理
-                String url = myRequest.getUrl();
-                if (servletMapping.containsKey(url)) {
-                    servletMapping.get(url).service(myRequest, myResponse);
-                } else {
-                    myResponse.write("404 - Not Found");
-                }
-            }
-        }
-
-        @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
         }
     }
 
