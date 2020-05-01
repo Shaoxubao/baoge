@@ -3,6 +3,7 @@ package com.baoge.rpc.registry;
 import com.baoge.rpc.protocol.InvokerProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -16,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Author: Shao Xu Bao <xubao_shao@163.com>
  * Date:   2020/5/1
  */
+
+@Slf4j
 public class RegistryHandler extends ChannelInboundHandlerAdapter {
     // 用保存所有可用的服务
     public static ConcurrentHashMap<String, Object> registryMap = new ConcurrentHashMap<>();
@@ -31,6 +34,7 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        log.info("RegistryHandler channelRead=========");
         Object result = new Object();
         InvokerProtocol request = (InvokerProtocol) msg;
 
