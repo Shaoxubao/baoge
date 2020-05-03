@@ -27,7 +27,7 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
     private List<String> classNames = new ArrayList<>();
 
     public RegistryHandler() {
-        //完成递归扫描
+        // 完成递归扫描
         scannerClass("com.baoge.rpc.provider");
         doRegister();
     }
