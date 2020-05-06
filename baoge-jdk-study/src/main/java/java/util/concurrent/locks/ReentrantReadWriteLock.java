@@ -294,6 +294,10 @@ public class ReentrantReadWriteLock
          * The number of reentrant read locks held by current thread.
          * Initialized only in constructor and readObject.
          * Removed whenever a thread's read hold count drops to 0.
+         *
+         * 当前线程持有的重入读锁的数量。
+         * 只在构造函数和readObject中初始化。
+         * 当线程的读取保持数下降到0时，会被移除。
          */
         private transient ThreadLocalHoldCounter readHolds;
 
@@ -310,8 +314,15 @@ public class ReentrantReadWriteLock
          *
          * <p>Accessed via a benign data race; relies on the memory
          * model's final field and out-of-thin-air guarantees.
+         *
+         * 最后一个成功获取readLock的线程的保持数。这在下一个要释放的线程是最后一个获取的线程的情况下，可以节省ThreadLocal查找。
+         * 这个是非易失性的，因为它只是作为启发式的，对于线程缓存来说是很好的。
+         *
+         * 可以超过缓存的线程的读取保持数，但通过不保留对线程的引用来避免垃圾保留。
+         *
+         * 通过良性的数据竞赛访问；依靠内存模型的最终字段和空投保证。
          */
-        private transient HoldCounter cachedHoldCounter;
+        private transient HoldCounter cachedHoldCounter; // 读锁的缓存，缓存什么？ 缓存最后一个成功获取资源的读锁！ 为什么需要缓存起来？ 可以节省ThreadLocal查找操作
 
         /**
          * firstReader is the first thread to have acquired the read lock.
