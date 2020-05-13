@@ -4,6 +4,8 @@ package com.baoge.cache.lru;
  * Copyright 2018-2028 Baoge All Rights Reserved.
  * Author: Shao Xu Bao <15818589952@163.com>
  * Date:   2020/2/29
+ *
+ * LRU:最近最少使用
  */
 public interface LRUCache<K, V> {
 
