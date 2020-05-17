@@ -1131,21 +1131,31 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         Thread wt = Thread.currentThread();
         Runnable task = w.firstTask;
         w.firstTask = null;
+        // 修改state为0，将占用锁的线程设为null（第一次执行之前没有线程占用）,允许线程中断
+        // Worker的构造函数中抑制了线程中断setState(-1)，所以这里需要unlock从而允许中断
         w.unlock(); // allow interrupts
         boolean completedAbruptly = true;
         try {
+            // 自旋，先执行自己携带的任务，然后从阻塞队列中获取一个任务直到无法获取任务
             while (task != null || (task = getTask()) != null) {
+                // 将state修改为1，设置占有锁的线程为自己
                 w.lock();
                 // If pool is stopping, ensure thread is interrupted;
                 // if not, ensure thread is not interrupted.  This
                 // requires a recheck in second case to deal with
                 // shutdownNow race while clearing interrupt
+                /**
+                 * check线程池的状态，如果状态为stop以上(stop以上不执行任务)，则中断当前线程
+                 * 如果当前线程已被中断（其他线程并发的调用线程池的shutdown()或shutdownNow()方法），则check线程池状态是否为stop以上
+                 * 最后如果线程池状态为stop以上，当前线程未被中断则中断当前线程
+                 */
                 if ((runStateAtLeast(ctl.get(), STOP) ||
                      (Thread.interrupted() &&
                       runStateAtLeast(ctl.get(), STOP))) &&
                     !wt.isInterrupted())
                     wt.interrupt();
                 try {
+                    // 执行任务前做的事情，留给子类实现
                     beforeExecute(wt, task);
                     Throwable thrown = null;
                     try {
@@ -1157,6 +1167,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                     } catch (Throwable x) {
                         thrown = x; throw new Error(x);
                     } finally {
+                        // 任务执行完成后做的事情，留给子类实现
                         afterExecute(task, thrown);
                     }
                 } finally {
@@ -1167,7 +1178,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             }
             completedAbruptly = false;
         } finally {
-            processWorkerExit(w, completedAbruptly);
+            /**
+             * 从上面可以看出如果实际业务(外部提交的Runnable)出现异常会导致当前worker终止
+             * completedAbruptly 此时为true意味着worker是突然完成，不是正常退出
+             */
+            processWorkerExit(w, completedAbruptly); // 执行worker退出收尾工作
         }
     }
 
