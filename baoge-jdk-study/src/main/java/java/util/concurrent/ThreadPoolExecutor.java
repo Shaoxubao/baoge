@@ -1051,6 +1051,10 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @return task, or null if the worker must exit, in which case
      *         workerCount is decremented
      */
+    /**
+     * 核心线程能够保留的原因，这是因为在获取任务时，如果队列为空并且 allowCoreThreadTimeOut 为 false 时，
+     * 通过 workQueue.take () 方法将挂起线程。着就保证了线程池在处理完任务后核心线程不会被回收。这是也为什么前面在初始化线程池时传入的是阻塞队列的原因了。
+     */
     private Runnable getTask() {
         boolean timedOut = false; // Did the last poll() time out?
 
@@ -1058,6 +1062,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             int c = ctl.get();
             int rs = runStateOf(c);
 
+            /**
+             * 1、线程池状态为shutdown并且任务队列为空
+             * 2、线程池状态为stop状态以上
+             * 这2种情况直接减少worker数量，并且返回null从而保证外部获取任务的worker进行正常退出
+             */
             // Check if queue empty only if necessary.
             if (rs >= SHUTDOWN && (rs >= STOP || workQueue.isEmpty())) {
                 decrementWorkerCount();
@@ -1066,17 +1075,29 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
             int wc = workerCountOf(c);
 
+            /**
+             * 1、允许核心线程退出
+             * 2、当前的线程数量超过核心线程数
+             * 这时获取任务的机制切换为poll(keepAliveTime)
+             */
             // Are workers subject to culling?
             boolean timed = allowCoreThreadTimeOut || wc > corePoolSize;
 
+            /**
+             * 1、线程数大于maximumPoolSize(什么时候会出现这种情况？ 当maximumPoolSize初始设置为0或者其他线程通过set方法对其进行修改)
+             * 2、线程数未超过maximumPoolSize但是timed为true(允许核心线程退出或者线程数量超过核心线程)
+             *    并且上次获取任务超时(没获取到任务,我们推测本次依旧会超时)
+             * 3、在满足条件1或者条件2的情况下进行check：运行线程数大于1或者任务队列没有任务
+             */
             if ((wc > maximumPoolSize || (timed && timedOut))
                 && (wc > 1 || workQueue.isEmpty())) {
-                if (compareAndDecrementWorkerCount(c))
+                if (compareAndDecrementWorkerCount(c)) // CAS进行worker数量-1，成功则返回null进行worker退出流程，失败则继续自旋
                     return null;
                 continue;
             }
 
             try {
+                // 如果允许超时退出，则调用poll(keepAliveTime)获取任务，否则则通过take()一直阻塞等待直到有任务提交到队列
                 Runnable r = timed ?
                     workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
                     workQueue.take();
