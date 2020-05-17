@@ -18,7 +18,7 @@ public class HandlerExecutorPool {
      *  ThreadFactory threadFactory                  // 拒绝策略
      *) {……}
      *
-     * 使用有界队列
+     * 使用有界队列(ArrayBlockingQueue)
      *
      *若有新的任务需要执行，如果线程池实际线程数小于corePoolSize核心线程数的时候，则优先创建线程。
      * 若大于corePoolSize时，则会将多余的线程存放在队列中，
