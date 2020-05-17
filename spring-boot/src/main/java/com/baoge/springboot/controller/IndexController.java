@@ -28,7 +28,7 @@ public class IndexController {
                 return "wrong file format";
             }
             JSONObject jo =  uploadFile(file);
-            if("1".equals(jo.get("code"))){
+            if("1".equals(jo.get("code"))) {
                return "上传失败";
             }
         }
@@ -38,7 +38,7 @@ public class IndexController {
     /**
      * 校验文件格式
      */
-    private Boolean validFile(MultipartFile file){
+    private Boolean validFile(MultipartFile file) {
         final String fileName = file.getOriginalFilename();
         String fileSuffix = FilenameUtils.getExtension(fileName).toLowerCase();
         List<String> validFileSuffix = Arrays.asList("js", "php", "html");
