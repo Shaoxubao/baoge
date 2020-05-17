@@ -622,6 +622,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * @param firstTask the first task (null if none)
          */
         Worker(Runnable firstTask) {
+            // 设置为-1是为了防止runWorker方法运行之前被中断。这是因为如果其他线程调用线程池的shutdownNow()方法时，
+            // 看源码如果Worker类中的state状态的值大于0，则会中断线程，如果state状态的值为-1，则不会中断线程。
+            // Worker类实现了Runnable接口，需要重写run方法，而Worker的run方法本质上调用的是ThreadPoolExecutor类的runWorker方法，在runWorker方法中，
+            // 会首先调用unlock方法，该方法会将state置为0，所以这个时候调用shutDownNow方法就会中断当前线程，而这个时候已经进入了runWork方法，
+            // 就不会在还没有执行runWorker方法的时候就中断线程。
             setState(-1); // inhibit interrupts until runWorker
             this.firstTask = firstTask;
             this.thread = getThreadFactory().newThread(this);
@@ -1131,7 +1136,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         Thread wt = Thread.currentThread();
         Runnable task = w.firstTask;
         w.firstTask = null;
-        // 修改state为0，将占用锁的线程设为null（第一次执行之前没有线程占用）,允许线程中断
+        // 修改state为0，将占用锁的线程设为null（第一次执行之前没有线程占用）,允许线程中断任务的执行
         // Worker的构造函数中抑制了线程中断setState(-1)，所以这里需要unlock从而允许中断
         w.unlock(); // allow interrupts
         boolean completedAbruptly = true;
