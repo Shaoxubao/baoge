@@ -10,12 +10,12 @@ import java.util.concurrent.*;
 public class HandlerExecutorPool {
     /**
      * 自定义线程池方法签名：
-     * public ThreadPoolExecutor(int corePoolSize,//核心线程数--线程池初始化创建的线程数量
-     *int maximumPoolSize,//最大线程数，线程池中能创建的最大线程数
-     *long keepAliveTime,//线程存活时间
-     *TimeUnit unit,//线程存货时间单位
-     *BlockingQueue<Runnable> workQueue,//一个阻塞队列
-     *ThreadFactory threadFactory//拒绝策略
+     * public ThreadPoolExecutor(int corePoolSize,   // 核心线程数--线程池初始化创建的线程数量
+     *  int maximumPoolSize,                         // 最大线程数，线程池中能创建的最大线程数
+     *  long keepAliveTime,                          // 线程存活时间
+     *  TimeUnit unit,                               // 线程存货时间单位
+     *  BlockingQueue<Runnable> workQueue,           // 一个阻塞队列
+     *  ThreadFactory threadFactory                  // 拒绝策略
      *) {……}
      *
      * 使用有界队列
