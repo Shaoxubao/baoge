@@ -1076,9 +1076,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             int wc = workerCountOf(c);
 
             /**
-             * 1、允许核心线程退出
+             * 1、允许核心线程退出（销毁）
              * 2、当前的线程数量超过核心线程数
              * 这时获取任务的机制切换为poll(keepAliveTime)
+             *
+             * 1.allowCoreThreadTimeOut变量默认是false,核心线程即使空闲也不会被销毁
+             *  如果为true,核心线程在keepAliveTime内仍空闲则会被销毁。
              */
             // Are workers subject to culling?
             boolean timed = allowCoreThreadTimeOut || wc > corePoolSize;
@@ -1098,6 +1101,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
             try {
                 // 如果允许超时退出，则调用poll(keepAliveTime)获取任务，否则则通过take()一直阻塞等待直到有任务提交到队列
+                // 核心线程的会一直卡在workQueue.take方法，被阻塞并挂起，不会占用CPU资源，
+                // 直到拿到Runnable 然后返回（当然如果allowCoreThreadTimeOut设置为true,那么核心线程就会去调用poll方法，
+                // 因为poll可能会返回null,所以这时候核心线程满足超时条件也会被销毁）。
+                // 非核心线程会workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) ，
+                // 如果超时还没有拿到，下一次循环判断compareAndDecrementWorkerCount就会返回null,Worker对象的run()方法循环体的判断为null,任务结束，然后线程被系统回收 。
                 Runnable r = timed ?
                     workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
                     workQueue.take();
