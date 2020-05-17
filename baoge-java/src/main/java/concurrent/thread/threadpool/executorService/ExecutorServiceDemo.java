@@ -3,6 +3,7 @@ package concurrent.thread.threadpool.executorService;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author shaoxubao
@@ -16,6 +17,8 @@ import java.util.concurrent.*;
  */
 public class ExecutorServiceDemo {
 
+    private static AtomicInteger count = new AtomicInteger(0);
+
     public static void main(String[] args) {
 //        ExecutorService executor = Executors.newFixedThreadPool(3);
 //        ExecutorService executor = new ThreadPoolExecutor(1, 2, 0L,
@@ -24,7 +27,7 @@ public class ExecutorServiceDemo {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("thread-pool-%d").build();
         ExecutorService executor = new ThreadPoolExecutor(1, 2, 0L,
-                TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(2), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy()); // 有界队列
+                TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(3), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy()); // 有界队列
         CallableHandle task1 = new CallableHandle(1);
         CallableHandle task2 = new CallableHandle(2);
         CallableHandle task3 = new CallableHandle(3);
@@ -45,12 +48,28 @@ public class ExecutorServiceDemo {
             printThreadPoolState(executor);
 
             Integer r1 = future1.get();
+
+            // 打印线程池状态
+            printThreadPoolState(executor);
+
             Integer r2 = future2.get();
+
+            // 打印线程池状态
+            printThreadPoolState(executor);
+
             Integer r3 = future3.get();
+
+            // 打印线程池状态
+            printThreadPoolState(executor);
+
             Integer r4 = future4.get();
+
+            // 打印线程池状态
+            printThreadPoolState(executor);
+
             Integer r5 = future5.get();
 
-            System.out.println("result :" + (r1 + r2 + r3 + r4 + r5));
+            System.out.println("============result :" + (r1 + r2 + r3 + r4 + r5));
             // 打印线程池状态
             printThreadPoolState(executor);
         } catch (Exception e) {
@@ -101,7 +120,7 @@ public class ExecutorServiceDemo {
     }
 
     public static void printThreadPoolState(ExecutorService executor) {
-        System.out.println("=====================================================");
+        System.out.println("=========================:" + count.incrementAndGet());
         System.out.println("线程池正在执行任务线程数：" + ((ThreadPoolExecutor) executor).getActiveCount());
         System.out.println("线程池线程总数：" + ((ThreadPoolExecutor) executor).getPoolSize());
         System.out.println("线程池核心线程数：" + ((ThreadPoolExecutor) executor).getCorePoolSize());
