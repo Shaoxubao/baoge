@@ -1009,7 +1009,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * processWorkerExit 流程总结如下：
      * 判断是否是意外退出的，如果是意外退出的话，那么就需要把 WorkerCount–
      * 加完锁后，同步将 completedTaskCount 进行增加，表示总共完成的任务数，并且从 WorkerSet 中将对应的 Worker 移除
-     * 调用 tryTemiate，进行判断当前的线程池是否处于 SHUTDOWN 状态，判断是否要终止线程
+     * 调用 tryTerminate，进行判断当前的线程池是否处于 SHUTDOWN 状态，判断是否要终止线程
      * 判断当前的线程池状态，如果当前线程池状态比 STOP 大的话，就不处理
      * 否则判断是否是意外退出，如果不是意外退出的话，那么就会判断最少要保留的核心线程数，如果 allowCoreThreadTimeOut 被设置为 true 的话，
      * 那么说明核心线程在设置的 KeepAliveTime 之后，也会被销毁。
