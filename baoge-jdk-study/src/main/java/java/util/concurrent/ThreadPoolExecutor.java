@@ -474,6 +474,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * Set containing all worker threads in pool. Accessed only when
      * holding mainLock.
      */
+    // 线程池当中的线程集合，只有当拥有mainLock锁的时候，才可以进行访问
     private final HashSet<Worker> workers = new HashSet<Worker>();
 
     /**
@@ -961,6 +962,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                 } finally {
                     mainLock.unlock();
                 }
+                // Worker 构造方法里this.thread = getThreadFactory().newThread(this);
+                // 将this传到thread,所以此处t.start会执行Worker的run方法
                 if (workerAdded) {
                     t.start();
                     workerStarted = true;
