@@ -121,11 +121,15 @@ public class MyThreadPool implements MyThreadPoolService {
             isRunning = false;
 
             for (WorkerThread w : workers) {
-                Thread thread = w.thread;
-                System.out.println("线程" + thread.getName() + "状态：" + thread.getState());
-                if (thread.getState().equals(Thread.State.WAITING) || thread.getState().equals(Thread.State.BLOCKED)) {
-                    System.out.println("线程被中断:" + thread.getName());
-                    thread.interrupt();
+                Thread t = w.thread;
+                System.out.println("线程" + t.getName() + "状态：" + t.getState());
+                if (!t.isInterrupted() && w.tryLock()) {
+                    try {
+                        t.interrupt();
+                        System.out.println("线程被中断:" + t.getName());
+                    } finally {
+                        w.unlock();
+                    }
                 }
             }
         } finally {

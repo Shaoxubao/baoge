@@ -21,7 +21,7 @@ public class MyThreadPoolTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-//            myThreadPool.shutdown();
+            myThreadPool.shutdown();
         }
     }
 
