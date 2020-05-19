@@ -1467,6 +1467,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @throws SecurityException {@inheritDoc}
      */
+    /**
+     * 只有对能获取到worker锁的空闲线程（正在从workQueue中getTask()，此时worker没有加锁）发送中断信号
+     */
     public void shutdown() {
         final ReentrantLock mainLock = this.mainLock;
         mainLock.lock();

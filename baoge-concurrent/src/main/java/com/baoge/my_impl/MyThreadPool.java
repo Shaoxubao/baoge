@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -40,6 +41,8 @@ public class MyThreadPool implements MyThreadPoolService {
     private final BlockingQueue<Runnable> workQueue;
 
     private final ReentrantLock mainLock = new ReentrantLock();
+
+    private final Condition termination = mainLock.newCondition();
 
     /**
      * 工作线程
@@ -129,7 +132,7 @@ public class MyThreadPool implements MyThreadPoolService {
         for (; ;) {
             for (WorkerThread w : workers) {
                 Thread t = w.thread;
-                System.out.println("线程" + t.getName() + "状态：" + t.getState());
+                System.out.println("=========线程" + t.getName() + "状态：" + t.getState());
                 if (!t.isInterrupted() && w.tryLock()) {
                     try {
                         t.interrupt();
@@ -139,6 +142,8 @@ public class MyThreadPool implements MyThreadPoolService {
                     }
                 }
             }
+
+            termination.signalAll();
 
             if (workers.isEmpty()) {
                 return;
@@ -150,7 +155,7 @@ public class MyThreadPool implements MyThreadPoolService {
     /**
      * 工作线程(内部类)
      */
-    private final class WorkerThread extends AbstractQueuedSynchronizer implements Runnable {
+    public final class WorkerThread extends AbstractQueuedSynchronizer implements Runnable {
 
         final Thread thread;
 
@@ -230,18 +235,21 @@ public class MyThreadPool implements MyThreadPoolService {
     }
 
     private Runnable getTask() {
-        try {
+        for (; ; ) {
+            System.out.println("线程a" + Thread.currentThread().getName() + "状态：" + Thread.currentThread().getState());
             if (!isRunning || Thread.currentThread().isInterrupted()) {
                 return null;
             }
-            Runnable r = workQueue.isEmpty() ? workQueue.take() : workQueue.poll();
-            if (r != null)
-                workQueue.remove(r);
-            return r;
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                Runnable r = workQueue.isEmpty() ? workQueue.take() : workQueue.poll();
+                if (r != null)
+                    workQueue.remove(r);
+                return r;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-        return null;
     }
 
     private void processWorkerExit(WorkerThread workerThread) {
@@ -250,6 +258,7 @@ public class MyThreadPool implements MyThreadPoolService {
 
         try {
             workers.remove(workerThread);
+            System.out.println("WorkerThread is removed");
         } finally {
             mainLock.unlock();
         }
@@ -257,4 +266,7 @@ public class MyThreadPool implements MyThreadPoolService {
         tryTerminate();
     }
 
+    public HashSet<WorkerThread> getWorkers() {
+        return workers;
+    }
 }
