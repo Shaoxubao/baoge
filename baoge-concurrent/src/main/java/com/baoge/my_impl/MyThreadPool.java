@@ -144,10 +144,7 @@ public class MyThreadPool implements MyThreadPoolService {
             }
 
             termination.signalAll();
-
-            if (workers.isEmpty()) {
-                return;
-            }
+            return;
         }
     }
 
