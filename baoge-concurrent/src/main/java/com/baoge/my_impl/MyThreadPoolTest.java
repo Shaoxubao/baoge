@@ -14,7 +14,7 @@ public class MyThreadPoolTest {
         MyThreadPool myThreadPool = null;
         try {
             myThreadPool = new MyThreadPool(1, new LinkedBlockingDeque<>());
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 2; i++) {
                 MyTask task = new MyTask(i);
                 myThreadPool.execute(task);
             }
