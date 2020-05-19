@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @Author shaoxubao
  * @Date 2020/4/14 10:07
- *
+ * <p>
  * JDK 提供了四种内置拒绝策略：
  * 1、DiscardPolicy: 默默丢弃无法处理的任务，不予任何处理
  * 2、DiscardOldestPolicy: 丢弃队列中最老的任务, 尝试再次提交当前任务
@@ -46,6 +46,8 @@ public class ExecutorServiceDemo {
 
             // 打印线程池状态
             printThreadPoolState(executor);
+
+            printThreadCountState((ThreadPoolExecutor) executor);
 
             Integer r1 = future1.get();
 
@@ -98,16 +100,16 @@ public class ExecutorServiceDemo {
                 if (1 == this.taskId) {
                     TimeUnit.SECONDS.sleep(1);
                     return 1;
-                } else if (2== this.taskId) {
+                } else if (2 == this.taskId) {
                     TimeUnit.SECONDS.sleep(1);
                     return 2;
-                } else if (3== this.taskId) {
+                } else if (3 == this.taskId) {
                     TimeUnit.SECONDS.sleep(1);
                     return 3;
-                } else if (4== this.taskId) {
+                } else if (4 == this.taskId) {
                     TimeUnit.SECONDS.sleep(1);
                     return 4;
-                } else if (5== this.taskId) {
+                } else if (5 == this.taskId) {
                     TimeUnit.SECONDS.sleep(1);
                     return 5;
                 }
@@ -116,6 +118,28 @@ public class ExecutorServiceDemo {
             }
 
             return 0;
+        }
+    }
+
+    private static void printThreadCountState(ThreadPoolExecutor tpe) throws Exception {
+        while (true) {
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+            int queueSize = tpe.getQueue().size();
+            System.out.println("当前排队线程数：" + queueSize);
+
+            int activeCount = tpe.getActiveCount();
+            System.out.println("当前活动线程数：" + activeCount);
+
+            long completedTaskCount = tpe.getCompletedTaskCount();
+            System.out.println("执行完成线程数：" + completedTaskCount);
+
+            long taskCount = tpe.getTaskCount();
+            System.out.println("总线程数：" + taskCount);
+
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+            Thread.sleep(3000);
         }
     }
 

@@ -119,7 +119,14 @@ public class MyThreadPool implements MyThreadPoolService {
             System.out.println("shutdown===========");
 
             isRunning = false;
+            tryTerminate();
+        } finally {
+            mainLock.unlock();
+        }
+    }
 
+    private void tryTerminate() {
+        for (; ;) {
             for (WorkerThread w : workers) {
                 Thread t = w.thread;
                 System.out.println("线程" + t.getName() + "状态：" + t.getState());
@@ -132,8 +139,10 @@ public class MyThreadPool implements MyThreadPoolService {
                     }
                 }
             }
-        } finally {
-            mainLock.unlock();
+
+            if (workers.isEmpty()) {
+                return;
+            }
         }
     }
 
@@ -200,25 +209,29 @@ public class MyThreadPool implements MyThreadPoolService {
         workerThread.firstTask = null;
         workerThread.unlock();
 
-        // 让线程自旋一直取队列任务并执行
-        while (task != null || (task = getTask()) != null) {
-            workerThread.lock();
+        try {
+            // 让线程自旋一直取队列任务并执行
+            while (task != null || (task = getTask()) != null) {
+                workerThread.lock();
 
-            if (!isRunning && !wt.isInterrupted()) {
-                wt.interrupt();
+                if (!isRunning && !wt.isInterrupted()) {
+                    wt.interrupt();
+                }
+                try {
+                    task.run();
+                    task = null; // 此处要设置task为null,不然会造成死循环
+                } finally {
+                    workerThread.unlock();
+                }
             }
-            try {
-                task.run();
-                task = null; // 此处要设置task为null,不然会造成死循环
-            } finally {
-                workerThread.unlock();
-            }
+        } finally {
+            processWorkerExit(workerThread);
         }
     }
 
     private Runnable getTask() {
         try {
-            if (!isRunning && Thread.currentThread().isInterrupted()) {
+            if (!isRunning || Thread.currentThread().isInterrupted()) {
                 return null;
             }
             Runnable r = workQueue.isEmpty() ? workQueue.take() : workQueue.poll();
@@ -229,6 +242,19 @@ public class MyThreadPool implements MyThreadPoolService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void processWorkerExit(WorkerThread workerThread) {
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+
+        try {
+            workers.remove(workerThread);
+        } finally {
+            mainLock.unlock();
+        }
+
+        tryTerminate();
     }
 
 }
