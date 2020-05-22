@@ -234,15 +234,16 @@ public class MyThreadPool implements MyThreadPoolService {
     private Runnable getTask() {
         for (; ; ) {
             System.out.println("线程a" + Thread.currentThread().getName() + "状态：" + Thread.currentThread().getState());
-            if (!isRunning || Thread.currentThread().isInterrupted()) {
+            if (!isRunning && workQueue.isEmpty()) {
                 return null;
             }
+
             try {
                 Runnable r = workQueue.isEmpty() ? workQueue.take() : workQueue.poll();
                 if (r != null)
                     workQueue.remove(r);
                 return r;
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return null;
