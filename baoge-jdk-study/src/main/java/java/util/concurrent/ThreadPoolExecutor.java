@@ -1020,6 +1020,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * 判断当前的 Worker 是否大于 min，也就是说当前的 Worker 总数大于最少需要的 Worker 数的话，那么就直接返回，因为剩下的 Worker 会继续从 WorkQueue 中获取任务执行。
      * 如果当前运行的 Worker 数比当前所需要的 Worker 数少的话，那么就会调用 addWorker，添加新的 Worker，也就是新开启线程继续处理任务。
      *
+     *  如果到这里，需要执行线程关闭：
+     *   1. 说明 getTask 返回 null，也就是说，队列中已经没有任务需要执行了，执行关闭
+     *   2. 任务执行过程中发生了异常
+     *      第一种情况，已经在代码处理了将 workCount 减 1，这个在 getTask 方法分析中会说
+     *      第二种情况，workCount 没有进行处理，所以需要在 processWorkerExit 中处理
      */
     private void processWorkerExit(Worker w, boolean completedAbruptly) {
         if (completedAbruptly) // If abrupt, then workerCount wasn't adjusted
