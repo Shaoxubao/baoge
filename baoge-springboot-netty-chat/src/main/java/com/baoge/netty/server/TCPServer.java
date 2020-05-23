@@ -29,7 +29,13 @@ public class TCPServer {
     private Channel serverChannel;
 
     public void start() throws Exception {
-        serverChannel = serverBootstrap.bind(tcpPort).sync().channel().closeFuture().sync().channel();
+        serverChannel = serverBootstrap
+                .bind(tcpPort)
+                .sync()
+                .channel()
+                .closeFuture()
+                .sync()
+                .channel();
     }
 
     @PreDestroy

@@ -31,8 +31,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     private RedisService redisService;
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx,
-                                TextWebSocketFrame msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         Channel incoming = ctx.channel();
         String uName = redisService.getString(incoming.id() + "");
         for (Channel channel : channels) {
@@ -83,8 +82,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         Channel incoming = ctx.channel();
         System.out.println("用户:" + redisService.getString(incoming.id() + "") + "异常");
         cause.printStackTrace();
