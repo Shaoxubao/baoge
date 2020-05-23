@@ -28,6 +28,9 @@ import java.util.Set;
  * Date:   2020/5/23
  *
  * 简易netty聊天室
+ * 启动前：
+ *  配置redis密码：分别启动redis服务端和客户端，客户端输入： CONFIG SET requirepass "123456"
+ *  和AUTH 123456
  * 启动后：
  *  开启多个窗口：http://localhost:8080/
  */
