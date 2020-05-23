@@ -1,4 +1,4 @@
-package com.baoge;
+package com.baoge.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
