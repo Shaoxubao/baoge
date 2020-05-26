@@ -19,6 +19,18 @@ package com.baoge.java_concurrency;
  */
 public class MyTest16_CAS {
 
+    private int count;
+
+    // synchronized也具备变量可见性和防止指令重排序性，但是这两个方法都加了synchronized关键字，count保证了多线程之间的
+    // 安全性，但是性能上来说是不可取的
+    public synchronized int getCount() {
+        return count;
+    }
+
+    public synchronized void increase() {
+        ++count;
+    }
+
     public static void main(String[] args) {
 
     }
