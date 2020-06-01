@@ -18,13 +18,13 @@ public class Constants {
     public static int MAGIC_NUMBER = 4;
 
     // 主版本号
-    public static int MAIN_VERSION = 1;
+    public static byte MAIN_VERSION = 1;
 
     // 次版本号
-    public static int SUB_VERSION = 1;
+    public static byte SUB_VERSION = 1;
 
     // 修订版本号
-    public static int MODIFY_VERSION = 1;
+    public static byte MODIFY_VERSION = 1;
 
     public static int SESSION_ID_LENGTH = 8;
 

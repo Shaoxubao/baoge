@@ -18,6 +18,8 @@ public class MessageDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> out) throws Exception {
+        System.out.println("............decode ");
+
         Message message = new Message();
         message.setMagicNumber(byteBuf.readInt());  // 读取魔数
         message.setMainVersion(byteBuf.readByte()); // 读取主版本号

@@ -18,6 +18,8 @@ import java.nio.charset.Charset;
 public class MessageEncoder extends MessageToByteEncoder<Message> {
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Message message, ByteBuf out) {
+        System.out.println("............encode ");
+
         // 这里会判断消息类型是不是EMPTY类型，如果是EMPTY类型，则表示当前消息不需要写入到管道中
         if (message.getMessageType() != MessageTypeEnum.EMPTY) {
             out.writeInt(Constants.MAGIC_NUMBER);    // 写入当前的魔数

@@ -34,6 +34,7 @@ public class ClientMessageHandler extends ServerMessageHandler {
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println("Client userEventTriggered start................");
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
@@ -60,7 +61,7 @@ public class ClientMessageHandler extends ServerMessageHandler {
         @Override
         public void run() {
             try {
-                while (true) {
+//                while (true) {
                     System.out.println("Client MessageSender start................");
                     // 模拟随机发送消息的过程
                     TimeUnit.SECONDS.sleep(new Random().nextInt(3));
@@ -69,7 +70,7 @@ public class ClientMessageHandler extends ServerMessageHandler {
                     message.setBody("this is my " + counter.getAndIncrement() + " message.");
                     message.addAttachment("name", "xufeng");
                     ctx.writeAndFlush(message);
-                }
+//                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
