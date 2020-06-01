@@ -61,6 +61,7 @@ public class ClientMessageHandler extends ServerMessageHandler {
         public void run() {
             try {
                 while (true) {
+                    System.out.println("Client MessageSender start................");
                     // 模拟随机发送消息的过程
                     TimeUnit.SECONDS.sleep(new Random().nextInt(3));
                     Message message = new Message();
