@@ -26,7 +26,7 @@ public class Server {
 
         // 3 辅助类。用于帮助我们创建NETTY服务
         ServerBootstrap b = new ServerBootstrap();
-        b.group(boss, work)    //绑定两个工作线程组
+        b.group(boss, work)    // 绑定两个工作线程组
                 .channel(NioServerSocketChannel.class)           // 设置NIO的模式
                 .option(ChannelOption.SO_BACKLOG, 1024)     // 设置TCP缓冲区
                 //.option(ChannelOption.SO_SNDBUF, 32*1024)	     // 设置发送数据的缓存大小

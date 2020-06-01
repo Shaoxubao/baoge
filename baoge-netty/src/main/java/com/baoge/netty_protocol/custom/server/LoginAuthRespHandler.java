@@ -23,7 +23,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
      * 考虑到安全，链路的建立需要通过基于IP地址或者号段的黑白名单安全认证机制，本例中，多个IP通过逗号隔开
      */
     private Map<String, Boolean> nodeCheck = new ConcurrentHashMap<String, Boolean>();
-    private String[] whitekList = {"127.0.0.1", "192.168.56.1"};
+    private String[] whiteList = {"127.0.0.1", "192.168.56.1"};
 
     /**
      * Calls {@link ChannelHandlerContext#fireChannelRead(Object)} to forward to
@@ -47,7 +47,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
                 InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
                 String ip = address.getAddress().getHostAddress();
                 boolean isOK = false;
-                for (String WIP : whitekList) {
+                for (String WIP : whiteList) {
                     if (WIP.equals(ip)) {
                         isOK = true;
                         break;
