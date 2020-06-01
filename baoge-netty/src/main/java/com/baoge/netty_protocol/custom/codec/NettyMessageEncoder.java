@@ -37,7 +37,7 @@ public class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
         // 编码规则为：如果attachment的长度为0，表示没有可选附件，则将长度	编码设置为0
         // 如果attachment长度大于0，则需要编码，规则：
         // 首先对附件的个数进行编码
-        sendBuf.writeInt((header.getAttachment().size())); //附件大小
+        sendBuf.writeInt((header.getAttachment().size())); // 附件大小
         String key = null;
         byte[] keyArray = null;
         Object value = null;

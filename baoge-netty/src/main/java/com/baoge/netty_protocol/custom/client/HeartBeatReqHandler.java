@@ -67,7 +67,7 @@ public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
 
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        //断连期间，心跳定时器停止工作，不再发送心跳请求信息
+        // 断连期间，心跳定时器停止工作，不再发送心跳请求信息
         if (heartBeat != null) {
             heartBeat.cancel(true);
             heartBeat = null;

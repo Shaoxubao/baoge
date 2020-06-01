@@ -24,7 +24,7 @@ public class Client {
     }
 
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    //创建工作线程组
+    // 创建工作线程组
     EventLoopGroup group = new NioEventLoopGroup();
 
     public void connect(int port, String host) throws Exception {
