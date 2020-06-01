@@ -19,9 +19,9 @@ public final class MarshallingCodeCFactory {
      * @throws IOException
      */
     public static Marshaller buildMarshalling() throws IOException {
-        //首先通过Marshalling工具类的精通方法获取Marshalling实例对象 参数serial标识创建的是java序列化工厂对象。
+        // 首先通过Marshalling工具类的精通方法获取Marshalling实例对象 参数serial标识创建的是java序列化工厂对象。
         final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
-        //创建了MarshallingConfiguration对象，配置了版本号为5
+        // 创建了MarshallingConfiguration对象，配置了版本号为5
         final MarshallingConfiguration configuration = new MarshallingConfiguration();
         configuration.setVersion(5);
         Marshaller marshaller = marshallerFactory.createMarshaller(configuration);

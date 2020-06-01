@@ -44,11 +44,11 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 
         NettyMessage message = new NettyMessage();
         Header header = new Header();
-        header.setCrcCode(frame.readInt());        //crcCode ----> 添加通信标记认证逻辑
-        header.setLength(frame.readInt());        //length
-        header.setSessionID(frame.readLong());    //sessionID
-        header.setType(frame.readByte());        //type
-        header.setPriority(frame.readByte());    //priority
+        header.setCrcCode(frame.readInt());        // crcCode ----> 添加通信标记认证逻辑
+        header.setLength(frame.readInt());         // length
+        header.setSessionID(frame.readLong());     // sessionID
+        header.setType(frame.readByte());          // type
+        header.setPriority(frame.readByte());      // priority
 
         int size = frame.readInt();
         // 附件个数大于0，则需要解码操作
@@ -72,7 +72,7 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 
         message.setHeader(header);
         // 对于ByteBuf来说，读一个数据，就会少一个数据，所以读完header，剩下的应该就是body了
-        if (frame.readableBytes() > 4) { //大于4个字节，肯定就有数据了（4个字节是内容长度的占位）
+        if (frame.readableBytes() > 4) { // 大于4个字节，肯定就有数据了（4个字节是内容长度的占位）
             message.setBody(marshallingDecoder.decode(frame));
         }
         return message;
