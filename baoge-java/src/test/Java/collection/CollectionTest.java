@@ -123,6 +123,11 @@ public class CollectionTest {
         list.subList(0, 2).clear();
 
         System.out.println(list.size());
+
+        String text = "如有疑问，请致电0519-83010120-1303：1、“公司登记注册文件”一栏：请提供香港公司的商业登记证，经营地址、营业期限请按最新的商业登记证填写；2.“海外银行开户证明&quot;一栏：请重新提供公司海外银行账户开户证明或银行对账单；";
+
+        String r = text.replaceAll("&quot;","\\”");
+        System.out.println(r);
     }
 
 }
