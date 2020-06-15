@@ -13,8 +13,6 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 /**
  * LengthFieldBasedFrameDecoder 是为了解决 拆包粘包等问题的
- *
- * @author Alienware
  */
 public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 
