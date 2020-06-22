@@ -695,6 +695,12 @@ class Thread implements Runnable {
      *               started.
      * @see        #run()
      * @see        #stop()
+     *
+     *
+     * 1、start方法将导致当前线程开始执行。由JVM调用当前线程的run方法。
+     * 2、结果是 调用start方法的当前线程 和 执行run方法的另一个线程 同时运行。
+     * 3、多次启动线程永远不合法。 特别是，线程一旦完成执行就不会重新启动。
+     *
      */
     public synchronized void start() {
         /**
@@ -704,16 +710,22 @@ class Thread implements Runnable {
          *
          * A zero status value corresponds to state "NEW".
          */
+        // 4、对于由VM创建/设置的main方法线程或“system”组线程，不会调用此方法。
+        //   未来添加到此方法的任何新功能可能也必须添加到VM中。
+        //  5、status=0 代表是 status 是 "NEW"。
         if (threadStatus != 0)
             throw new IllegalThreadStateException();
 
         /* Notify the group that this thread is about to be started
          * so that it can be added to the group's list of threads
          * and the group's unstarted count can be decremented. */
+        // 6、通知组该线程即将启动，以便将其添加到线程组的列表中，
+        //  并且减少线程组的未启动线程数递减。
         group.add(this);
 
         boolean started = false;
         try {
+            //7、调用native方法，底层开启异步线程，并调用run方法。
             start0();
             started = true;
         } finally {
