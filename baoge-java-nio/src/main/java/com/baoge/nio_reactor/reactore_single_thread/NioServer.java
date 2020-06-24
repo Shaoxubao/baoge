@@ -68,17 +68,17 @@ public class NioServer {
                                 // 向选择器注册读事件，客户端向服务端发送数据准备好后，再处理
                                 clientChannel.register(selector, SelectionKey.OP_READ);
 
-                                System.out.println("收到客户端的连接请求。。。");
+                                System.out.println("收到客户端的连接请求。。。。");
                             } else if (key.isWritable()) { // 向客户端发送请求
                                 SocketChannel clientChannel = (SocketChannel)key.channel();
                                 ByteBuffer buf = (ByteBuffer)key.attachment();
                                 buf.flip();
                                 clientChannel.write(buf);
-                                System.out.println("服务端向客户端发送数据。。。");
+                                System.out.println("服务端向客户端发送数据。。。。");
                                 // 重新注册读事件
                                 clientChannel.register(selector, SelectionKey.OP_READ);
                             } else if(key.isReadable()) {  // 处理客户端发送的数据
-                                System.out.println("服务端接收客户端连接请求。。。");
+                                System.out.println("服务端接收客户端连接请求。。。。");
                                 // System.out.println(key);
                                 SocketChannel clientChannel = (SocketChannel)key.channel();
                                 // System.out.println("clientChannel.isConnected():" + clientChannel.isConnected());
