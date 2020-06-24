@@ -28,6 +28,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class ChatServer {
 
+    private static final String NEW_LINE = "\n\r";
+
     public static void main(String[] args) throws IOException {
         Selector selector = Selector.open();
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
@@ -68,7 +70,7 @@ public class ChatServer {
                         buffer.get(bytes);
 
                         // 换行符会跟着消息一起传过来
-                        String content = new String(bytes, "UTF-8").replace("\r\n", "");
+                        String content = new String(bytes, "UTF-8").replace(NEW_LINE, "");
                         if (content.equalsIgnoreCase("quit")) {
                             // 退出群聊
                             ChatHolder.quit(socketChannel);
@@ -101,10 +103,10 @@ public class ChatServer {
         static void join(SocketChannel socketChannel) {
             // 有人加入就给他分配一个id
             String userId = "用户" + ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
-            send(socketChannel, "您的id为：" + userId + "\n\r");
+            send(socketChannel, "您的id为：" + userId + NEW_LINE);
 
             for (SocketChannel channel : CHANNEL_USER_MAP.keySet()) {
-                send(channel, userId + " 加入了群聊" + "\n\r");
+                send(channel, userId + " 加入了群聊" + NEW_LINE);
             }
 
             // 将当前用户加入到map中
@@ -117,12 +119,12 @@ public class ChatServer {
          */
         static void quit(SocketChannel socketChannel) {
             String userId = CHANNEL_USER_MAP.get(socketChannel);
-            send(socketChannel, "您退出了群聊" + "\n\r");
+            send(socketChannel, "您退出了群聊" + NEW_LINE);
             CHANNEL_USER_MAP.remove(socketChannel);
 
             for (SocketChannel channel : CHANNEL_USER_MAP.keySet()) {
                 if (channel != socketChannel) {
-                    send(channel, userId + " 退出了群聊" + "\n\r");
+                    send(channel, userId + " 退出了群聊" + NEW_LINE);
                 }
             }
         }
@@ -137,7 +139,7 @@ public class ChatServer {
             String toUserId = contentArr[0];
             String toContent = contentArr[1];
             SocketChannel toSocketChannel = USER_CHANNEL_MAP.get(toUserId); // 获取收消息方SocketChannel
-            send(toSocketChannel, userId + ": " + toContent + "\n\r");
+            send(toSocketChannel, userId + ": " + toContent + NEW_LINE);
         }
 
         /**
@@ -147,7 +149,7 @@ public class ChatServer {
             String userId = CHANNEL_USER_MAP.get(socketChannel);
             for (SocketChannel channel : CHANNEL_USER_MAP.keySet()) {
                 if (channel != socketChannel) {
-                    send(channel, userId + ": " + content + "\n\r");
+                    send(channel, userId + ": " + content + NEW_LINE);
                 }
             }
         }
