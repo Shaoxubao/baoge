@@ -138,6 +138,6 @@ public class SubReactorThread extends Thread {
      * @param reqBuffer
      */
     private void dispatch(SocketChannel sc, ByteBuffer reqBuffer) {
-        businessExecutorPool.submit( new Handler(sc, reqBuffer, this)  );
+        businessExecutorPool.submit( new Handler(sc, reqBuffer, this));
     }
 }

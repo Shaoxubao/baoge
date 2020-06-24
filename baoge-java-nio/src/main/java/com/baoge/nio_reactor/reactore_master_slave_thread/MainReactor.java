@@ -17,6 +17,7 @@ public class MainReactor implements Runnable {
     private SubReactorThreadGroup subReactorThreadGroup;
 
     public MainReactor(SelectableChannel channel) {
+        System.out.println("MainReactor()................");
         try {
             selector = Selector.open();
             channel.register(selector, SelectionKey.OP_ACCEPT);

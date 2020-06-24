@@ -53,6 +53,7 @@ public class NioServer {
         }
 
         private void dispatch(ServerSocketChannel ssc) {
+            System.out.println("dispatch.........................");
             mainReactor.submit(new MainReactor(ssc));
         }
 
