@@ -195,9 +195,26 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * 返回大于等于count的最小的2的幂次方
+     *
+     * 这个方法作用就是把二进制从第一个有1开始的后面全部变为1。比如一个二进制是 1010001，则经过中间几次n |= n ...过程后变为1111111，
+     * 如：
+     * 输入c = 10, 即 n = c - 1 = 9, 转换32位二进制：00000000 00000000 00000000 00001001
+     *
+     *  n |= n >>> 1; 得到: 00000000 00000000 00000000 00001001
+     *                     00000000 00000000 00000000 00000100        ——>右移1位结果
+     *                 n = 00000000 00000000 00000000 00001101
+     *
+     *  n |= n >>> 2; 得到: 00000000 00000000 00000000 00001101
+     *                     00000000 00000000 00000000 00000011        ——>右移2位结果
+     *                 n = 00000000 00000000 00000000 00001111
+     *  ...省略验算过程...
+     *
+     *  最后经过n |= n >>> 16得到n = 15
+     *
+     *  return n + 1 即16, 是大于等于传入的9的最小的2的幂次方
      */
     private static final int tableSizeFor(int c) {
-        int n = c - 1;
+        int n = c - 1; // 减一的作用是防止输入的值正好是2的幂，得到比输入值大一倍的值，例如 c = 8，如果不减1的话return 16
         n |= n >>> 1;
         n |= n >>> 2;
         n |= n >>> 4;
@@ -343,6 +360,16 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * @param initialCapacity 初始化容量
      * @throws IllegalArgumentException if the initial capacity of
      *                                  elements is negative
+     *
+     * 假设initialCapacity = 6, 即 0110, 则:
+     * initialCapacity >>> 1 得到: 0011 = 3
+     * 相加:
+     *    0110
+     *    0011
+     * +  0001
+     * -------
+     *    1010
+     * 结果是: 10
      */
     public ConcurrentHashMap(int initialCapacity) {
         if (initialCapacity < 0)
@@ -1749,16 +1776,22 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
         while ((tab = table) == null || tab.length == 0) {
             if ((sc = sizeCtl) < 0)
                 Thread.yield(); // lost initialization race; just spin
+            // CAS 一下，将 sizeCtl 设置为 -1，代表抢到了锁，正在初始化
             else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
                 try {
                     if ((tab = table) == null || tab.length == 0) {
                         int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
+                        // 初始化数组，长度为 16 或初始化时提供的长度
                         @SuppressWarnings("unchecked")
                         Node<K, V>[] nt = (Node<K, V>[]) new Node<?, ?>[n];
+                        // 将这个数组赋值给 table，table 是 volatile 的
                         table = tab = nt;
+                        // 如果 n 为 16 的话，那么这里 sc = 12
+                        // 其实就是 0.75 * n
                         sc = n - (n >>> 2);
                     }
                 } finally {
+                    // 设置 sizeCtl 为 sc
                     sizeCtl = sc;
                 }
                 break;

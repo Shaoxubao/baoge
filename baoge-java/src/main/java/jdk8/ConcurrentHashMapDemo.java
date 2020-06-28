@@ -7,7 +7,7 @@ public class ConcurrentHashMapDemo {
 
     public static void main(String[] args) {
 
-        Map<Integer, String> hashMap = new ConcurrentHashMap<>(6);
+        Map<Integer, String> hashMap = new ConcurrentHashMap<>();
 
         hashMap.put(1, "a");
         hashMap.put(2, "b");
@@ -18,7 +18,21 @@ public class ConcurrentHashMapDemo {
         hashMap.put(7, "g");
         hashMap.put(8, "h");
         hashMap.put(9, "i");
+        hashMap.size();
 
+        // 位运算
+        int n = 5;
+
+        n |= n >>> 1;
+        System.out.println(n + "——>" + Integer.toBinaryString(n));
+        n |= n >>> 2;
+        System.out.println(n + "——>" + Integer.toBinaryString(n));
+        n |= n >>> 4;
+        System.out.println(n + "——>" + Integer.toBinaryString(n));
+        n |= n >>> 8;
+        System.out.println(n + "——>" + Integer.toBinaryString(n));
+        n |= n >>> 16;
+        System.out.println(n + "——>" + Integer.toBinaryString(n));
 
     }
 
