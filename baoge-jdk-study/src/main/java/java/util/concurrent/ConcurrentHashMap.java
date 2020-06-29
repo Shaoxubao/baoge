@@ -562,8 +562,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
              * 2、如果table[i]!=null(即该位置已经有其它节点，发生碰撞)
              */
             else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
-                if (casTabAt(tab, i, null,
-                        new Node<K, V>(hash, key, value, null)))
+                if (casTabAt(tab, i, null, new Node<K, V>(hash, key, value, null)))
                     break;                   // no lock when adding to empty bin
             } else if ((fh = f.hash) == MOVED) // 检查table[i]的节点的hash是否等于MOVED，如果等于，则检测到正在扩容，则帮助其扩容
                 tab = helpTransfer(tab, f);
@@ -578,8 +577,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                                 K ek;
                                 // 如果在链表中找到值为key的节点e，直接设置e.val = value即可
                                 if (e.hash == hash &&
-                                        ((ek = e.key) == key ||
-                                                (ek != null && key.equals(ek)))) {
+                                        ((ek = e.key) == key || (ek != null && key.equals(ek)))) {
                                     oldVal = e.val;
                                     if (!onlyIfAbsent)
                                         e.val = value;
@@ -588,16 +586,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                                 // 如果没有找到值为key的节点，直接新建Node并加入链表即可
                                 Node<K, V> pred = e;
                                 if ((e = e.next) == null) { // 插入到链表末尾并跳出循环
-                                    pred.next = new Node<K, V>(hash, key,
-                                            value, null);
+                                    pred.next = new Node<K, V>(hash, key, value, null);
                                     break;
                                 }
                             }
                         } else if (f instanceof TreeBin) { // 如果首节点为TreeBin类型，说明为红黑树结构，执行putTreeVal操作
                             Node<K, V> p;
                             binCount = 2;
-                            if ((p = ((TreeBin<K, V>) f).putTreeVal(hash, key,
-                                    value)) != null) {
+                            if ((p = ((TreeBin<K, V>) f).putTreeVal(hash, key, value)) != null) {
                                 oldVal = p.val;
                                 if (!onlyIfAbsent)
                                     p.val = value;
