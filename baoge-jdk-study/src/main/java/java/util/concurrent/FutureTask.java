@@ -88,24 +88,36 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * NEW -> COMPLETING -> EXCEPTIONAL
      * NEW -> CANCELLED
      * NEW -> INTERRUPTING -> INTERRUPTED
+     *
+     * 内部状态转换：
+     *    FutureTask中使用state表示任务状态，state值变更的由CAS操作保证原子性。
+     *    FutureTask对象初始化时，在构造器中把state置为为NEW，之后状态的变更依据具体执行情况来定。
+     *    例如任务执行正常结束前，state会被设置成COMPLETING，代表任务即将完成，接下来很快就会被设置为NORMAL或者EXCEPTIONAL，这取决于调用Runnable中的call()方法是否抛出了异常。有异常则后者，反之前者。
+     *    任务提交后、任务结束前取消任务，那么有可能变为CANCELLED或者INTERRUPTED。在调用cancel方法时，如果传入false表示不中断线程，state会被置为CANCELLED，反之state先被变为INTERRUPTING，后变为INTERRUPTED。
+     *
+     *    总结下，FutureTask的状态流转过程，可以出现以下四种情况：
+     *      1. 任务正常执行并返回。 NEW -> COMPLETING -> NORMAL
+     *      2. 执行中出现异常。NEW -> COMPLETING -> EXCEPTIONAL
+     *      3. 任务执行过程中被取消，并且不响应中断。NEW -> CANCELLED
+     *      4. 任务执行过程中被取消，并且响应中断。 NEW -> INTERRUPTING -> INTERRUPTED　
      */
-    private volatile int state;
-    private static final int NEW          = 0;
-    private static final int COMPLETING   = 1;
-    private static final int NORMAL       = 2;
-    private static final int EXCEPTIONAL  = 3;
-    private static final int CANCELLED    = 4;
-    private static final int INTERRUPTING = 5;
-    private static final int INTERRUPTED  = 6;
+    private volatile int state;                // 任务运行状态变化
+    private static final int NEW          = 0; // 任务新建和执行中
+    private static final int COMPLETING   = 1; // 任务将要执行完毕
+    private static final int NORMAL       = 2; // 任务正常执行结束
+    private static final int EXCEPTIONAL  = 3; // 任务异常
+    private static final int CANCELLED    = 4; // 任务取消
+    private static final int INTERRUPTING = 5; // 任务线程即将被中断
+    private static final int INTERRUPTED  = 6; // 任务线程已中断
 
     /** The underlying callable; nulled out after running */
     private Callable<V> callable;
     /** The result to return or exception to throw from get() */
-    private Object outcome; // non-volatile, protected by state reads/writes
+    private Object outcome; // non-volatile, protected by state reads/writes // 线程执行结果
     /** The thread running the callable; CASed during run() */
-    private volatile Thread runner;
+    private volatile Thread runner;                                          // 运行的Callable接口的线程
     /** Treiber stack of waiting threads */
-    private volatile WaitNode waiters;
+    private volatile WaitNode waiters;                                       // 是一个单向链表，存储运行中的线程
 
     /**
      * Returns result or throws exception for completed task.
@@ -263,6 +275,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
                 V result;
                 boolean ran;
                 try {
+                    // 执行业务代码
                     result = c.call();
                     ran = true;
                 } catch (Throwable ex) {
@@ -276,6 +289,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
         } finally {
             // runner must be non-null until state is settled to
             // prevent concurrent calls to run()
+            // 执行完毕之后，在finally中将runner置为空
             runner = null;
             // state must be re-read after nulling runner to prevent
             // leaked interrupts
@@ -399,12 +413,14 @@ public class FutureTask<V> implements RunnableFuture<V> {
         WaitNode q = null;
         boolean queued = false;
         for (;;) {
+            // 线程中断则移除等待线程,并抛出异常
             if (Thread.interrupted()) {
                 removeWaiter(q);
                 throw new InterruptedException();
             }
 
             int s = state;
+            // 任务可能已经完成或者被取消了
             if (s > COMPLETING) {
                 if (q != null)
                     q.thread = null;
