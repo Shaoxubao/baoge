@@ -279,6 +279,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * 获得在i位置上的Node节点
+     * 在java内存模型中，我们已经知道每个线程都有一个工作内存，里面存储着table的副本，虽然table是volatile修饰的，
+     * 但不能保证线程每次都拿到table中的最新元素，Unsafe.getObjectVolatile可以直接获取指定内存的数据，保证了每次拿到数据都是最新的
      */
     @SuppressWarnings("unchecked")
     static final <K, V> Node<K, V> tabAt(Node<K, V>[] tab, int i) {
@@ -2179,9 +2181,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                     if (tabAt(tab, index) == b) {
                         TreeNode<K, V> hd = null, tl = null;
                         for (Node<K, V> e = b; e != null; e = e.next) {
-                            TreeNode<K, V> p =
-                                    new TreeNode<K, V>(e.hash, e.key, e.val,
-                                            null, null);
+                            TreeNode<K, V> p = new TreeNode<K, V>(e.hash, e.key, e.val, null, null);
                             if ((p.prev = tl) == null)
                                 hd = p;
                             else
