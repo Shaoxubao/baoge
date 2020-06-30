@@ -7,7 +7,7 @@ public class ConcurrentHashMapDemo {
 
     public static void main(String[] args) {
 
-        Map<Integer, String> hashMap = new ConcurrentHashMap<>();
+        Map<Integer, String> hashMap = new ConcurrentHashMap<>(3);
 
         hashMap.put(1, "a");
         hashMap.put(2, "b");
