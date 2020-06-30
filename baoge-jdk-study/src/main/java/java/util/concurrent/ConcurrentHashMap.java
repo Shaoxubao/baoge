@@ -1916,8 +1916,24 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /**
      * Moves and/or copies the nodes in each bin to new table. See
      * above for explanation.
+     *
+     * 该方法通过全局的transferIndex来控制每个线程的迁移任务;
+     * 扩容是ConcurrentHashMap的精华之一，扩容操作的核心在于数据的转移，在单线程环境下数据的转移很简单，无非就是把旧数组中的数据迁移到新的数组。
+     * 但是这在多线程环境下，在扩容的时候其他线程也可能正在添加元素，这时又触发了扩容怎么办？可能大家想到的第一个解决方案是加互斥锁，把转移过程锁住，
+     * 虽然是可行的解决方案，但是会带来较大的性能开销。因为互斥锁会导致所有访问临界区的线程陷入到阻塞状态，持有锁的线程耗时越长，其他竞争线程就会一直被阻塞，
+     * 导致吞吐量较低。而且还可能导致死锁。 而ConcurrentHashMap并没有直接加锁，而是采用CAS实现无锁的并发同步策略，最精华的部分是它可以利用多线程来进行协同扩容
+     * 简单来说，它把Node数组当作多个线程之间共享的任务队列，然后通过维护一个指针来划分每个线程锁负责的区间，每个线程通过区间逆向遍历来实现扩容，
+     * 一个已经迁移完的bucket会被替换为一个ForwardingNode节点，标记当前bucket已经被其他线程迁移完了。接下来分析一下它的源码实现
+     * 1、fwd:这个类是个标识类，用于指向新表用的，其他线程遇到这个类会主动跳过这个类，因为这个类要么就是扩容迁移正在进行，要么就是已经完成扩容迁移，也就是这个类要保证线程安全，再进行操作。
+     * 2、advance:这个变量是用于提示代码是否进行推进处理，也就是当前桶处理完，处理下一个桶的标识
+     * 3、finishing:这个变量用于提示扩容是否结束用的
+     *
+     * ConcurrentHashMap支持并发扩容，实现方式是，把Node数组进行拆分，让每个线程处理自己的区域，假设table数组总长度是64，默认情况下，那么每个线程可以分到16个bucket。
+     * 然后每个线程处理的范围，按照倒序来做迁移 通过for自循环处理每个槽位中的链表元素，默认advance为真，通过CAS设置transferIndex属性值，
+     * 并初始化i和bound值，i指当前处理的槽位序号，bound指需要处理的槽位边界，先处理槽位31的节点； （bound,i） =(16,31) 从31的位置往前推动。
      */
     private final void transfer(Node<K, V>[] tab, Node<K, V>[] nextTab) {
+        // n为旧tab的长度，stride为步长(就是每个线程迁移的节点数)
         int n = tab.length, stride;
 
         // stride 在单核下直接等于 n，多核模式下为 (n>>>3)/NCPU，最小值是 16
@@ -1950,6 +1966,9 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
         // 后面我们会看到，原数组中位置 i 处的节点完成迁移工作后，
         // 就会将位置 i 处设置为这个 ForwardingNode，用来告诉其他线程该位置已经处理过了
         // 所以它其实相当于是一个标志。
+        // 该占位对象主要有两个用途：
+        //  1、占位作用，用于标识数组该位置的桶已经迁移完毕，处于扩容中的状态。
+        //  2、作为一个转发的作用，扩容期间如果遇到查询操作，遇到转发节点，会把该查询操作转发到新的数组上去，不会阻塞查询操作
         ForwardingNode<K, V> fwd = new ForwardingNode<K, V>(nextTab);
         boolean advance = true;    // advance 指的是做完了一个位置的迁移工作，可以准备做下一个位置的了
         boolean finishing = false; // to ensure sweep before committing nextTab
@@ -1971,6 +1990,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 else if ((nextIndex = transferIndex) <= 0) {
                     i = -1;
                     advance = false;
+                // 通过cas来修改TRANSFERINDEX,为当前线程分配任务，处理的节点区间为(nextBound, nextIndex)->(0, 15)
                 } else if (U.compareAndSwapInt(this, TRANSFERINDEX, nextIndex,
                                 nextBound = (nextIndex > stride ? nextIndex - stride : 0))) {
                     // 看括号中的代码，nextBound 是这次迁移任务的边界，注意，是从后往前
