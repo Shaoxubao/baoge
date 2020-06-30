@@ -1947,10 +1947,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 else if ((nextIndex = transferIndex) <= 0) {
                     i = -1;
                     advance = false;
-                } else if (U.compareAndSwapInt
-                        (this, TRANSFERINDEX, nextIndex,
-                                nextBound = (nextIndex > stride ?
-                                        nextIndex - stride : 0))) {
+                } else if (U.compareAndSwapInt(this, TRANSFERINDEX, nextIndex,
+                                nextBound = (nextIndex > stride ? nextIndex - stride : 0))) {
                     bound = nextBound;
                     i = nextIndex - 1;
                     advance = false;
