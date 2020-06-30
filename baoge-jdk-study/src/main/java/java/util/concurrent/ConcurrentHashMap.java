@@ -1817,10 +1817,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
             long v;
             int m;
             boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                    (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
-                    !(uncontended =
-                            U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+            if (as == null || (m = as.length - 1) < 0 || (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
+                    !(uncontended = U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
                 fullAddCount(x, uncontended);
                 return;
             }
@@ -1831,18 +1829,15 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
         if (check >= 0) {
             Node<K, V>[] tab, nt;
             int n, sc;
-            while (s >= (long) (sc = sizeCtl) && (tab = table) != null &&
-                    (n = tab.length) < MAXIMUM_CAPACITY) {
+            while (s >= (long) (sc = sizeCtl) && (tab = table) != null && (n = tab.length) < MAXIMUM_CAPACITY) {
                 int rs = resizeStamp(n);
                 if (sc < 0) {
                     if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                            sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
-                            transferIndex <= 0)
+                            sc == rs + MAX_RESIZERS || (nt = nextTable) == null || transferIndex <= 0)
                         break;
                     if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
                         transfer(tab, nt);
-                } else if (U.compareAndSwapInt(this, SIZECTL, sc,
-                        (rs << RESIZE_STAMP_SHIFT) + 2))
+                } else if (U.compareAndSwapInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2))
                     transfer(tab, null);
                 s = sumCount();
             }
