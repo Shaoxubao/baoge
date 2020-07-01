@@ -18,7 +18,12 @@ public class ConcurrentHashMapDemo {
         hashMap.put(7, "g");
         hashMap.put(8, "h");
         hashMap.put(9, "i");
-        hashMap.size();
+        System.out.println(hashMap.size());
+
+        for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
+            String value = entry.getValue();
+            System.out.println(value);
+        }
 
         // 位运算
         int n = 5;

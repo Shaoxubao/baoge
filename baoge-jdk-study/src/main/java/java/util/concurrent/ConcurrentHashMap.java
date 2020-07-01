@@ -2018,6 +2018,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 // 这里使用 CAS 操作对 sizeCtl 进行减 1，代表做完了属于自己的任务
                 if (U.compareAndSwapInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
                     // 任务结束，方法退出
+                    // 判断是否是最后一个扩容线程，如果不是则直接退出，由于第一个线程进来时把扩容戳rs左移16位+2更新到sizeCtl，
+                    // 所以如果是最后一个线程的话，sizeCtl -2 应该等于rs左移16位
                     if ((sc - 2) != resizeStamp(n) << RESIZE_STAMP_SHIFT)
                         return;
                     // 到这里，说明 (sc - 2) == resizeStamp(n) << RESIZE_STAMP_SHIFT，
@@ -2041,8 +2043,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                             // 需要将链表一分为二，
                             // 找到原链表中的 lastRun，然后 lastRun 及其之后的节点是一起进行迁移的
                             // lastRun 之前的节点需要进行克隆，然后分到两个链表中
+                            // 由于数组长度n为2的幂次方，所以当数组长度增加到2n时，原来hash到table中i的数据节点在长度为2n的table中要么在低位nextTab[i]处，
+                            // 要么在高位nextTab[n+i]处，具体在哪个位置与(fh & n)的计算结果有关
                             int runBit = fh & n;
                             Node<K, V> lastRun = f;
+                            // 此处循环的目的是找到链表中最后一个从低索引位置变到高索引位置或者从高索引位置变到低索引位置的节点lastRun，
+                            // 从lastRun节点到链表的尾节点可根据runBit直接插入到新数组nextTable的节点中，其目的是尽量减少新创建节点数量，直接更新指针位置
                             for (Node<K, V> p = f.next; p != null; p = p.next) {
                                 int b = p.hash & n;
                                 if (b != runBit) {
@@ -2057,6 +2063,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                                 hn = lastRun;
                                 ln = null;
                             }
+                            // 对于lastRun之前的链表节点，根据hashCode&n可确定即将转移到nextTable中的低索引位置节点（nextTab[i]）
+                            // 还是高索引位置节点（nextTab[i + n]），并形成两个新的链表
                             for (Node<K, V> p = f; p != lastRun; p = p.next) {
                                 int ph = p.hash;
                                 K pk = p.key;
@@ -2066,6 +2074,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                                 else
                                     hn = new Node<K, V>(ph, pk, pv, hn);
                             }
+                            // 使用cas方式更新两个链表到新数组nextTable中，并且把原来的table节点i中的数值变为转移节点
                             // 其中的一个链表放在新数组的位置 i
                             setTabAt(nextTab, i, ln);
                             // 另一个链表放在新数组的位置 i+n
