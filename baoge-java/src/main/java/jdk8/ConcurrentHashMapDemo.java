@@ -1,9 +1,12 @@
 package jdk8;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConcurrentHashMapDemo {
+
+    static final int HASH_BITS = 0x7fffffff;
 
     public static void main(String[] args) {
 
@@ -39,6 +42,25 @@ public class ConcurrentHashMapDemo {
         n |= n >>> 16;
         System.out.println(n + "——>" + Integer.toBinaryString(n));
 
+        // ===========
+        Integer a = 1, b = 2, c = 11, d = 9, e = 13;
+        System.out.println(15 & spread(a.hashCode())); // 1111
+        System.out.println(15 & spread(b.hashCode()));
+        System.out.println(15 & spread(c.hashCode()));
+        System.out.println(15 & spread(d.hashCode()));
+        System.out.println(15 & spread(e.hashCode()));
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (Integer i = 0; i < 20000; i++) {
+            int hash = spread(i.hashCode());
+            map.put(hash, i);
+        }
+
+        System.out.println(map);
+    }
+
+    static final int spread(int h) {
+        return (h ^ (h >>> 16)) & HASH_BITS;
     }
 
 }

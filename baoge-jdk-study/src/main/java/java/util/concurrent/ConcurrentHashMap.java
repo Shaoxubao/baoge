@@ -92,7 +92,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
     static final int MOVED = -1;   // hash for forwarding nodes （forwarding nodes的hash值）、标示位
     static final int TREEBIN = -2; // hash值是-2  表示这是一个TreeBin节点
     static final int RESERVED = -3; // hash for transient reservations
-    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash （ReservationNode的hash值）
+    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash （ReservationNode的hash值）用来屏蔽符号位
 
     /**
      * 可用处理器数量
@@ -188,9 +188,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * 对hashCode进行再散列，算法为(h ^ (h >>> 16)) & HASH_BITS
+     * 将 hash 值的 高16位 和 低16位 的特征进行混合，从而尽可能得到一个独特的 hash 值，以减少 hash 冲突。在获取或者插入数据操作之前都要使用这个方法对原始的 hashCode 进行二次 hash
      */
     static final int spread(int h) {
-        return (h ^ (h >>> 16)) & HASH_BITS;
+        return (h ^ (h >>> 16)) & HASH_BITS; // 先对低16位进行扰动处理，然后屏蔽符号位，结果为32位int型非负数
     }
 
     /**
