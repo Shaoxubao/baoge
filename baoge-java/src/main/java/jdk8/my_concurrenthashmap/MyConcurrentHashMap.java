@@ -384,6 +384,8 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 MAXIMUM_CAPACITY :
                 tableSizeFor(initialCapacity + (initialCapacity >>> 1) + 1));
         this.sizeCtl = cap; // 初始化sizeCtl
+
+        table = (Node<K, V>[]) new Node<?, ?>[initialCapacity]; // ----------改造点
     }
 
     /**
