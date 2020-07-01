@@ -1704,6 +1704,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * A node inserted at head of bins during transfer operations.
+     *
+     * ForwardingNode节点作用:
+     * 1、标记作用，表示其他线程正在扩容，并且此节点已经扩容完毕
+     * 2、关联了nextTable,扩容期间可以通过find方法，访问已经迁移到了nextTable中的数据
      */
     static final class ForwardingNode<K, V> extends Node<K, V> {
         final Node<K, V>[] nextTable;
@@ -1829,6 +1833,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
         if (check >= 0) {
             Node<K, V>[] tab, nt;
             int n, sc;
+            // s >= sizeCtl 即容量达到扩容阈值，需要扩容
             while (s >= (long) (sc = sizeCtl) && (tab = table) != null && (n = tab.length) < MAXIMUM_CAPACITY) {
                 int rs = resizeStamp(n);
                 if (sc < 0) {
@@ -1990,12 +1995,12 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 else if ((nextIndex = transferIndex) <= 0) {
                     i = -1;
                     advance = false;
-                // 通过cas来修改TRANSFERINDEX,为当前线程分配任务，处理的节点区间为(nextBound, nextIndex)->(0, 15)
+                // 通过cas来修改TRANSFERINDEX,为当前线程分配任务，处理的节点区间为(nextBound, nextIndex)->(0, 16)
                 } else if (U.compareAndSwapInt(this, TRANSFERINDEX, nextIndex,
                                 nextBound = (nextIndex > stride ? nextIndex - stride : 0))) {
                     // 看括号中的代码，nextBound 是这次迁移任务的边界，注意，是从后往前
-                    bound = nextBound;
-                    i = nextIndex - 1;
+                    bound = nextBound; // 0
+                    i = nextIndex - 1; // 15
                     advance = false;
                 }
             }
@@ -2237,6 +2242,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
         Node<K, V> b;
         int n, sc;
         if (tab != null) {
+            // 数组的大小还未超过64
             if ((n = tab.length) < MIN_TREEIFY_CAPACITY)
                 tryPresize(n << 1);
             else if ((b = tabAt(tab, index)) != null && b.hash >= 0) {
