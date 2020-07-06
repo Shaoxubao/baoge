@@ -1819,6 +1819,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * @param check if <0, don't check resize, if <= 1 only check if uncontended
      */
     private final void addCount(long x, int check) {
+        System.out.println("addCount:length——>" + table.length + ", sizeCtl:" + sizeCtl);
         CounterCell[] as;
         long b, s;
         if ((as = counterCells) != null ||
@@ -1841,6 +1842,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
             int n, sc;
             // s >= sizeCtl 即容量达到扩容阈值，需要扩容
             while (s >= (long) (sc = sizeCtl) && (tab = table) != null && (n = tab.length) < MAXIMUM_CAPACITY) {
+                System.out.println("addCount——>while.............");
                 int rs = resizeStamp(n);
                 if (sc < 0) {
                     if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
@@ -1944,6 +1946,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * 并初始化i和bound值，i指当前处理的槽位序号，bound指需要处理的槽位边界，先处理槽位31的节点； （bound,i） =(16,31) 从31的位置往前推动。
      */
     private final void transfer(Node<K, V>[] tab, Node<K, V>[] nextTab) {
+        System.out.println("进入扩容:length——>" + table.length + ", sizeCtl:" + sizeCtl);
         // n为旧tab的长度，stride为步长(就是每个线程迁移的节点数)
         int n = tab.length, stride;
 

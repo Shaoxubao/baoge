@@ -23,10 +23,10 @@ public class Test {
         System.out.println(hashMap.size());
 
 
-        TestTransient a = new TestTransient();
-        a.put(1);
-        a.put(2);
-
-        System.out.println(a);
+//        TestTransient a = new TestTransient();
+//        a.put(1);
+//        a.put(2);
+//
+//        System.out.println(a);
     }
 }
