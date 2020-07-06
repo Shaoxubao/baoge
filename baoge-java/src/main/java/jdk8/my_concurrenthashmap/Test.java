@@ -21,6 +21,8 @@ public class Test {
         hashMap.put(8, "h");
         hashMap.put(9, "i");
         System.out.println(hashMap.size());
+        System.out.println(hashMap.get(1));
+        System.out.println(hashMap.get(4));
 
 
 //        TestTransient a = new TestTransient();

@@ -473,7 +473,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
         int h = spread(key.hashCode()); // 两次hash计算出hash值
         // 根据hash值确定节点位置
         if ((tab = table) != null && (n = tab.length) > 0 &&
-                (e = tabAt(tab, (n - 1) & h)) != null) {
+                (e = tabAt(tab, h % n)) != null) {
             // 搜索到的节点key与传入的key相同且不为null,直接返回这个节点
             if ((eh = e.hash) == h) {
                 if ((ek = e.key) == key || (ek != null && key.equals(ek)))
@@ -1829,11 +1829,11 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
             long v;
             int m;
             boolean uncontended = true;
-//            if (as == null || (m = as.length - 1) < 0 || (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
-//                    !(uncontended = U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
-//                fullAddCount(x, uncontended);
-//                return;
-//            }
+            if (as == null || (m = as.length - 1) < 0 || (a = as[MyThreadLocalRandom.getProbe() & m]) == null ||
+                    !(uncontended = U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+                fullAddCount(x, uncontended);
+                return;
+            }
             if (check <= 1)
                 return;
             s = sumCount();
@@ -1853,7 +1853,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
                         System.out.println("addCount——>while——>transfer1.............");
                         transfer(tab, nt);
                 } else if (U.compareAndSwapInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2))
-                    System.out.println("addCount——>while——>transfer2.............");
+                    System.out.println("addCount——>while——>transfer2............., length——>" + table.length + ", sizeCtl:" + sizeCtl);
                     transfer(tab, null);
                 s = sumCount();
             }
@@ -2063,7 +2063,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
                             // 此处循环的目的是找到链表中最后一个从低索引位置变到高索引位置或者从高索引位置变到低索引位置的节点lastRun，
                             // 从lastRun节点到链表的尾节点可根据runBit直接插入到新数组nextTable的节点中，其目的是尽量减少新创建节点数量，直接更新指针位置
                             for (Node<K, V> p = f.next; p != null; p = p.next) {
-                                int b = p.hash & n;
+                                int b = p.hash % n;
                                 if (b != runBit) {
                                     runBit = b;
                                     lastRun = p;
@@ -2172,87 +2172,87 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     // See LongAdder version for explanation
-//    private final void fullAddCount(long x, boolean wasUncontended) {
-//        int h;
-//        if ((h = ThreadLocalRandom.getProbe()) == 0) {
-//            ThreadLocalRandom.localInit();      // force initialization
-//            h = ThreadLocalRandom.getProbe();
-//            wasUncontended = true;
-//        }
-//        boolean collide = false;                // True if last slot nonempty
-//        for (; ; ) {
-//            CounterCell[] as;
-//            CounterCell a;
-//            int n;
-//            long v;
-//            if ((as = counterCells) != null && (n = as.length) > 0) {
-//                if ((a = as[(n - 1) & h]) == null) {
-//                    if (cellsBusy == 0) {            // Try to attach new Cell
-//                        CounterCell r = new CounterCell(x); // Optimistic create
-//                        if (cellsBusy == 0 &&
-//                                U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
-//                            boolean created = false;
-//                            try {               // Recheck under lock
-//                                CounterCell[] rs;
-//                                int m, j;
-//                                if ((rs = counterCells) != null &&
-//                                        (m = rs.length) > 0 &&
-//                                        rs[j = (m - 1) & h] == null) {
-//                                    rs[j] = r;
-//                                    created = true;
-//                                }
-//                            } finally {
-//                                cellsBusy = 0;
-//                            }
-//                            if (created)
-//                                break;
-//                            continue;           // Slot is now non-empty
-//                        }
-//                    }
-//                    collide = false;
-//                } else if (!wasUncontended)       // CAS already known to fail
-//                    wasUncontended = true;      // Continue after rehash
-//                else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
-//                    break;
-//                else if (counterCells != as || n >= NCPU)
-//                    collide = false;            // At max size or stale
-//                else if (!collide)
-//                    collide = true;
-//                else if (cellsBusy == 0 &&
-//                        U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
-//                    try {
-//                        if (counterCells == as) {// Expand table unless stale
-//                            CounterCell[] rs = new CounterCell[n << 1];
-//                            for (int i = 0; i < n; ++i)
-//                                rs[i] = as[i];
-//                            counterCells = rs;
-//                        }
-//                    } finally {
-//                        cellsBusy = 0;
-//                    }
-//                    collide = false;
-//                    continue;                   // Retry with expanded table
-//                }
-//                h = ThreadLocalRandom.advanceProbe(h);
-//            } else if (cellsBusy == 0 && counterCells == as &&
-//                    U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
-//                boolean init = false;
-//                try {                           // Initialize table
-//                    if (counterCells == as) {
-//                        CounterCell[] rs = new CounterCell[2];
-//                        rs[h & 1] = new CounterCell(x);
-//                        counterCells = rs;
-//                        init = true;
-//                    }
-//                } finally {
-//                    cellsBusy = 0;
-//                }
-//                if (init)
-//                    break;
-//            } else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
-//                break;                          // Fall back on using base
-//        }
-//    }
+    private final void fullAddCount(long x, boolean wasUncontended) {
+        int h;
+        if ((h = MyThreadLocalRandom.getProbe()) == 0) {
+            MyThreadLocalRandom.localInit();      // force initialization
+            h = MyThreadLocalRandom.getProbe();
+            wasUncontended = true;
+        }
+        boolean collide = false;                // True if last slot nonempty
+        for (; ; ) {
+            CounterCell[] as;
+            CounterCell a;
+            int n;
+            long v;
+            if ((as = counterCells) != null && (n = as.length) > 0) {
+                if ((a = as[(n - 1) & h]) == null) {
+                    if (cellsBusy == 0) {            // Try to attach new Cell
+                        CounterCell r = new CounterCell(x); // Optimistic create
+                        if (cellsBusy == 0 &&
+                                U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                            boolean created = false;
+                            try {               // Recheck under lock
+                                CounterCell[] rs;
+                                int m, j;
+                                if ((rs = counterCells) != null &&
+                                        (m = rs.length) > 0 &&
+                                        rs[j = (m - 1) & h] == null) {
+                                    rs[j] = r;
+                                    created = true;
+                                }
+                            } finally {
+                                cellsBusy = 0;
+                            }
+                            if (created)
+                                break;
+                            continue;           // Slot is now non-empty
+                        }
+                    }
+                    collide = false;
+                } else if (!wasUncontended)       // CAS already known to fail
+                    wasUncontended = true;      // Continue after rehash
+                else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
+                    break;
+                else if (counterCells != as || n >= NCPU)
+                    collide = false;            // At max size or stale
+                else if (!collide)
+                    collide = true;
+                else if (cellsBusy == 0 &&
+                        U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                    try {
+                        if (counterCells == as) {// Expand table unless stale
+                            CounterCell[] rs = new CounterCell[n << 1];
+                            for (int i = 0; i < n; ++i)
+                                rs[i] = as[i];
+                            counterCells = rs;
+                        }
+                    } finally {
+                        cellsBusy = 0;
+                    }
+                    collide = false;
+                    continue;                   // Retry with expanded table
+                }
+                h = MyThreadLocalRandom.advanceProbe(h);
+            } else if (cellsBusy == 0 && counterCells == as &&
+                    U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                boolean init = false;
+                try {                           // Initialize table
+                    if (counterCells == as) {
+                        CounterCell[] rs = new CounterCell[2];
+                        rs[h & 1] = new CounterCell(x);
+                        counterCells = rs;
+                        init = true;
+                    }
+                } finally {
+                    cellsBusy = 0;
+                }
+                if (init)
+                    break;
+            } else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
+                break;                          // Fall back on using base
+        }
+    }
 
     /* ---------------- Conversion from/to TreeBins -------------- */
 

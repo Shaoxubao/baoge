@@ -22,6 +22,8 @@ public class ConcurrentHashMapDemo {
         concurrentHashMap.put(8, "h");
         concurrentHashMap.put(9, "i");
         System.out.println(concurrentHashMap.size());
+        System.out.println(concurrentHashMap.get(1));
+        System.out.println(concurrentHashMap.get(4));
 
         for (Map.Entry<Integer, String> entry : concurrentHashMap.entrySet()) {
             String value = entry.getValue();
