@@ -10,7 +10,25 @@ public class ConcurrentHashMapDemo {
 
     public static void main(String[] args) {
 
-        Map<Integer, String> hashMap = new ConcurrentHashMap<>(3);
+        Map<Integer, String> concurrentHashMap = new ConcurrentHashMap<>(3);
+
+        concurrentHashMap.put(1, "a");
+        concurrentHashMap.put(2, "b");
+        concurrentHashMap.put(3, "c");
+        concurrentHashMap.put(4, "d");
+        concurrentHashMap.put(5, "e");
+        concurrentHashMap.put(6, "f");
+        concurrentHashMap.put(7, "g");
+        concurrentHashMap.put(8, "h");
+        concurrentHashMap.put(9, "i");
+        System.out.println(concurrentHashMap.size());
+
+        for (Map.Entry<Integer, String> entry : concurrentHashMap.entrySet()) {
+            String value = entry.getValue();
+            System.out.println(value);
+        }
+
+        Map<Integer, String> hashMap = new HashMap<>(3);
 
         hashMap.put(1, "a");
         hashMap.put(2, "b");
@@ -22,11 +40,6 @@ public class ConcurrentHashMapDemo {
         hashMap.put(8, "h");
         hashMap.put(9, "i");
         System.out.println(hashMap.size());
-
-        for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
-            String value = entry.getValue();
-            System.out.println(value);
-        }
 
         // 位运算
         int n = 5;
