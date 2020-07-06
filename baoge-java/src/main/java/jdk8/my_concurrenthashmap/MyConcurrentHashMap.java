@@ -1850,8 +1850,10 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
                             sc == rs + MAX_RESIZERS || (nt = nextTable) == null || transferIndex <= 0)
                         break;
                     if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                        System.out.println("addCount——>while——>transfer1.............");
                         transfer(tab, nt);
                 } else if (U.compareAndSwapInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2))
+                    System.out.println("addCount——>while——>transfer2.............");
                     transfer(tab, null);
                 s = sumCount();
             }
