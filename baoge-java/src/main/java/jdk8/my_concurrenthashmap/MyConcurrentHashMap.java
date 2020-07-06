@@ -100,7 +100,8 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /**
      * 可用处理器数量
      */
-    static final int NCPU = Runtime.getRuntime().availableProcessors();
+//    static final int NCPU = Runtime.getRuntime().availableProcessors();
+    static final int NCPU = 1;   // 改造点
 
     /**
      * For serialization compatibility.
