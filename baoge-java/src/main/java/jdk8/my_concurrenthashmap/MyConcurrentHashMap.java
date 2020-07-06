@@ -1864,6 +1864,7 @@ public class MyConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Helps transfer if a resize is in progress.
      */
     final Node<K, V>[] helpTransfer(Node<K, V>[] tab, Node<K, V> f) {
+        System.out.println("helpTransfer ............");
         Node<K, V>[] nextTab;
         int sc;
         if (tab != null && (f instanceof ForwardingNode) &&
