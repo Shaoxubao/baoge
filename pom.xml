@@ -24,6 +24,7 @@
         <module>baoge-zookeeper</module>
         <module>baoge-java-agent</module>
         <module>baoge-springboot-netty-chat</module>
+        <module>baoge-algorithm</module>
     </modules>
 
     <properties>
