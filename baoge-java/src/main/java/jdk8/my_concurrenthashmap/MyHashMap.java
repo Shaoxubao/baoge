@@ -6,10 +6,16 @@ package jdk8.my_concurrenthashmap;
  */
 public class MyHashMap<K, V> {
 
+    transient int capacity;
+
     /**
      * 存放node的数组
      */
     transient Node<K, V>[] table;
+
+    public MyHashMap(int capacity) {
+        this.capacity = capacity;
+    }
 
     static class Node<K, V> {
         final int hash;
@@ -27,7 +33,7 @@ public class MyHashMap<K, V> {
 
 
     private final void initTable() {
-        table = (Node<K, V>[]) new Node<?, ?>[8];
+        table = (Node<K, V>[]) new Node<?, ?>[capacity];
     }
 
     public void put(K key, V value) {

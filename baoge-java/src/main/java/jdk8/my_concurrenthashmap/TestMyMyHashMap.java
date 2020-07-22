@@ -7,7 +7,7 @@ package jdk8.my_concurrenthashmap;
 public class TestMyMyHashMap {
 
     public static void main(String[] args) {
-        MyHashMap<Integer, String> map = new MyHashMap();
+        MyHashMap<Integer, String> map = new MyHashMap(16);
 
         map.put(1, "a");
         map.put(2, "b");
