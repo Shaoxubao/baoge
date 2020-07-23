@@ -2046,8 +2046,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V>
                             // lastRun 之前的节点需要进行克隆，然后分到两个链表中
                             // 由于数组长度n为2的幂次方，所以当数组长度增加到2n时，原来hash到table中i的数据节点在长度为2n的table中要么在低位nextTab[i]处，
                             // 要么在高位nextTab[n+i]处，具体在哪个位置与(fh & n)的计算结果有关
-                            int runBit = fh & n;
-                            Node<K, V> lastRun = f;
+                            int runBit = fh & n;            // 由于n是2的幂次，所以runBit要么是0，要么高位是1
+                            Node<K, V> lastRun = f;         // lastRun是指向最后一个相邻runBit不同的节点
                             // 此处循环的目的是找到链表中最后一个从低索引位置变到高索引位置或者从高索引位置变到低索引位置的节点lastRun，
                             // 从lastRun节点到链表的尾节点可根据runBit直接插入到新数组nextTable的节点中，其目的是尽量减少新创建节点数量，直接更新指针位置
                             for (Node<K, V> p = f.next; p != null; p = p.next) {
