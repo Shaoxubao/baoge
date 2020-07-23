@@ -205,6 +205,12 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
      * Removes a node from head of queue.
      *
      * @return the node
+     *
+     * 出队
+     *  让头部元素出队列的过程
+     *  其最终的目的是让原来的head被GC回收，让其的next成为head
+     *  并且新的head的item为null.
+     *  因为LinkedBlockingQueue的头部具有一致性:即元素为null。
      */
     private E dequeue() {
         // assert takeLock.isHeldByCurrentThread();
