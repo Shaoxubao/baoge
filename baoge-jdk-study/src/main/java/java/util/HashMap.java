@@ -509,14 +509,11 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * @return the table
      */
     final Node<K, V>[] resize() {
-        // 新建oldTab数组保存扩容前的数组table
         Node<K, V>[] oldTab = table;
-        // 获取原来数组的长度
         int oldCap = (oldTab == null) ? 0 : oldTab.length;
-        // 原来数组扩容的临界值
         int oldThr = threshold;
         int newCap, newThr = 0;
-        // 如果扩容前的容量 > 0
+
         if (oldCap > 0) {
             // 如果原来的数组长度大于最大值(2^30)
             if (oldCap >= MAXIMUM_CAPACITY) {
