@@ -67,10 +67,10 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         // final:一个键值对的key不可改变
         final K key;
         V value;
-        //指向下个节点的引用
+        // 指向下个节点的引用
         Node<K, V> next;
 
-        //构造函数
+        // 构造函数
         Node(int hash, K key, V value, Node<K, V> next) {
             this.hash = hash;
             this.key = key;
@@ -167,7 +167,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * 结果为>=cap的最小2的自然数幂
      */
     static final int tableSizeFor(int cap) {
-        //先移位再或运算，最终保证返回值是2的整数幂
+        // 先移位再或运算，最终保证返回值是2的整数幂
         int n = cap - 1;
         n |= n >>> 1;
         n |= n >>> 2;
@@ -272,7 +272,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      */
     final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
         int s = m.size();
-        //如果参数map不为空
+        // 如果参数map不为空
         if (s > 0) {
             // 判断table是否已经初始化
             if (table == null) { // pre-size
@@ -286,7 +286,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     threshold = tableSizeFor(t);
                 // 已初始化，并且m元素个数大于阈值，进行扩容处理
             } else if (s > threshold)
-                //扩容处理
+                // 扩容处理
                 resize();
             // 将m中的所有元素添加至HashMap中
             for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
@@ -326,7 +326,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      */
     public V get(Object key) {
         Node<K, V> e;
-        //根据key及其hash值查询node节点，如果存在，则返回该节点的value值
+        // 根据key及其hash值查询node节点，如果存在，则返回该节点的value值
         return (e = getNode(hash(key), key)) == null ? null : e.value;
     }
 
@@ -349,29 +349,29 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         Node<K, V> first, e;
         int n;
         K k;
-        //如果哈希表不为空，而且key对应的桶上不为空
+        // 如果哈希表不为空，而且key对应的桶上不为空
         if ((tab = table) != null && (n = tab.length) > 0 &&
                 (first = tab[(n - 1) & hash]) != null) {
-            //如果桶中的第一个节点就和指定参数hash和key匹配上了
+            // 如果桶中的第一个节点就和指定参数hash和key匹配上了
             if (first.hash == hash && // always check first node
                     ((k = first.key) == key || (key != null && key.equals(k))))
-                //返回桶中的第一个节点
+                // 返回桶中的第一个节点
                 return first;
-            //如果桶中的第一个节点没有匹配上，而且有后续节点
+            // 如果桶中的第一个节点没有匹配上，而且有后续节点
             if ((e = first.next) != null) {
-                //如果当前的桶采用红黑树，则调用红黑树的get方法去获取节点
+                // 如果当前的桶采用红黑树，则调用红黑树的get方法去获取节点
                 if (first instanceof TreeNode)
                     return ((TreeNode<K, V>) first).getTreeNode(hash, key);
-                //如果当前的桶不采用红黑树，即桶中节点结构为链式结构
+                // 如果当前的桶不采用红黑树，即桶中节点结构为链式结构
                 do {
-                    //遍历链表，直到key匹配
+                    // 遍历链表，直到key匹配
                     if (e.hash == hash &&
                             ((k = e.key) == key || (key != null && key.equals(k))))
                         return e;
                 } while ((e = e.next) != null);
             }
         }
-        //如果哈希表为空，或者没有找到节点，返回null
+        // 如果哈希表为空，或者没有找到节点，返回null
         return null;
     }
 
@@ -430,7 +430,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         Node<K, V>[] tab;
         Node<K, V> p;
         int n, i;
-        //如果哈希表为空，调用resize()创建一个哈希表，并用变量n记录哈希表长度
+        // 如果哈希表为空，调用resize()创建一个哈希表，并用变量n记录哈希表长度
         if ((tab = table) == null || (n = tab.length) == 0)
             n = (tab = resize()).length;
         /**
@@ -439,7 +439,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
          * (n - 1) & hash 本质上是hash % n，位运算更快
          */
         if ((p = tab[i = (n - 1) & hash]) == null)
-            //直接将键值对插入到map中即可
+            // 直接将键值对插入到map中即可
             tab[i] = newNode(hash, key, value, null);
         else {// 桶中已经存在元素
             Node<K, V> e;
@@ -509,70 +509,70 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * @return the table
      */
     final Node<K, V>[] resize() {
-        //新建oldTab数组保存扩容前的数组table
+        // 新建oldTab数组保存扩容前的数组table
         Node<K, V>[] oldTab = table;
-        //获取原来数组的长度
+        // 获取原来数组的长度
         int oldCap = (oldTab == null) ? 0 : oldTab.length;
-        //原来数组扩容的临界值
+        // 原来数组扩容的临界值
         int oldThr = threshold;
         int newCap, newThr = 0;
-        //如果扩容前的容量 > 0
+        // 如果扩容前的容量 > 0
         if (oldCap > 0) {
-            //如果原来的数组长度大于最大值(2^30)
+            // 如果原来的数组长度大于最大值(2^30)
             if (oldCap >= MAXIMUM_CAPACITY) {
-                //扩容临界值提高到正无穷
+                // 扩容临界值提高到正无穷
                 threshold = Integer.MAX_VALUE;
-                //无法进行扩容，返回原来的数组
+                // 无法进行扩容，返回原来的数组
                 return oldTab;
-                //如果现在容量的两倍小于MAXIMUM_CAPACITY且现在的容量大于DEFAULT_INITIAL_CAPACITY
+                // 如果现在容量的两倍小于MAXIMUM_CAPACITY且现在的容量大于DEFAULT_INITIAL_CAPACITY
             } else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                     oldCap >= DEFAULT_INITIAL_CAPACITY)
-                //临界值变为原来的2倍
+                // 临界值变为原来的2倍
                 newThr = oldThr << 1;
-        } else if (oldThr > 0) //如果旧容量 <= 0，而且旧临界值 > 0
-            //数组的新容量设置为老数组扩容的临界值
+        } else if (oldThr > 0) // 如果旧容量 <= 0，而且旧临界值 > 0
+            // 数组的新容量设置为老数组扩容的临界值
             newCap = oldThr;
-        else { //如果旧容量 <= 0，且旧临界值 <= 0，新容量扩充为默认初始化容量，新临界值为DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY
-            newCap = DEFAULT_INITIAL_CAPACITY;//新数组初始容量设置为默认值
+        else { // 如果旧容量 <= 0，且旧临界值 <= 0，新容量扩充为默认初始化容量，新临界值为DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY
+            newCap = DEFAULT_INITIAL_CAPACITY; // 新数组初始容量设置为默认值
             newThr = (int) (DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);//计算默认容量下的阈值
         }
         // 计算新的resize上限
-        if (newThr == 0) {//在当上面的条件判断中，只有oldThr > 0成立时，newThr == 0
-            //ft为临时临界值，下面会确定这个临界值是否合法，如果合法，那就是真正的临界值
+        if (newThr == 0) { // 在当上面的条件判断中，只有oldThr > 0成立时，newThr == 0
+            // ft为临时临界值，下面会确定这个临界值是否合法，如果合法，那就是真正的临界值
             float ft = (float) newCap * loadFactor;
-            //当新容量< MAXIMUM_CAPACITY且ft < (float)MAXIMUM_CAPACITY，新的临界值为ft，否则为Integer.MAX_VALUE
+            // 当新容量< MAXIMUM_CAPACITY且ft < (float)MAXIMUM_CAPACITY，新的临界值为ft，否则为Integer.MAX_VALUE
             newThr = (newCap < MAXIMUM_CAPACITY && ft < (float) MAXIMUM_CAPACITY ?
                     (int) ft : Integer.MAX_VALUE);
         }
-        //将扩容后hashMap的临界值设置为newThr
+        // 将扩容后hashMap的临界值设置为newThr
         threshold = newThr;
-        //创建新的table，初始化容量为newCap
+        // 创建新的table，初始化容量为newCap
         @SuppressWarnings({"rawtypes", "unchecked"})
         Node<K, V>[] newTab = (Node<K, V>[]) new Node[newCap];
-        //修改hashMap的table为新建的newTab
+        // 修改hashMap的table为新建的newTab
         table = newTab;
-        //如果旧table不为空，将旧table中的元素复制到新的table中
+        // 如果旧table不为空，将旧table中的元素复制到新的table中
         if (oldTab != null) {
-            //遍历旧哈希表的每个桶，将旧哈希表中的桶复制到新的哈希表中
+            // 遍历旧哈希表的每个桶，将旧哈希表中的桶复制到新的哈希表中
             for (int j = 0; j < oldCap; ++j) {
                 Node<K, V> e;
-                //如果旧桶不为null，使用e记录旧桶
+                // 如果旧桶不为null，使用e记录旧桶
                 if ((e = oldTab[j]) != null) {
-                    //将旧桶置为null
+                    // 将旧桶置为null
                     oldTab[j] = null;
-                    //如果旧桶中只有一个node
+                    // 如果旧桶中只有一个node
                     if (e.next == null)
-                        //将e也就是oldTab[j]放入newTab中e.hash & (newCap - 1)的位置
+                        // 将e也就是oldTab[j]放入newTab中e.hash & (newCap - 1)的位置
                         newTab[e.hash & (newCap - 1)] = e;
-                        //如果旧桶中的结构为红黑树
+                        // 如果旧桶中的结构为红黑树
                     else if (e instanceof TreeNode)
-                        //将树中的node分离
+                        // 将树中的node分离
                         ((TreeNode<K, V>) e).split(this, newTab, j, oldCap);
-                    else {  //如果旧桶中的结构为链表,链表重排，jdk1.8做的一系列优化
+                    else {  // 如果旧桶中的结构为链表,链表重排，jdk1.8做的一系列优化
                         Node<K, V> loHead = null, loTail = null;
                         Node<K, V> hiHead = null, hiTail = null;
                         Node<K, V> next;
-                        //遍历整个链表中的节点
+                        // 遍历整个链表中的节点
                         do {
                             next = e.next;
                             // 原索引
@@ -613,17 +613,17 @@ public class HashMap<K, V> extends AbstractMap<K, V>
     final void treeifyBin(Node<K, V>[] tab, int hash) {
         int n, index;
         Node<K, V> e;
-        //如果桶数组table为空，或者桶数组table的长度小于MIN_TREEIFY_CAPACITY，不符合转化为红黑树的条件
+        // 如果桶数组table为空，或者桶数组table的长度小于MIN_TREEIFY_CAPACITY，不符合转化为红黑树的条件
         if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
-            //扩容
+            // 扩容
             resize();
-            //如果符合转化为红黑树的条件，而且hash对应的桶不为null
+            // 如果符合转化为红黑树的条件，而且hash对应的桶不为null
         else if ((e = tab[index = (n - 1) & hash]) != null) {
             // 红黑树的头、尾节点
             TreeNode<K, V> hd = null, tl = null;
-            //遍历链表
+            // 遍历链表
             do {
-                //替换链表node为树node，建立双向链表
+                // 替换链表node为树node，建立双向链表
                 TreeNode<K, V> p = replacementTreeNode(e, null);
                 // 确定树头节点
                 if (tl == null)
@@ -634,7 +634,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                 }
                 tl = p;
             } while ((e = e.next) != null);
-            //遍历链表插入每个节点到红黑树
+            // 遍历链表插入每个节点到红黑树
             if ((tab[index] = hd) != null)
                 hd.treeify(tab);
         }
@@ -662,7 +662,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      */
     public V remove(Object key) {
         Node<K, V> e;
-        //根据key来删除node。removeNode方法的具体实现在下面
+        // 根据key来删除node。removeNode方法的具体实现在下面
         return (e = removeNode(hash(key), key, null, false, true)) == null ?
                 null : e.value;
     }
@@ -689,28 +689,28 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         Node<K, V>[] tab;
         Node<K, V> p;
         int n, index;
-        //如果数组table不为空且key映射到的桶不为空
+        // 如果数组table不为空且key映射到的桶不为空
         if ((tab = table) != null && (n = tab.length) > 0 &&
                 (p = tab[index = (n - 1) & hash]) != null) {
             Node<K, V> node = null, e;
             K k;
             V v;
-            //如果桶上第一个node的就是要删除的node
+            // 如果桶上第一个node的就是要删除的node
             if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
-                //记录桶上第一个node
+                // 记录桶上第一个node
                 node = p;
-            else if ((e = p.next) != null) {//如果桶内不止一个node
-                //如果桶内的结构为红黑树
+            else if ((e = p.next) != null) { // 如果桶内不止一个node
+                // 如果桶内的结构为红黑树
                 if (p instanceof TreeNode)
-                    //记录key映射到的node
+                    // 记录key映射到的node
                     node = ((TreeNode<K, V>) p).getTreeNode(hash, key);
-                else {//如果桶内的结构为链表
-                    do {//遍历链表，找到key映射到的node
+                else {   // 如果桶内的结构为链表
+                    do { // 遍历链表，找到key映射到的node
                         if (e.hash == hash &&
                                 ((k = e.key) == key ||
                                         (key != null && key.equals(k)))) {
-                            //记录key映射到的node
+                            // 记录key映射到的node
                             node = e;
                             break;
                         }
@@ -718,25 +718,25 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     } while ((e = e.next) != null);
                 }
             }
-            //如果得到的node不为null且(matchValue为false||node.value和参数value匹配)
+            // 如果得到的node不为null且(matchValue为false||node.value和参数value匹配)
             if (node != null && (!matchValue || (v = node.value) == value ||
                     (value != null && value.equals(v)))) {
-                //如果桶内的结构为红黑树
+                // 如果桶内的结构为红黑树
                 if (node instanceof TreeNode)
-                    //使用红黑树的删除方法删除node
+                    // 使用红黑树的删除方法删除node
                     ((TreeNode<K, V>) node).removeTreeNode(this, tab, movable);
-                else if (node == p)//如果桶的第一个node的就是要删除的node
-                    //删除node
+                else if (node == p) // 如果桶的第一个node的就是要删除的node
+                    // 删除node
                     tab[index] = node.next;
-                else//如果桶内的结构为链表，使用链表删除元素的方式删除node
+                else // 如果桶内的结构为链表，使用链表删除元素的方式删除node
                     p.next = node.next;
-                ++modCount;//结构性修改次数+1
-                --size;//哈希表大小-1
+                ++modCount; // 结构性修改次数+1
+                --size;     // 哈希表大小-1
                 afterNodeRemoval(node);
-                return node;//返回被删除的node
+                return node; // 返回被删除的node
             }
         }
-        return null;//如果数组table为空或key映射到的桶为空，返回null。
+        return null; // 如果数组table为空或key映射到的桶为空，返回null。
     }
 
     /**
@@ -762,9 +762,9 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         Node<K, V>[] tab;
         V v;
         if ((tab = table) != null && size > 0) {
-            //遍历数组table
+            // 遍历数组table
             for (int i = 0; i < tab.length; ++i) {
-                //遍历桶中的node
+                // 遍历桶中的node
                 for (Node<K, V> e = tab[i]; e != null; e = e.next) {
                     if ((v = e.value) == value ||
                             (value != null && value.equals(v)))
@@ -1319,11 +1319,11 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         int buckets = capacity();
         // Write out the threshold, loadfactor, and any hidden stuff
         s.defaultWriteObject();
-        //写入总容量
+        // 写入总容量
         s.writeInt(buckets);
-        //写入实际容量
+        // 写入实际容量
         s.writeInt(size);
-        //写入键值对
+        // 写入键值对
         internalWriteEntries(s);
     }
 
@@ -1335,40 +1335,40 @@ public class HashMap<K, V> extends AbstractMap<K, V>
             throws IOException, ClassNotFoundException {
         // 将hashMap的总容量capacity、实际容量size、键值对映射读取出来
         s.defaultReadObject();
-        //重置hashMap
+        // 重置hashMap
         reinitialize();
-        //如果加载因子不合法，抛出异常
+        // 如果加载因子不合法，抛出异常
         if (loadFactor <= 0 || Float.isNaN(loadFactor))
             throw new InvalidObjectException("Illegal load factor: " +
                     loadFactor);
-        s.readInt();                //读出桶的数量，忽略
-        int mappings = s.readInt(); //读出实际容量size
-        //如果读出的实际容量size小于0，抛出异常
+        s.readInt();                // 读出桶的数量，忽略
+        int mappings = s.readInt(); // 读出实际容量size
+        // 如果读出的实际容量size小于0，抛出异常
         if (mappings < 0)
             throw new InvalidObjectException("Illegal mappings count: " +
                     mappings);
         else if (mappings > 0) { // (if zero, use defaults)
             // Size the table using given load factor only if within
             // range of 0.25...4.0
-            //调整hashMap大小
+            // 调整hashMap大小
             float lf = Math.min(Math.max(0.25f, loadFactor), 4.0f);            // 加载因子
-            float fc = (float) mappings / lf + 1.0f;         //初步得到的总容量，后续还会处理
-            //处理初步得到的容量，确认最终的总容量
+            float fc = (float) mappings / lf + 1.0f;                           // 初步得到的总容量，后续还会处理
+            // 处理初步得到的容量，确认最终的总容量
             int cap = ((fc < DEFAULT_INITIAL_CAPACITY) ?
                     DEFAULT_INITIAL_CAPACITY :
                     (fc >= MAXIMUM_CAPACITY) ?
                             MAXIMUM_CAPACITY :
                             tableSizeFor((int) fc));
-            //计算临界值，得到初步的临界值
+            // 计算临界值，得到初步的临界值
             float ft = (float) cap * lf;
-            //得到最终的临界值
+            // 得到最终的临界值
             threshold = ((cap < MAXIMUM_CAPACITY && ft < MAXIMUM_CAPACITY) ?
                     (int) ft : Integer.MAX_VALUE);
 
             // Check Map.Entry[].class since it's the nearest public type to
             // what we're actually creating.
             SharedSecrets.getJavaOISAccess().checkArray(s, Map.Entry[].class, cap);
-            //新建桶数组table
+            // 新建桶数组table
             @SuppressWarnings({"rawtypes", "unchecked"})
             Node<K, V>[] tab = (Node<K, V>[]) new Node[cap];
             table = tab;
@@ -1461,11 +1461,11 @@ public class HashMap<K, V> extends AbstractMap<K, V>
 
     static class HashMapSpliterator<K, V> {
         final HashMap<K, V> map;
-        Node<K, V> current;          //记录当前的节点
-        int index;                  //当前节点的下标
-        int fence;                  //堆大小
-        int est;                    //估计大小
-        int expectedModCount;       // for comodification checks
+        Node<K, V> current;          // 记录当前的节点
+        int index;                   // 当前节点的下标
+        int fence;                   // 堆大小
+        int est;                     // 估计大小
+        int expectedModCount;        // for comodification checks
 
         HashMapSpliterator(HashMap<K, V> m, int origin,
                            int fence, int est,
@@ -1788,11 +1788,11 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      */
 
     static final class TreeNode<K, V> extends LinkedHashMap.Entry<K, V> {
-        TreeNode<K, V> parent;  //节点的父亲
-        TreeNode<K, V> left;    //节点的左孩子
-        TreeNode<K, V> right;   //节点的右孩子
-        TreeNode<K, V> prev;    //节点的前一个节点
-        boolean red;            //true表示红节点，false表示黑节点
+        TreeNode<K, V> parent;  // 节点的父亲
+        TreeNode<K, V> left;    // 节点的左孩子
+        TreeNode<K, V> right;   // 节点的右孩子
+        TreeNode<K, V> prev;    // 节点的前一个节点
+        boolean red;            // true表示红节点，false表示黑节点
 
         TreeNode(int hash, K key, V val, Node<K, V> next) {
             super(hash, key, val, next);
