@@ -413,7 +413,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * 3.2如果桶中的第一个节点没有匹配，且桶中结构为红黑树，则调用红黑树对应的方法插入键值对。
      * 3.3如果不是红黑树，那么就肯定是链表。遍历链表，如果找到了key映射的节点，就记录这个节点，退出循环。如果没有找到，在链表尾部插入节点。插入后，如果链的长度大于等于TREEIFY_THRESHOLD这个临界值，则使用treeifyBin方法把链表转为红黑树。
      * 4.如果找到了key映射的节点，且节点不为null
-     * 4.1记录节点的vlaue。
+     * 4.1记录节点的value。
      * 4.2如果参数onlyIfAbsent为false，或者oldValue为null，替换value，否则不替换。
      * 4.3返回记录下来的节点的value。
      * 5.如果没有找到key映射的节点（2、3步中讲了，这种情况会插入到hashMap中），插入节点后size会加1，这时要检查size是否大于临界值threshold，如果大于会使用resize方法进行扩容。
@@ -482,7 +482,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     e.value = value;
                 // 访问后回调
                 afterNodeAccess(e);
-                // 返回旧值
+
                 return oldValue;
             }
         }
