@@ -37,6 +37,7 @@ public class PromiseTest {
             @Override
             public void run() {
                 try {
+                    System.out.println("任务执行中...");
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                 }
