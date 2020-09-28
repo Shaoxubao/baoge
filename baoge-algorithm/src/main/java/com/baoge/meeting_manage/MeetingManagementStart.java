@@ -16,7 +16,7 @@ public class MeetingManagementStart {
 
     public static void main(String[] args) {
 
-        Map<String, Integer> inputMeeting = FileTools.readMeetingInputToMap("E:\\workspace\\baoge\\baoge-algorithm\\src\\main\\resources\\meeting_input.txt");
+        Map<String, Integer> inputMeeting = FileTools.readMeetingInputToMap("D:\\workspace\\baoge\\baoge-algorithm\\src\\main\\resources\\meeting_input.txt");
 
         MeetingManagementService meetingManagementService = new MeetingManagementServiceImpl();
         meetingManagementService.showInputMeeting(inputMeeting);
