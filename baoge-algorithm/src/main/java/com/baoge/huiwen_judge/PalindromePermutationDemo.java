@@ -9,7 +9,7 @@ package com.baoge.huiwen_judge;
  */
 public class PalindromePermutationDemo {
     public static void main(String[] args) {
-        String str = "abcbad";
+        String str = "abcba";
 
         System.out.println(isPermutationOfPalindrome1(str));
         System.out.println(isPermutationOfPalindrome2(str));
@@ -76,9 +76,24 @@ public class PalindromePermutationDemo {
      * 解法二
      */
     public static boolean isPermutationOfPalindrome2(String phrase) {
+        int countOdd = 0;
 
+        int[] table = new int[Character.getNumericValue('z')
+                - Character.getNumericValue('a') + 1];
 
-        return true;
+        for (char c : phrase.toCharArray()) {
+            int num = getCharNumber(c);
+            if (num != -1) {
+                table[num]++;
+                if (table[num] % 2 == 1) {
+                    countOdd++;
+                } else {
+                    countOdd--;
+                }
+            }
+        }
+
+        return countOdd <= 1;
     }
 
     /**
