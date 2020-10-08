@@ -9,7 +9,7 @@ package com.baoge.huiwen_judge;
  */
 public class PalindromePermutationDemo {
     public static void main(String[] args) {
-        String str = "abcba";
+        String str = "aba";
 
         System.out.println(isPermutationOfPalindrome1(str));
         System.out.println(isPermutationOfPalindrome2(str));
@@ -17,7 +17,7 @@ public class PalindromePermutationDemo {
     }
 
     /**
-     * 解法一(散列表)
+     * ========解法一(散列表)
      */
     public static boolean isPermutationOfPalindrome1(String phrase) {
 
@@ -73,7 +73,7 @@ public class PalindromePermutationDemo {
 
 
     /**
-     * 解法二
+     * ========解法二
      */
     public static boolean isPermutationOfPalindrome2(String phrase) {
         int countOdd = 0;
@@ -97,12 +97,52 @@ public class PalindromePermutationDemo {
     }
 
     /**
-     * 解法三
+     * ========解法三
      */
     public static boolean isPermutationOfPalindrome3(String phrase) {
+        int bitVector = createBitVector(phrase);
 
+        return bitVector == 0 || checkExactlyOneBitSet(bitVector);
+    }
 
-        return true;
+    // 创建一个字符串对应的字节数组，对于每个值为i的字符，翻转第i位字节
+    private static int createBitVector(String phrase) {
+        int bitVector = 0;
+        for (char c : phrase.toCharArray()) {
+            int x = getCharNumber(c);
+            bitVector = toggle(bitVector, x);
+            System.out.println("========================bitVector: " + bitVector);
+            System.out.println("==============bitVector(toBinary): " + Integer.toBinaryString(bitVector));
+        }
+
+        return bitVector;
+    }
+
+    // 翻转整数中第i位字节
+    private static int toggle(int bitVector, int index) {
+        if (index < 0) {
+            return bitVector;
+        }
+
+        int mask = 1 << index;
+        System.out.println("---------------------------index: " + index);
+        System.out.println("----------------------------mask: " + mask);
+        System.out.println("------------------mask(toBinary): " + Integer.toBinaryString(mask));
+        System.out.println("-----------------------bitVector: " + bitVector);
+        System.out.println("-------------bitVector(toBinary): " + Integer.toBinaryString(bitVector));
+
+        if ((bitVector & mask) == 0) {
+            bitVector |= mask;
+        } else {
+            bitVector &= ~mask;
+        }
+
+        return bitVector;
+    }
+
+    // 检测只有1个比特位被设置，将整数减1，并将其与原数值做&操作
+    private static boolean checkExactlyOneBitSet(int bitVector) {
+        return (bitVector & (bitVector - 1)) == 0;
     }
 
 }
