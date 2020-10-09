@@ -1,5 +1,7 @@
 package com.baoge.huiwen_judge;
 
+import com.baoge.utils.CharUtils;
+
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
  * Author: Shao Xu Bao <xubao_shao@163.com>
@@ -48,27 +50,13 @@ public class PalindromePermutationDemo {
                 Character.getNumericValue('a') + 1];
 
         for (char c : phrase.toCharArray()) {
-            int r = getCharNumber(c);
+            int r = CharUtils.getCharNumber(c);
             if (r != -1) {
                 table[r]++;
             }
         }
 
         return table;
-    }
-
-    // 将每个字符对应为一个数字，a——>0,b——1,c——>2等等。不区分大小写，非字母对应为-1
-    private static int getCharNumber(Character c) {
-        int a = Character.getNumericValue('a');
-        int z = Character.getNumericValue('z');
-
-        int val = Character.getNumericValue(c);
-
-        if (a <= val && val <= z) {
-            return val - a;
-        }
-
-        return -1;
     }
 
 
@@ -82,7 +70,7 @@ public class PalindromePermutationDemo {
                 - Character.getNumericValue('a') + 1];
 
         for (char c : phrase.toCharArray()) {
-            int num = getCharNumber(c);
+            int num = CharUtils.getCharNumber(c);
             if (num != -1) {
                 table[num]++;
                 if (table[num] % 2 == 1) {
@@ -109,7 +97,7 @@ public class PalindromePermutationDemo {
     private static int createBitVector(String phrase) {
         int bitVector = 0;
         for (char c : phrase.toCharArray()) {
-            int x = getCharNumber(c);
+            int x = CharUtils.getCharNumber(c);
             bitVector = toggle(bitVector, x);
             System.out.println("========================bitVector: " + bitVector);
             System.out.println("==============bitVector(toBinary): " + Integer.toBinaryString(bitVector));
@@ -132,9 +120,9 @@ public class PalindromePermutationDemo {
         System.out.println("-------------bitVector(toBinary): " + Integer.toBinaryString(bitVector));
 
         if ((bitVector & mask) == 0) {
-            bitVector |= mask;
+            bitVector |= mask;  // 不同字符字节位置为1
         } else {
-            bitVector &= ~mask;
+            bitVector &= ~mask; // 不同字符字节位保留，相同字符字节位还原，比如a第一次的字节位1，a第二次来时将此字节位置为0
         }
 
         return bitVector;
