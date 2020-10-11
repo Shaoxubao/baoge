@@ -25,6 +25,7 @@
         <module>baoge-java-agent</module>
         <module>baoge-springboot-netty-chat</module>
         <module>baoge-algorithm</module>
+        <module>baoge-redis</module>
     </modules>
 
     <properties>
