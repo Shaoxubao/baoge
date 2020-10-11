@@ -2,6 +2,7 @@ package com.baoge;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Date:   2020/10/11
  */
 
+@MapperScan("com.baoge.mapper")
 @SpringBootApplication
 public class SpringCacheApplication {
 
