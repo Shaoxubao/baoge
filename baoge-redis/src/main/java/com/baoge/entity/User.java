@@ -4,17 +4,18 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Copyright 2018-2028 Baoge All Rights Reserved.
  * Author: Shao Xu Bao <xubao_shao@163.com>
  * Date:   2020/10/11
+ *
+ * RedisTemplate配置序列化方式修改后，此处不需实现Serializable
  */
 
 @Table(name = "t_user")
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(generator = "JDBC")
