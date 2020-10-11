@@ -5,7 +5,10 @@
     <groupId>com.baoge</groupId>
     <artifactId>baoge-redis</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>baoge-redis-mybatis</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <modelVersion>4.0.0</modelVersion>
 
