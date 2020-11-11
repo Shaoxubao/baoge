@@ -21,5 +21,12 @@ public class Test {
         System.out.println(f1 == f3);     // true
 //        System.out.println(f2 == f1[1]);  // false
 
+        Integer a = new Integer(42);
+        Integer b = new Integer(42);
+        int c = 42;
+        System.out.println(a == c);
+        System.out.println(a == b);
+        System.out.println(new Integer(42) == new Integer(42));
+
     }
 }
