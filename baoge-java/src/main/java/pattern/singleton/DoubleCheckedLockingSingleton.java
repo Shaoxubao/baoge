@@ -8,11 +8,12 @@ package pattern.singleton;
  */
 public class DoubleCheckedLockingSingleton {
 
-    private volatile DoubleCheckedLockingSingleton INSTANCE;
+    private volatile static DoubleCheckedLockingSingleton INSTANCE;
 
+    // 构造器私有化
     private DoubleCheckedLockingSingleton() {}
 
-    public DoubleCheckedLockingSingleton getInstance() {
+    public static DoubleCheckedLockingSingleton getInstance() {
         if (INSTANCE == null) {
             synchronized(DoubleCheckedLockingSingleton.class) {
                 // double checking Singleton instance
