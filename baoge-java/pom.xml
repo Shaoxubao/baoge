@@ -28,7 +28,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <spring.version>4.1.6.RELEASE</spring.version>
+        <spring.version>5.3.19</spring.version>
         <jsoup.version>1.10.3</jsoup.version>
         <junit.version>4.10</junit.version>
         <fasterxml.version>2.1.0</fasterxml.version>
