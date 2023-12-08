@@ -65,7 +65,7 @@ public class BookHotel {
         for (int i = 0; i < n; i++) {
             hotelPrice.add(scanner.nextInt());
         }
-        // 根据酒店价格从低到高排序
+        // 根据酒店价格从低到高排序(每个价格减去target)
         int finalTarget = target;
         hotelPrice.sort((o1, o2) -> {
             int diff1 = Math.abs(o1 - finalTarget);
@@ -79,7 +79,7 @@ public class BookHotel {
 
         // 取出差值最小的几个数，按酒店价格从低到高排列
         List<Integer> targetHotelValue = new ArrayList<>();
-        for (int j = 0; j < k; j++){
+        for (int j = 0; j < k; j++) {
             targetHotelValue.add(hotelPrice.get(j));
         }
         Collections.sort(targetHotelValue);
