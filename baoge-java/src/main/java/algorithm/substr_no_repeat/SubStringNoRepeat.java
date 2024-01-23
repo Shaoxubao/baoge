@@ -29,7 +29,7 @@ import java.util.Set;
 public class SubStringNoRepeat {
 
     public static void main(String[] args) {
-        String inputStr = "abcabcab";
+        String inputStr = "abcabcdbb";
 
         System.out.println(subStringNoRepeat(inputStr));
     }
@@ -51,7 +51,7 @@ public class SubStringNoRepeat {
             } else {
                 // 如果set中包含当前字符，则利用循环将出现重复字符之前的字符全部从set中删除，保证set所留的都是需要重新计算长度的字符
                 do {
-                    set.remove(charAtEnd);
+                    set.remove(String.valueOf(inputStr.charAt(begin)));
                     begin = begin + 1;
                 } while(inputStr.charAt(begin - 1) != inputStr.charAt(end));
             }
