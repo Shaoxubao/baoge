@@ -26,6 +26,7 @@
         <module>baoge-springboot-netty-chat</module>
         <module>baoge-algorithm</module>
         <module>baoge-redis</module>
+        <module>baoge-excel</module>
     </modules>
 
     <properties>
