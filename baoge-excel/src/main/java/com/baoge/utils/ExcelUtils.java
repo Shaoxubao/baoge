@@ -1,6 +1,7 @@
 package com.baoge.utils;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -125,8 +126,9 @@ public class ExcelUtils {
                 Font font = wb.createFont();
                 font.setFontName("宋体");
                 font.setFontHeightInPoints((short) 12); // 字体大小
-                font.setColor(IndexedColors.BRIGHT_GREEN.index);
+                font.setColor(IndexedColors.DARK_RED.index);
                 cellStyle.setFont(font);
+                cellStyle.setBorderBottom(BorderStyle.THIN);
                 cellToFill.setCellStyle(cellStyle);
 
                 rowNumBegin = rowNumBegin + 1;
