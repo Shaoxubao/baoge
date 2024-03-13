@@ -119,8 +119,9 @@ public class ExcelUtils {
             if (data == null) {
                 continue;
             }
+            int rowNumBeginT = rowNumBegin; // 每列从最开始行开始填充
             for (int j = 0; j < 96; j++) {
-                XSSFCell cellToFill = sheet.getRow(rowNumBegin).getCell(i);
+                XSSFCell cellToFill = sheet.getRow(rowNumBeginT).getCell(i);
                 cellToFill.setCellValue(data.get(j));
                 CellStyle cellStyle = wb.createCellStyle();
                 Font font = wb.createFont();
@@ -131,7 +132,7 @@ public class ExcelUtils {
                 cellStyle.setBorderBottom(BorderStyle.THIN);
                 cellToFill.setCellStyle(cellStyle);
 
-                rowNumBegin = rowNumBegin + 1;
+                rowNumBeginT = rowNumBeginT + 1;
             }
         }
         // 修改模板内容导出新模板
