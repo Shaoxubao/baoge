@@ -126,9 +126,9 @@ public class YuHuaStoneDivide {
         }
         for (int i = 1; i < size; i++) {
             for (int j = 1; j <= target; j++) {
-                if (nums[i] > j)
+                if (nums[i] > j) // 当前值不选
                     dp[i][j] = dp[i - 1][j];
-                else
+                else // 当前值选
                     dp[i][j] = Math.min(dp[i - 1][j], 1 + dp[i - 1][j - nums[i]]);
             }
         }
