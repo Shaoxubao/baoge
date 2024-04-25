@@ -27,7 +27,7 @@ public class MinPathSum {
     public static int minPathSum(int[][] matrix) {
         int row = matrix.length; // 行数
         int col = matrix[0].length; // 列数
-        int dp[][] = new int[row][col];
+        int[][] dp = new int[row][col];
         dp[0][0] = matrix[0][0];
         // 先初始化dp第一行
         for (int i = 1; i < row; i++) {
