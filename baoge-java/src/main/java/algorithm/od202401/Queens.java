@@ -34,7 +34,6 @@ public class Queens {
 
         List<List<String>> ans = new ArrayList<>();
         int[] queens = new int[4];
-//        System.out.print(backtrack(4, 0, column, diagonalsDown, diagonalsUp));
         backtrack2(ans, queens,4, 0, column, diagonalsDown, diagonalsUp);
         System.out.println(ans);
     }
