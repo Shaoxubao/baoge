@@ -159,7 +159,15 @@ public class StringToBinaryTree {
         }
         return res;
     }
-    // 后序遍历
+
+    /**
+     后序遍历: [D, B, E, F, C, A]
+              A
+            /   \
+           B     C
+          /     / \
+         D     E   F
+     */
     public List<String> postorderTraversal(TreeNode root) {
         List<String> res = new ArrayList<>();
         if (root == null) {
