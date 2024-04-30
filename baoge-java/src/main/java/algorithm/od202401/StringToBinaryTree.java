@@ -123,11 +123,11 @@ public class StringToBinaryTree {
 
     // 前序遍历
     public List<String> preorderTraversal(TreeNode root) {
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         if (root == null) {
             return res;
         }
-        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        Deque<TreeNode> stack = new LinkedList<>();
         TreeNode node = root;
         while(!stack.isEmpty() || node != null) {
             while (node != null) {
@@ -142,11 +142,11 @@ public class StringToBinaryTree {
     }
     // 中序遍历
     public List<String> inorderTraversal(TreeNode root) {
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         if (root == null) {
             return res;
         }
-        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        Deque<TreeNode> stack = new LinkedList<>();
         TreeNode node = root;
         while(!stack.isEmpty() || node != null) {
             while (node != null) {
@@ -161,11 +161,11 @@ public class StringToBinaryTree {
     }
     // 后序遍历
     public List<String> postorderTraversal(TreeNode root) {
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<>();
         if (root == null) {
             return res;
         }
-        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        Deque<TreeNode> stack = new LinkedList<>();
         TreeNode node = root;
         TreeNode pre = null;
         while(!stack.isEmpty() || node != null) {
@@ -180,7 +180,7 @@ public class StringToBinaryTree {
                 res.add(node.val);
                 pre = node;
                 node = null;
-            }else{
+            } else {
                 // 如果存在右子树，则重新放回栈中，因为它的值要在右子树遍历完之后添加
                 stack.push(node);
                 node = node.right;
@@ -190,10 +190,51 @@ public class StringToBinaryTree {
     }
 
     // 层序遍历
-    public List<String> levelOrderTraversal(TreeNode root) {
-        List<String> res = new ArrayList<String>();
 
-        return res;
+    /**
+        广度优先搜索层序遍历
+        1 题目描述
+        给定一棵二叉树，返回其节点值的层序遍历。
+        输入：root = [A,B,C,D,null,E,F]，如图2-12所示:
+             A
+           /   \
+          B     C
+         /     / \
+        D     E   F
+        输出：[[A],[B,C],[D,E,F]]。
+        2 题目解析
+        首先将根节点放入队列作为二叉树的第一层，求当前队列的长度，然后将节点依次从队列中取出，作为该层的结果，
+        并顺便将当前节点的左右非空节点放入队列，作为二叉树下一层需要处理的结果，直至队列为空。
+     */
+    public List<List<String>> levelOrderTraversal(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        List<List<String>> ans = new ArrayList<>();
+        LinkedList<TreeNode> list = new LinkedList<>();
+        // 首先将根节点放入队列作为二叉树的第一层
+        list.offer(root);
+        while (!list.isEmpty()) {
+            // 求当前队列的大小size
+            int size = list.size();
+            List<String> level = new ArrayList<>();
+            // 将节点依次从队列中取出
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = list.pop();
+                // 作为该层的结果
+                level.add(cur.val);
+                // 将当前节点的左右节点放入队列，作为下一层需要处理的结果
+                if (cur.left != null) {
+                    list.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    list.offer(cur.right);
+                }
+            }
+            ans.add(level);
+        }
+
+        return ans;
     }
 }
 
