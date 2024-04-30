@@ -38,7 +38,7 @@ public class StringToBinaryTree {
         System.out.println(binaryTree.inorderTraversal(root).toString());   // [D, B, A, E, C, F]
         System.out.println(binaryTree.postorderTraversal(root).toString()); // [D, B, E, F, C, A]
         System.out.println("==========层序遍历========");
-        System.out.println(binaryTree.levelOrderTraversal(root).toString());
+        System.out.println(binaryTree.levelOrderTraversal(root).toString()); // [[A], [B, C], [D, E, F]]
     }
 
     public static TreeNode stringToTree(String str) {
