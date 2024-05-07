@@ -46,7 +46,7 @@ public class CodeImprovePlan {
         Scanner sc = new Scanner(System.in);
         int[] nums = Arrays.stream(sc.nextLine().split(",")).mapToInt(Integer::parseInt).toArray();
         int day = sc.nextInt();
-        System.out.println(codeImprovePlan(nums, day));
+        System.out.println(codeImprovePlan3(nums, day));
     }
 
     // 回溯
