@@ -47,6 +47,7 @@ public class CodeImprovePlan {
         int[] nums = Arrays.stream(sc.nextLine().split(",")).mapToInt(Integer::parseInt).toArray();
         int day = sc.nextInt();
         System.out.println(codeImprovePlan3(nums, day));
+        System.out.println(minTime2(nums, day));
     }
 
     // 回溯
@@ -165,4 +166,97 @@ public class CodeImprovePlan {
         }
         return cnt + 1 <= day; // +1：加上最后一段未统计的分组
     }
+
+    // 二分法
+    public static int minTime(int[] time, int m) {
+        int left = 0;
+        int right = Integer.MAX_VALUE;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            // 如果这个时间限制可以在规定天数里面完成刷题计划
+            if (check(time, mid, m)) {
+                // 向左缩小查找范围
+                right = mid - 1;
+            } else {
+                // 反之 向右缩小查找范围
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private static boolean check(int[] time, int target, int m) {
+        int maxTime = 0;
+        int total = 0;
+        // 如果第一天就都做完了
+        // 后续代码不会将days进行递增 应该初始化为1
+        int days = 1;
+        // 是否使用过了场外援助
+        boolean helper = true;
+        for (int i = 0; i < time.length; i++) {
+            // 维护花费时间最长的题目
+            maxTime = Math.max(maxTime, time[i]);
+            // 累加这一天的总做题时间
+            total += time[i];
+            // 如果超过当天做题时间限制了
+            if (total > target) {
+                // 如果未使用过场外援助
+                if (helper) {
+                    // 减去耗时最多的题目
+                    total -= maxTime;
+                    helper = false;
+                } else {
+                    // 超时并且使用过场外援助
+                    // 得从下一天重新开始了
+                    days++;
+                    // 刷新场外援助
+                    helper = true;
+                    // 当天最大值刷新
+                    maxTime = 0;
+                    // 总计时间刷新
+                    total = 0;
+                    // 最重要的一点也很容易遗忘
+                    // 这道没有时间做的题目留到下一天重新开始做
+                    i--;
+                }
+            }
+        }
+        return m >= days;
+    }
+
+    public static int minTime2(int[] time, int m) {
+        int n = time.length;
+        if (m >= n) { // 如果天数大于等于题目数，每题都可以分配在不同天，并由求助完成
+            return 0;
+        }
+        int l = 0, r = 1000000000;
+        while (l < r) { // 二分查找
+            int mid = (l + r) >> 1;
+            if (check2(time, m, mid)) { // 如果当前限制下可以满足，缩小右边界
+                r = mid;
+            } else { // 否则左边界加一
+                l = mid + 1;
+            }
+        }
+        return l;
+    }
+
+    public static boolean check2(int[] time, int m, int limit) {
+        int cur = 0, sum = 0, max = 0, day = 1; // 当前遍历到的题目，当前组的总耗时，当前组的最大耗时，需要的天数
+        while (cur < time.length) {
+            sum += time[cur];
+            max = Math.max(max, time[cur]);
+            if (sum - max > limit) { // 当前组总耗时减去组内最大耗时仍超出限制，则需要开启额外一天
+                day++;
+                if (day > m) { // 超出总天数m，无法完成分配
+                    return false;
+                }
+                sum = time[cur]; // sum和max更新为新组的值
+                max = time[cur];
+            }
+            cur++;
+        }
+        return true; // 能遍历完所有题目即完成了分配
+    }
+
 }
