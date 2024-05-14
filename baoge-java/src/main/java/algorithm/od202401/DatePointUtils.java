@@ -3,6 +3,7 @@ package algorithm.od202401;
 import utils.TimeUtils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DatePointUtils {
@@ -12,7 +13,7 @@ public class DatePointUtils {
         Map<Integer, Map<String, String>> pointMap = new HashMap<>();
         int p = 1;
         for (int i = 0; i < 24; i++) {
-            Map<String, String> pointDataMap = new HashMap<>();
+            Map<String, String> pointDataMap = new LinkedHashMap<>();
             pointDataMap.put("0-15",  "p" + p++);
             pointDataMap.put("16-30", "p" + p++);
             pointDataMap.put("31-45", "p" + p++);
