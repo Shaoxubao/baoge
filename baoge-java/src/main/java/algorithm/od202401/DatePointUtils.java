@@ -1,7 +1,10 @@
 package algorithm.od202401;
 
+import com.alibaba.fastjson.JSONObject;
 import utils.TimeUtils;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,6 +26,13 @@ public class DatePointUtils {
         System.out.println(pointMap);
 
         System.out.println(getPoint(System.currentTimeMillis(), pointMap));
+
+        long midnightMillis = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        System.out.println(midnightMillis);
+
+        JSONObject curve = new JSONObject();
+        curve.put("dataWholeFlag", "000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000");
+        System.out.println(curve.getString("dataWholeFlag"));
     }
 
     private static String getPoint(long ts, Map<Integer, Map<String, String>> pointMap) {
