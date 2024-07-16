@@ -28,7 +28,11 @@ public class DatePointUtils {
         System.out.println(getPoint(System.currentTimeMillis(), pointMap));
 
         long midnightMillis = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        System.out.println(midnightMillis);
+        System.out.println("midnightMillis: " + midnightMillis);
+
+        // 当前时间戳
+        long currentMillis = System.currentTimeMillis();
+        System.out.println("currentMillis: " + currentMillis);
 
         JSONObject curve = new JSONObject();
         curve.put("dataWholeFlag", "000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000");
