@@ -30,7 +30,7 @@
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>
         <jsoup.version>1.10.3</jsoup.version>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.13.1</junit.version>
         <fasterxml.version>2.1.0</fasterxml.version>
     </properties>
 
